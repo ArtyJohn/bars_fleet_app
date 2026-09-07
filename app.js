@@ -67,19 +67,19 @@ const defaultCars = [
 
 const defaultPersons = [
     { id: 1, fio: 'Ремнев Артем Сергеевич', position: 'Старшина', department: 'Штаб', rank: 'Старшина',
-        phone: '+7 999 123-45-67' },
+        phone: '+7 (999) 123-45-67' },
     { id: 2, fio: 'Магомедов Магомед Насрудинович', position: 'Водитель', department: 'Снабжение', rank: 'Сержант',
-        phone: '+7 999 234-56-78' },
+        phone: '+7 (999) 234-56-78' },
     { id: 3, fio: 'Федоров Богдан Владимирович', position: 'Водитель', department: 'Инструкторский состав',
-        rank: 'Ефрейтор', phone: '+7 999 345-67-89' },
+        rank: 'Ефрейтор', phone: '+7 (999) 345-67-89' },
     { id: 4, fio: 'Зятиков Илья Михайлович', position: 'Командир', department: 'Штаб', rank: 'Капитан',
-        phone: '+7 999 456-78-90' },
+        phone: '+7 (999) 456-78-90' },
     { id: 5, fio: 'Блинов Сергей Денисович', position: 'Водитель', department: 'Инструкторский состав',
-        rank: 'Ефрейтор', phone: '+7 999 567-89-01' },
+        rank: 'Ефрейтор', phone: '+7 (999) 567-89-01' },
     { id: 6, fio: 'Тимофеев Антон Владимирович', position: 'Водитель', department: 'Снабжение', rank: 'Сержант',
-        phone: '+7 999 678-90-12' },
+        phone: '+7 (999) 678-90-12' },
     { id: 7, fio: 'Никифоров Роман Владимирович', position: 'Водитель', department: 'Штаб', rank: 'Ефрейтор',
-        phone: '+7 999 789-01-23' }
+        phone: '+7 (999) 789-01-23' }
 ];
 
 const defaultWeapons = [
@@ -91,6 +91,36 @@ const defaultWeapons = [
         fault: '', lastRequest: '' },
     { id: 4, type: 'Звездочет', number: 'З-002', symbol: 'З-2', coordinates: '55.78, 37.65', status: 'Неисправно',
         fault: 'Сбой системы охлаждения', lastRequest: 'Заявка №2 от 05.09.2026' }
+];
+
+const defaultRepairRequests = [
+    {
+        id: 1,
+        weaponId: 2,
+        date: '01.09.2026, 10:30',
+        description: 'Неисправен блок наведения, требуется замена',
+        responsible: 'Иванов И.И. (ООО РемСервис)',
+        deadline: '10.09.2026, 18:00',
+        status: 'Открыта'
+    },
+    {
+        id: 2,
+        weaponId: 4,
+        date: '05.09.2026, 14:20',
+        description: 'Сбой системы охлаждения, перегрев при работе',
+        responsible: 'Петров П.П. (АО ТехРемонт)',
+        deadline: '15.09.2026, 18:00',
+        status: 'Открыта'
+    },
+    {
+        id: 3,
+        weaponId: 1,
+        date: '25.08.2026, 09:00',
+        description: 'Плановое ТО, замена расходников',
+        responsible: 'Сидоров С.С. (ООО РемСервис)',
+        deadline: '30.08.2026, 18:00',
+        status: 'Закрыта'
+    }
 ];
 
 const defaultItems = [
@@ -154,7 +184,7 @@ function loadData() {
     historyData = JSON.parse(localStorage.getItem(prefix + 'history') || JSON.stringify(defaultHistory));
     references = JSON.parse(localStorage.getItem(prefix + 'refs') || JSON.stringify(defaultRefs));
     notifications = JSON.parse(localStorage.getItem(prefix + 'notifs') || JSON.stringify([]));
-    repairRequests = JSON.parse(localStorage.getItem(prefix + 'repairs') || JSON.stringify([]));
+    repairRequests = JSON.parse(localStorage.getItem(prefix + 'repairs') || JSON.stringify(defaultRepairRequests));
 
     cars = cars.map(c => {
         c.remainder = c.plan_to - c.mileage;
@@ -558,6 +588,7 @@ function updateDashboard() {
     renderWeapons();
     renderStock();
     renderHistory();
+    renderRepairRequests();
     renderMainScreen();
     saveData();
     checkCriticalMoments();
@@ -729,7 +760,7 @@ function printCarCard(id) {
                         <div class="field"><span class="label">Подразделение</span><span class="value">${car.dept}</span></div>
                         <div class="field"><span class="label">Статус</span><span class="value">${car.tsStatus}</span></div>
                     </div>
-                    <div class="footer">Учетная Система Бригада "БАРС-МОСКВА" • ${new Date().toLocaleString()}</div>
+                    <div class="footer">Учетная система роты ЛК • ${new Date().toLocaleString()}</div>
                     <script>window.print(); setTimeout(window.close, 1000);<\/script>
                 </body></html>
             `;
@@ -790,6 +821,19 @@ function renderPersons() {
     });
 }
 
+function formatPhone(input) {
+    let value = input.value.replace(/\D/g, '');
+    if (value.startsWith('8')) value = '7' + value.slice(1);
+    if (!value.startsWith('7')) value = '7' + value;
+    if (value.length > 11) value = value.slice(0, 11);
+    let formatted = '+7';
+    if (value.length > 1) formatted += ' (' + value.slice(1, 4);
+    if (value.length > 4) formatted += ') ' + value.slice(4, 7);
+    if (value.length > 7) formatted += '-' + value.slice(7, 9);
+    if (value.length > 9) formatted += '-' + value.slice(9, 11);
+    input.value = formatted;
+}
+
 function showAddPersonModal() {
     const exploitants = references.exploitants || [];
     const html = `
@@ -802,7 +846,11 @@ function showAddPersonModal() {
                 <div class="form-group"><label>Должность</label><select id="pPosition">${references.positions.map(p => `<option value="${p}">${p}</option>`).join('')}</select></div>
                 <div class="form-group"><label>Подразделение</label><select id="pDept">${references.departments.map(d => `<option value="${d}">${d}</option>`).join('')}</select></div>
                 <div class="form-group"><label>Звание</label><select id="pRank">${references.ranks.map(r => `<option value="${r}">${r}</option>`).join('')}</select></div>
-                <div class="form-group"><label>Телефон</label><input id="pPhone" placeholder="+7 999 123-45-67"></div>
+                <div class="form-group">
+                    <label>Телефон</label>
+                    <input id="pPhone" placeholder="+7 (926) 723-79-59" oninput="formatPhone(this)">
+                    <span style="font-size:10px;color:#4a6a3a;">Формат: +7 (XXX) XXX-XX-XX</span>
+                </div>
                 <div class="modal-actions">
                     <button class="btn-secondary" onclick="closeModal()">Отмена</button>
                     <button class="btn-primary" onclick="savePerson()">Сохранить</button>
@@ -842,7 +890,10 @@ function editPerson(id) {
                 <div class="form-group"><label>Должность</label><select id="pPosition">${references.positions.map(p => `<option value="${p}" ${p===person.position?'selected':''}>${p}</option>`).join('')}</select></div>
                 <div class="form-group"><label>Подразделение</label><select id="pDept">${references.departments.map(d => `<option value="${d}" ${d===person.department?'selected':''}>${d}</option>`).join('')}</select></div>
                 <div class="form-group"><label>Звание</label><select id="pRank">${references.ranks.map(r => `<option value="${r}" ${r===person.rank?'selected':''}>${r}</option>`).join('')}</select></div>
-                <div class="form-group"><label>Телефон</label><input id="pPhone" value="${person.phone || ''}"></div>
+                <div class="form-group">
+                    <label>Телефон</label>
+                    <input id="pPhone" value="${person.phone || ''}" oninput="formatPhone(this)">
+                </div>
                 <div class="modal-actions">
                     <button class="btn-secondary" onclick="closeModal()">Отмена</button>
                     <button class="btn-primary" onclick="savePersonEdit(${person.id})">Сохранить</button>
@@ -884,7 +935,7 @@ function deletePerson(id) {
 }
 
 // ================================================================
-//  ВООРУЖЕНИЕ — НОВАЯ ВЕРСИЯ
+//  ВООРУЖЕНИЕ
 // ================================================================
 
 function renderWeapons() {
@@ -996,16 +1047,16 @@ function showWeaponCard(id) {
                         </div>
                     </div>
                     <div style="margin-top:8px;display:flex;gap:6px;">
-                        <button class="btn-small" onclick="addRepairRequest(${w.id})" style="font-size:10px;">➕ Добавить заявку</button>
+                        <button class="btn-small" onclick="showAddRepairRequestModalForWeapon(${w.id})" style="font-size:10px;">➕ Добавить заявку</button>
                         <button class="btn-small primary" onclick="editWeapon(${w.id})" style="font-size:10px;">✏️ Редактировать</button>
                         <button class="btn-small danger" onclick="deleteWeapon(${w.id})" style="font-size:10px;">🗑️ Удалить</button>
                     </div>
                 </div>
 
-                <!-- НИЖНЕЕ ОКНО — ЗАЯВКИ -->
+                <!-- НИЖНЕЕ ОКНО — ЗАЯВКИ ДЛЯ ЭТОГО ВООРУЖЕНИЯ -->
                 <div style="border-top:1px solid #2d3a2d;padding-top:10px;">
                     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-                        <strong style="color:#4a6a3a;">📋 Заявки на ремонт</strong>
+                        <strong style="color:#4a6a3a;">📋 Заявки на ремонт (${weaponRepairs.length})</strong>
                         <div style="display:flex;gap:6px;">
                             <span style="font-size:11px;color:#f0883e;">🟠 Открытых: ${openRepairs.length}</span>
                             <span style="font-size:11px;color:#3fb950;">🟢 Закрытых: ${closedRepairs.length}</span>
@@ -1013,10 +1064,11 @@ function showWeaponCard(id) {
                     </div>
                     ${weaponRepairs.length === 0 ? '<div style="color:#8b949e;font-size:12px;padding:8px 0;">Заявок нет</div>' : ''}
                     ${weaponRepairs.map(r => `
-                        <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 8px;border-bottom:1px solid #1c2128;font-size:12px;background:${r.status === 'Закрыта' ? '#0d1117' : 'transparent'};">
+                        <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 8px;border-bottom:1px solid #1c2128;font-size:12px;background:${r.status === 'Закрыта' || r.status === 'Просрочена' ? '#0d1117' : 'transparent'};">
                             <div style="display:flex;flex-direction:column;gap:2px;flex:1;">
                                 <span><strong>${r.date}</strong> — ${r.description}</span>
-                                <span style="font-size:10px;color:#8b949e;">${r.status === 'Открыта' ? '🟠 Открыта' : '🟢 Закрыта'}</span>
+                                <span style="font-size:10px;color:#8b949e;">Ответственный: ${r.responsible || '—'} | Срок: ${r.deadline || '—'}</span>
+                                <span style="font-size:10px;">${r.status === 'Открыта' ? '🟠 Открыта' : r.status === 'Просрочена' ? '🔴 Просрочена' : '🟢 Закрыта'}</span>
                             </div>
                             <div style="display:flex;gap:4px;">
                                 ${r.status === 'Открыта' ? `<button onclick="closeRepairRequest(${r.id})" style="background:#2d3a2d;border:1px solid #4a6a3a;color:#e6edf3;padding:2px 8px;border-radius:4px;font-size:10px;cursor:pointer;">Закрыть</button>` : ''}
@@ -1093,29 +1145,214 @@ function deleteWeapon(id) {
     }
 }
 
-function addRepairRequest(weaponId) {
-    const desc = prompt('Опишите неисправность:');
-    if (desc && desc.trim()) {
-        repairRequests.push({
-            id: Date.now(),
-            weaponId: weaponId,
-            date: new Date().toLocaleString(),
-            status: 'Открыта',
-            description: desc.trim()
-        });
-        saveData();
-        const w = weapons.find(w => w.id === weaponId);
-        if (w) {
-            w.status = 'В ремонте';
-            w.fault = desc.trim();
-            w.lastRequest = 'Заявка №' + Date.now().toString().slice(-6);
-            saveData();
-        }
-        closeModal();
-        showWeaponCard(weaponId);
-        showToast('✅ Заявка добавлена');
-        syncToCloud();
+// ================================================================
+//  ЗАЯВКИ
+// ================================================================
+
+function renderRepairRequests() {
+    const tbody = document.getElementById('repairRequestsTable');
+    tbody.innerHTML = '';
+    if (repairRequests.length === 0) {
+        tbody.innerHTML =
+            `<tr><td colspan="8" style="text-align:center;color:#8b949e;padding:12px;">Нет заявок</td></tr>`;
+        return;
     }
+
+    const sorted = [...repairRequests].sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    sorted.forEach((r, idx) => {
+        const weapon = weapons.find(w => w.id === r.weaponId);
+        const weaponName = weapon ? weapon.type + ' ' + weapon.number : '—';
+
+        let statusClass = 'badge-orange';
+        let statusText = '🟠 Открыта';
+        if (r.status === 'Закрыта') {
+            statusClass = 'badge-green';
+            statusText = '🟢 Закрыта';
+        } else if (r.status === 'Просрочена') {
+            statusClass = 'badge-red';
+            statusText = '🔴 Просрочена';
+        }
+
+        if (r.status === 'Открыта' && r.deadline) {
+            const deadline = new Date(r.deadline);
+            if (deadline < new Date()) {
+                statusClass = 'badge-red';
+                statusText = '🔴 Просрочена';
+                r.status = 'Просрочена';
+            }
+        }
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+                    <td>${idx + 1}</td>
+                    <td>${r.date}</td>
+                    <td>${weaponName}</td>
+                    <td>${r.description}</td>
+                    <td>${r.responsible || '—'}</td>
+                    <td>${r.deadline || '—'}</td>
+                    <td><span class="badge ${statusClass}">${statusText}</span></td>
+                    <td>
+                        ${r.status === 'Открыта' ? `<button onclick="closeRepairRequest(${r.id})" style="background:#2d3a2d;border:1px solid #4a6a3a;color:#e6edf3;padding:2px 8px;border-radius:4px;font-size:10px;cursor:pointer;">Закрыть</button>` : ''}
+                        <button onclick="deleteRepairRequest(${r.id})" style="background:none;border:none;color:#f85149;cursor:pointer;font-size:12px;">✕</button>
+                    </td>
+                `;
+        tbody.appendChild(tr);
+    });
+}
+
+function showAddRepairRequestModal() {
+    const exploitants = references.exploitants || [];
+    const html = `
+                <div class="modal-title">📋 Новая заявка на ремонт</div>
+                <div class="form-group">
+                    <label>Вооружение *</label>
+                    <select id="rrWeapon">
+                        ${weapons.map(w => `<option value="${w.id}">${w.type} — ${w.number}</option>`).join('')}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Описание неисправности *</label>
+                    <textarea id="rrDescription" placeholder="Подробное описание неисправности"></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Дата и время *</label>
+                        <input id="rrDate" type="datetime-local" value="${new Date().toISOString().slice(0,16)}">
+                    </div>
+                    <div class="form-group">
+                        <label>Срок выполнения</label>
+                        <input id="rrDeadline" type="datetime-local">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Ответственный (ФИО + организация)</label>
+                    <input id="rrResponsible" placeholder="Например: Иванов И.И. (ООО РемСервис)" list="respList">
+                    <datalist id="respList">${exploitants.map(e => `<option value="${e}">`).join('')}</datalist>
+                </div>
+                <div class="modal-actions">
+                    <button class="btn-secondary" onclick="closeModal()">Отмена</button>
+                    <button class="btn-primary" onclick="saveRepairRequest()">Сохранить</button>
+                </div>
+            `;
+    openModal(html);
+}
+
+function saveRepairRequest() {
+    const weaponId = parseInt(document.getElementById('rrWeapon').value);
+    const description = document.getElementById('rrDescription').value.trim();
+    const date = document.getElementById('rrDate').value;
+    const deadline = document.getElementById('rrDeadline').value;
+    const responsible = document.getElementById('rrResponsible').value.trim();
+
+    if (!weaponId || !description || !date) {
+        showToast('Заполните все обязательные поля!', 'error');
+        return;
+    }
+
+    const displayDate = new Date(date).toLocaleString('ru-RU');
+
+    const newRequest = {
+        id: Date.now(),
+        weaponId: weaponId,
+        date: displayDate,
+        description: description,
+        responsible: responsible || '',
+        deadline: deadline ? new Date(deadline).toLocaleString('ru-RU') : '',
+        status: 'Открыта'
+    };
+
+    repairRequests.push(newRequest);
+    saveData();
+
+    const w = weapons.find(w => w.id === weaponId);
+    if (w) {
+        w.status = 'В ремонте';
+        w.fault = description;
+        w.lastRequest = 'Заявка №' + Date.now().toString().slice(-6);
+        saveData();
+    }
+
+    closeModal();
+    updateDashboard();
+    renderRepairRequests();
+    showToast('✅ Заявка добавлена');
+    syncToCloud();
+    addNotification('info', `📋 Новая заявка на ремонт для ${w ? w.type + ' ' + w.number : ''}`);
+}
+
+function showAddRepairRequestModalForWeapon(weaponId) {
+    const w = weapons.find(w => w.id === weaponId);
+    const exploitants = references.exploitants || [];
+    const html = `
+                <div class="modal-title">📋 Новая заявка для ${w ? w.type + ' ' + w.number : ''}</div>
+                <div class="form-group">
+                    <label>Описание неисправности *</label>
+                    <textarea id="rrDescription" placeholder="Подробное описание неисправности"></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Дата и время *</label>
+                        <input id="rrDate" type="datetime-local" value="${new Date().toISOString().slice(0,16)}">
+                    </div>
+                    <div class="form-group">
+                        <label>Срок выполнения</label>
+                        <input id="rrDeadline" type="datetime-local">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Ответственный (ФИО + организация)</label>
+                    <input id="rrResponsible" placeholder="Например: Иванов И.И. (ООО РемСервис)" list="respList">
+                    <datalist id="respList">${exploitants.map(e => `<option value="${e}">`).join('')}</datalist>
+                </div>
+                <div class="modal-actions">
+                    <button class="btn-secondary" onclick="closeModal()">Отмена</button>
+                    <button class="btn-primary" onclick="saveRepairRequestForWeapon(${weaponId})">Сохранить</button>
+                </div>
+            `;
+    openModal(html);
+}
+
+function saveRepairRequestForWeapon(weaponId) {
+    const description = document.getElementById('rrDescription').value.trim();
+    const date = document.getElementById('rrDate').value;
+    const deadline = document.getElementById('rrDeadline').value;
+    const responsible = document.getElementById('rrResponsible').value.trim();
+
+    if (!description || !date) {
+        showToast('Заполните все обязательные поля!', 'error');
+        return;
+    }
+
+    const displayDate = new Date(date).toLocaleString('ru-RU');
+
+    const newRequest = {
+        id: Date.now(),
+        weaponId: weaponId,
+        date: displayDate,
+        description: description,
+        responsible: responsible || '',
+        deadline: deadline ? new Date(deadline).toLocaleString('ru-RU') : '',
+        status: 'Открыта'
+    };
+
+    repairRequests.push(newRequest);
+    saveData();
+
+    const w = weapons.find(w => w.id === weaponId);
+    if (w) {
+        w.status = 'В ремонте';
+        w.fault = description;
+        w.lastRequest = 'Заявка №' + Date.now().toString().slice(-6);
+        saveData();
+    }
+
+    closeModal();
+    updateDashboard();
+    renderRepairRequests();
+    showToast('✅ Заявка добавлена');
+    syncToCloud();
+    addNotification('info', `📋 Новая заявка на ремонт для ${w ? w.type + ' ' + w.number : ''}`);
 }
 
 function closeRepairRequest(requestId) {
@@ -1124,6 +1361,7 @@ function closeRepairRequest(requestId) {
         if (req) {
             req.status = 'Закрыта';
             saveData();
+
             const openReqs = repairRequests.filter(r => r.weaponId === req.weaponId && r.status === 'Открыта');
             if (openReqs.length === 0) {
                 const w = weapons.find(w => w.id === req.weaponId);
@@ -1133,8 +1371,8 @@ function closeRepairRequest(requestId) {
                     saveData();
                 }
             }
-            closeModal();
-            showWeaponCard(req.weaponId);
+            updateDashboard();
+            renderRepairRequests();
             showToast('✅ Заявка закрыта');
             syncToCloud();
         }
@@ -1148,6 +1386,7 @@ function deleteRepairRequest(requestId) {
             const weaponId = req.weaponId;
             repairRequests = repairRequests.filter(r => r.id !== requestId);
             saveData();
+
             const openReqs = repairRequests.filter(r => r.weaponId === weaponId && r.status === 'Открыта');
             if (openReqs.length === 0) {
                 const w = weapons.find(w => w.id === weaponId);
@@ -1157,8 +1396,8 @@ function deleteRepairRequest(requestId) {
                     saveData();
                 }
             }
-            closeModal();
-            showWeaponCard(weaponId);
+            updateDashboard();
+            renderRepairRequests();
             showToast('🗑️ Заявка удалена');
             syncToCloud();
         }
@@ -1217,7 +1456,7 @@ function printWeaponCard(id) {
                             </div>
                         `).join('')}
                     </div>
-                    <div class="footer">Учетная Система Бригада "БАРС-МОСКВА" • ${new Date().toLocaleString()}</div>
+                    <div class="footer">Учетная система роты ЛК • ${new Date().toLocaleString()}</div>
                     <script>window.print(); setTimeout(window.close, 1000);<\/script>
                 </body></html>
             `;
@@ -1532,7 +1771,7 @@ function generateReport() {
                     .footer { text-align: center; margin-top: 30px; color: #666; font-size: 11px; border-top: 1px solid #ccc; padding-top: 10px; }
                 </style></head>
                 <body>
-                    <h1>📊 ОТЧЁТ ПО БРИГАДЕ "БАРС-МОСКВА"</h1>
+                    <h1>📊 ОТЧЁТ ПО ПОДРАЗДЕЛЕНИЮ</h1>
                     <p style="text-align:center;">Дата формирования: ${new Date().toLocaleString()}</p>
             `;
     const rptCars = document.getElementById('rptCars').checked;
@@ -1587,7 +1826,7 @@ function generateReport() {
         html += `</tbody></table>`;
     }
     html += `
-                    <div class="footer">Учетная Система Бригада "БАРС-МОСКВА" • ${new Date().toLocaleString()}</div>
+                    <div class="footer">Учетная система роты ЛК • ${new Date().toLocaleString()}</div>
                     <script>window.print(); setTimeout(window.close, 1000);<\/script>
                 </body></html>
             `;
@@ -1604,7 +1843,7 @@ function generateExcelReport() {
     const rptWeapons = document.getElementById('rptWeapons').checked;
     const rptStock = document.getElementById('rptStock').checked;
     const rptHistory = document.getElementById('rptHistory').checked;
-    let csv = 'Учетная Система Бригада "БАРС-МОСКВА"\n';
+    let csv = 'Учетная система роты ЛК\n';
     csv += `Отчёт от: ${new Date().toLocaleString()}\n\n`;
     if (rptCars && cars.length > 0) {
         csv += '=== АВТОПАРК ===\n';
@@ -1664,7 +1903,7 @@ function printReport() {
                     .footer { text-align: center; margin-top: 30px; color: #666; font-size: 11px; border-top: 1px solid #ccc; padding-top: 10px; }
                 </style></head>
                 <body>
-                    <h1>📊 ОТЧЁТ ПО БРИГАДЕ "БАРС-МОСКВА"</h1>
+                    <h1>📊 ОТЧЁТ ПО ПОДРАЗДЕЛЕНИЮ</h1>
                     <p style="text-align:center;">Дата формирования: ${new Date().toLocaleString()}</p>
                     <div class="summary">
                         <div class="stat"><div class="num">${cars.length}</div><div class="label">🚗 Автомобилей</div></div>
@@ -1672,7 +1911,7 @@ function printReport() {
                         <div class="stat"><div class="num">${weapons.length}</div><div class="label">🔫 Единиц вооружения</div></div>
                         <div class="stat"><div class="num">${items.length}</div><div class="label">📦 Позиций на складе</div></div>
                     </div>
-                    <div class="footer">Учетная Система Бригада "БАРС-МОСКВА" • ${new Date().toLocaleString()}</div>
+                    <div class="footer">Учетная система роты ЛК • ${new Date().toLocaleString()}</div>
                     <script>window.print(); setTimeout(window.close, 1000);<\/script>
                 </body></html>
             `;
@@ -1683,7 +1922,7 @@ function printReport() {
 }
 
 function exportToExcel() {
-    let csv = 'Учетная Система Бригада "БАРС-МОСКВА"\n';
+    let csv = 'Учетная система роты ЛК\n';
     csv += `Экспорт от: ${new Date().toLocaleString()}\n\n`;
     csv += '=== АВТОПАРК ===\n';
     csv += '№;Рег.номер;Модель;СТС;Пробег;Остаток;Статус\n';
@@ -1761,7 +2000,7 @@ function exportAllData() {
         notifications,
         repairRequests,
         exported: new Date().toISOString(),
-        version: '7.0'
+        version: '7.1'
     };
     const json = JSON.stringify(data, null, 2);
     downloadFile(json, `bars_data_${new Date().toISOString().slice(0,10)}.json`, 'application/json');
@@ -1859,7 +2098,6 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('filterReg').addEventListener('input', renderCars);
     document.getElementById('filterModel').addEventListener('input', renderCars);
 
-    // Переключение вкладок
     document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.addEventListener('click', function() {
             if (!currentRole) { openAuth(this.dataset.tab); return; }
@@ -1870,7 +2108,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Автосинхронизация
     setInterval(() => {
         if (navigator.onLine && currentRole) {
             syncToCloud();
