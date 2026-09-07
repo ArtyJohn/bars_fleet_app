@@ -131,7 +131,6 @@ const CarsManager = {
         const dept = document.getElementById('fDept').value;
         const tsStatus = document.getElementById('fStatus').value;
         
-        // Валидация
         const regError = Utils.validateRequired(reg, 'Регистрационный номер');
         if (regError) {
             Utils.showValidationError(document.getElementById('fReg'), regError);
@@ -200,6 +199,10 @@ const CarsManager = {
         Utils.showToast('✅ Автомобиль добавлен');
         window.sync.sync();
         window.notifications.add('info', `🚗 Добавлен автомобиль ${reg} (${model})`);
+        
+        if (window.historyLog) {
+            window.historyLog.add('car', 'Добавлен автомобиль: ' + reg + ' (' + model + ')');
+        }
     },
     
     showCard: (id) => {
