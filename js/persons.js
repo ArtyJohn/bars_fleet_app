@@ -4,12 +4,33 @@ const PersonsManager = {
         const tbody = document.getElementById('personsTable');
         tbody.innerHTML = '';
         
-        if (DataManager.persons.length === 0) {
+        const search = document.getElementById('personSearch')?.value.toLowerCase() || '';
+        const deptFilter = document.getElementById('personDepartmentFilter')?.value || 'all';
+        
+        PersonsManager.updateDepartmentFilter();
+        
+        let filtered = DataManager.persons;
+        
+        if (search) {
+            filtered = filtered.filter(p => 
+                p.fio.toLowerCase().includes(search) ||
+                p.position.toLowerCase().includes(search) ||
+                p.department.toLowerCase().includes(search) ||
+                p.rank.toLowerCase().includes(search) ||
+                (p.phone && p.phone.includes(search))
+            );
+        }
+        
+        if (deptFilter !== 'all') {
+            filtered = filtered.filter(p => p.department === deptFilter);
+        }
+        
+        if (filtered.length === 0) {
             tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;color:#8b949e;padding:12px;">Нет данных</td></tr>`;
             return;
         }
         
-        DataManager.persons.forEach((p, idx) => {
+        filtered.forEach((p, idx) => {
             const tr = document.createElement('tr');
             tr.innerHTML = `
                 <td>${idx + 1}</td>
@@ -25,6 +46,16 @@ const PersonsManager = {
             `;
             tbody.appendChild(tr);
         });
+    },
+    
+    updateDepartmentFilter: () => {
+        const select = document.getElementById('personDepartmentFilter');
+        if (!select) return;
+        const currentValue = select.value;
+        const departments = ['all', ...new Set(DataManager.persons.map(p => p.department))];
+        select.innerHTML = departments.map(d => 
+            `<option value="${d}" ${d === currentValue ? 'selected' : ''}>${d === 'all' ? 'Все подразделения' : d}</option>`
+        ).join('');
     },
     
     showAddModal: () => {
@@ -78,21 +109,26 @@ const PersonsManager = {
             return;
         }
         
-        DataManager.persons.push({
+        const newPerson = {
             id: DataManager.getNextId(DataManager.persons),
             fio,
             position,
             department,
             rank,
             phone
-        });
+        };
         
+        DataManager.persons.push(newPerson);
         DataManager.save();
         Utils.closeModal();
         window.app.updateDashboard();
         Utils.showToast('✅ Военнослужащий добавлен');
         window.sync.sync();
         window.notifications.add('info', `👤 Добавлен военнослужащий ${fio}`);
+        
+        if (window.historyLog) {
+            window.historyLog.add('person', 'Добавлен военнослужащий: ' + fio);
+        }
     },
     
     edit: (id) => {
@@ -150,6 +186,7 @@ const PersonsManager = {
         
         const person = DataManager.getPersonById(id);
         if (person) {
+            const oldFio = person.fio;
             person.fio = fio;
             person.position = position;
             person.department = department;
@@ -160,16 +197,25 @@ const PersonsManager = {
             window.app.updateDashboard();
             Utils.showToast('✅ Данные обновлены');
             window.sync.sync();
+            
+            if (window.historyLog) {
+                window.historyLog.add('person', 'Изменён военнослужащий: ' + oldFio + ' → ' + fio);
+            }
         }
     },
     
     delete: (id) => {
         if (confirm('Удалить этого военнослужащего?')) {
+            const person = DataManager.getPersonById(id);
             DataManager.persons = DataManager.persons.filter(p => p.id !== id);
             DataManager.save();
             window.app.updateDashboard();
             Utils.showToast('🗑️ Запись удалена');
             window.sync.sync();
+            
+            if (window.historyLog && person) {
+                window.historyLog.add('person', 'Удалён военнослужащий: ' + person.fio);
+            }
         }
     }
 };
