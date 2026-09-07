@@ -1310,13 +1310,14 @@
         </div>
 
         <!-- ================================================================
-        ВКЛАДКА 3 — ВООРУЖЕНИЕ
+        ВКЛАДКА 3 — ВООРУЖЕНИЕ (разделение на две части)
         ================================================================ -->
         <div id="tab3" class="tab-content">
             <div class="stats-grid" id="weaponStats">
                 <div class="stat-card"><div class="number green" id="weaponTotal">0</div><div class="label">Всего единиц</div></div>
                 <div class="stat-card"><div class="number orange" id="weaponRepair">0</div><div class="label">🛠 В ремонте</div></div>
                 <div class="stat-card"><div class="number red" id="weaponFault">0</div><div class="label">⚠️ Неисправны</div></div>
+                <div class="stat-card"><div class="number yellow" id="weaponRequests">0</div><div class="label">📋 Открытых заявок</div></div>
             </div>
 
             <div class="card">
@@ -1326,7 +1327,18 @@
                 </div>
                 <div class="table-wrap">
                     <table>
-                        <thead><tr><th>№</th><th>Тип</th><th>Бортовой №</th><th>Статус</th><th>Неисправность</th><th>Заявка</th><th></th></tr></thead>
+                        <thead>
+                            <tr>
+                                <th>№</th>
+                                <th>Тип</th>
+                                <th>Бортовой №</th>
+                                <th>Статус</th>
+                                <th>Неисправность</th>
+                                <th>Координаты</th>
+                                <th>Посл. заявка</th>
+                                <th></th>
+                            </tr>
+                        </thead>
                         <tbody id="weaponsTable"></tbody>
                     </table>
                 </div>
