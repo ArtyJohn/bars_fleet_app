@@ -6,7 +6,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#0d1117">
-    <title>Барс-Москва — Учетная система</title>
+    <title>Учетная Система Бригада "БАРС-МОСКВА"</title>
     <style>
         /* ================================================================
            БАЗА
@@ -29,7 +29,7 @@
         }
 
         /* ================================================================
-           ШАПКА (общая)
+           ШАПКА
            ================================================================ */
         .header {
             display: flex;
@@ -55,7 +55,7 @@
         }
 
         .header-left .title {
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 700;
             color: #e6edf3;
         }
@@ -156,7 +156,7 @@
         }
 
         /* ================================================================
-           УВЕДОМЛЕНИЯ (панель)
+           УВЕДОМЛЕНИЯ
            ================================================================ */
         .notif-panel {
             display: none;
@@ -216,7 +216,7 @@
         }
 
         /* ================================================================
-           СПРАВОЧНИКИ (мини-панель)
+           СПРАВОЧНИКИ (5 позиций + скролл)
            ================================================================ */
         .refs-panel {
             display: none;
@@ -234,7 +234,7 @@
 
         .refs-panel .refs-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
             gap: 6px;
         }
 
@@ -243,6 +243,9 @@
             border-radius: 6px;
             padding: 6px 10px;
             border: 1px solid #1c2128;
+            max-height: 200px;
+            display: flex;
+            flex-direction: column;
         }
 
         .refs-panel .ref-group .ref-label {
@@ -254,15 +257,40 @@
             border-bottom: 1px solid #1c2128;
             padding-bottom: 2px;
             margin-bottom: 2px;
+            flex-shrink: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .refs-panel .ref-group .ref-list {
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .refs-panel .ref-group .ref-list::-webkit-scrollbar {
+            width: 3px;
+        }
+        .refs-panel .ref-group .ref-list::-webkit-scrollbar-track {
+            background: #0d1117;
+        }
+        .refs-panel .ref-group .ref-list::-webkit-scrollbar-thumb {
+            background: #2d3a2d;
+            border-radius: 3px;
         }
 
         .refs-panel .ref-group .ref-item {
             font-size: 11px;
             color: #8b949e;
-            padding: 1px 0;
+            padding: 2px 0;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            border-bottom: 1px solid #1c2128;
+        }
+
+        .refs-panel .ref-group .ref-item:last-child {
+            border-bottom: none;
         }
 
         .refs-panel .ref-group .ref-item .del {
@@ -273,7 +301,7 @@
         }
 
         /* ================================================================
-           ГЛАВНЫЙ ЭКРАН (плитки)
+           ГЛАВНЫЙ ЭКРАН
            ================================================================ */
         .main-screen {
             display: block;
@@ -286,23 +314,23 @@
 
         .main-screen .welcome {
             text-align: center;
-            padding: 20px 0 16px 0;
+            padding: 16px 0 12px 0;
         }
 
         .main-screen .welcome .icon {
-            font-size: 48px;
+            font-size: 40px;
             display: block;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
 
         .main-screen .welcome h2 {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 700;
             color: #e6edf3;
         }
 
         .main-screen .welcome p {
-            font-size: 13px;
+            font-size: 12px;
             color: #8b949e;
         }
 
@@ -330,9 +358,9 @@
         }
 
         .main-screen .tile .tile-icon {
-            font-size: 28px;
+            font-size: 26px;
             display: block;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
 
         .main-screen .tile .tile-name {
@@ -443,7 +471,7 @@
         }
 
         /* ================================================================
-           АВТОРИЗАЦИЯ (модальное окно)
+           АВТОРИЗАЦИЯ
            ================================================================ */
         .auth-overlay {
             position: fixed;
@@ -481,23 +509,23 @@
         }
 
         .auth-box .auth-icon {
-            font-size: 40px;
+            font-size: 36px;
             text-align: center;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
 
         .auth-box .auth-title {
             text-align: center;
-            font-size: 18px;
+            font-size: 17px;
             font-weight: 700;
             color: #e6edf3;
         }
 
         .auth-box .auth-sub {
             text-align: center;
-            font-size: 13px;
+            font-size: 12px;
             color: #4a6a3a;
-            margin-bottom: 16px;
+            margin-bottom: 14px;
         }
 
         .auth-box .auth-error {
@@ -519,7 +547,7 @@
             border: 1px solid #4a6a3a;
             border-radius: 8px;
             color: #e6edf3;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 700;
             cursor: pointer;
             margin-top: 10px;
@@ -535,9 +563,9 @@
             background: transparent;
             border: none;
             color: #8b949e;
-            font-size: 14px;
+            font-size: 13px;
             cursor: pointer;
-            margin-top: 6px;
+            margin-top: 4px;
         }
 
         .auth-box .btn-cancel:active {
@@ -665,6 +693,15 @@
             font-size: 11px;
         }
 
+        td .clickable {
+            cursor: pointer;
+            color: #4a6a3a;
+        }
+
+        td .clickable:hover {
+            text-decoration: underline;
+        }
+
         .badge {
             display: inline-block;
             padding: 1px 8px;
@@ -746,7 +783,7 @@
             border: 1px solid #2d3a2d;
             border-radius: 14px;
             padding: 20px;
-            max-width: 480px;
+            max-width: 500px;
             width: 100%;
             max-height: 90vh;
             overflow-y: auto;
@@ -796,6 +833,102 @@
 
         .modal-actions button:active {
             transform: scale(0.95);
+        }
+
+        /* ================================================================
+           КАРТОЧКА ВООРУЖЕНИЯ (в модальном окне)
+           ================================================================ */
+        .weapon-card {
+            background: #0d1117;
+            border-radius: 8px;
+            padding: 14px;
+            margin-bottom: 8px;
+            border: 1px solid #2d3a2d;
+        }
+
+        .weapon-card .field {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 0;
+            border-bottom: 1px solid #1c2128;
+            font-size: 13px;
+        }
+
+        .weapon-card .field:last-child {
+            border-bottom: none;
+        }
+
+        .weapon-card .field .label {
+            color: #8b949e;
+        }
+
+        .weapon-card .field .value {
+            font-weight: 600;
+            color: #e6edf3;
+        }
+
+        /* ================================================================
+           КАРТОЧКА АВТОМОБИЛЯ
+           ================================================================ */
+        .car-card {
+            background: #0d1117;
+            border-radius: 8px;
+            padding: 14px;
+            margin-bottom: 8px;
+            border: 1px solid #2d3a2d;
+        }
+
+        .car-card .field {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 0;
+            border-bottom: 1px solid #1c2128;
+            font-size: 13px;
+        }
+
+        .car-card .field:last-child {
+            border-bottom: none;
+        }
+
+        .car-card .field .label {
+            color: #8b949e;
+        }
+
+        .car-card .field .value {
+            font-weight: 600;
+            color: #e6edf3;
+        }
+
+        /* ================================================================
+           СКЛАД — ГРУППИРОВКА
+           ================================================================ */
+        .stock-group {
+            background: #0d1117;
+            border-radius: 8px;
+            padding: 8px 12px;
+            margin-bottom: 6px;
+            border: 1px solid #1c2128;
+        }
+
+        .stock-group .group-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: #4a6a3a;
+            border-bottom: 1px solid #1c2128;
+            padding-bottom: 4px;
+            margin-bottom: 4px;
+        }
+
+        .stock-group .stock-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 2px 0;
+            font-size: 11px;
+            border-bottom: 1px solid #1c2128;
+        }
+
+        .stock-group .stock-item:last-child {
+            border-bottom: none;
         }
 
         /* ================================================================
@@ -897,7 +1030,7 @@
            ================================================================ */
         @media (max-width: 480px) {
             .header-left .title {
-                font-size: 13px;
+                font-size: 12px;
             }
             .header-left .subtitle {
                 font-size: 8px;
@@ -981,8 +1114,8 @@
         <div class="header-left">
             <span class="logo">⚔</span>
             <div>
-                <span class="title">Барс-Москва</span>
-                <span class="subtitle">v.5.0</span>
+                <span class="title">Учетная Система Бригада "БАРС-МОСКВА"</span>
+                <span class="subtitle">v.6.0</span>
                 <span class="sync-status" id="syncStatus">🔄 синхр.</span>
             </div>
         </div>
@@ -1007,7 +1140,7 @@
     </div>
 
     <!-- ================================================================
-    СПРАВОЧНИКИ
+    СПРАВОЧНИКИ (5 позиций + скролл)
     ================================================================ -->
     <div class="refs-panel" id="refsPanel">
         <div class="refs-grid" id="refsGrid"></div>
@@ -1017,16 +1150,13 @@
     ГЛАВНЫЙ ЭКРАН
     ================================================================ -->
     <div class="main-screen" id="mainScreen">
-
         <div class="welcome">
             <span class="icon">⚔</span>
-            <h2>ЛК Бригада "Барс-Москва"</h2>
+            <h2>Бригада "БАРС-МОСКВА"</h2>
             <p>Учетная система подразделения</p>
         </div>
 
-        <div class="tiles-grid" id="tilesGrid">
-            <!-- Плитки создаются через JavaScript -->
-        </div>
+        <div class="tiles-grid" id="tilesGrid"></div>
 
         <div style="display:flex;gap:6px;flex-wrap:wrap;">
             <button onclick="syncToCloud()" style="flex:1;padding:10px;background:#1a2d2d;border:1px solid #3a6a6a;border-radius:8px;color:#e6edf3;font-size:12px;font-weight:600;cursor:pointer;">☁️ Синхронизация</button>
@@ -1036,7 +1166,7 @@
     </div>
 
     <!-- ================================================================
-    ВКЛАДКИ (скрыты до авторизации)
+    ВКЛАДКИ
     ================================================================ -->
     <div class="tab-content-wrapper" id="tabsWrapper">
 
@@ -1092,22 +1222,10 @@
                     </table>
                 </div>
             </div>
-
-            <div class="card" id="carInfoCard" style="display:none;">
-                <div class="card-title">
-                    📋 Информация об автомобиле
-                    <div>
-                        <button class="btn-small" onclick="editCarFromInfo()">✏️</button>
-                        <button class="btn-small danger" onclick="deleteCarFromInfo()">🗑️</button>
-                        <button class="btn-small" onclick="closeCarInfo()">✕</button>
-                    </div>
-                </div>
-                <div id="carInfo"></div>
-            </div>
         </div>
 
         <!-- ================================================================
-        ВКЛАДКА 2 — ЛИЧНЫЙ СОСТАВ
+        ВКЛАДКА 2 — ЛИЧНЫЙ СОСТАВ (ФИО из Эксплуатантов)
         ================================================================ -->
         <div id="tab2" class="tab-content">
             <div class="card">
@@ -1125,7 +1243,7 @@
         </div>
 
         <!-- ================================================================
-        ВКЛАДКА 3 — ВООРУЖЕНИЕ
+        ВКЛАДКА 3 — ВООРУЖЕНИЕ (с карточкой по двойному клику)
         ================================================================ -->
         <div id="tab3" class="tab-content">
             <div class="stats-grid" id="weaponStats">
@@ -1146,22 +1264,10 @@
                     </table>
                 </div>
             </div>
-
-            <div class="card" id="weaponInfoCard" style="display:none;">
-                <div class="card-title">
-                    📋 Информация о вооружении
-                    <div>
-                        <button class="btn-small" onclick="editWeaponFromInfo()">✏️</button>
-                        <button class="btn-small danger" onclick="deleteWeaponFromInfo()">🗑️</button>
-                        <button class="btn-small" onclick="closeWeaponInfo()">✕</button>
-                    </div>
-                </div>
-                <div id="weaponInfo"></div>
-            </div>
         </div>
 
         <!-- ================================================================
-        ВКЛАДКА 4 — СКЛАД
+        ВКЛАДКА 4 — СКЛАД (с группировкой по типам)
         ================================================================ -->
         <div id="tab4" class="tab-content">
             <div class="card">
@@ -1169,12 +1275,7 @@
                     📦 Складской учёт (ТМЦ)
                     <button class="btn-small" onclick="showAddItemModal()">➕ Добавить</button>
                 </div>
-                <div class="table-wrap">
-                    <table>
-                        <thead><tr><th>№</th><th>Наименование</th><th>Ед. изм.</th><th>Количество</th><th>Склад</th><th>Примечание</th><th></th></tr></thead>
-                        <tbody id="itemsTable"></tbody>
-                    </table>
-                </div>
+                <div id="stockGroups"></div>
             </div>
         </div>
 
@@ -1192,14 +1293,16 @@
         </div>
 
         <!-- ================================================================
-        ВКЛАДКА 6 — ОТЧЁТЫ
+        ВКЛАДКА 6 — ОТЧЁТЫ (печать + Excel)
         ================================================================ -->
         <div id="tab6" class="tab-content">
             <div class="card">
-                <div class="card-title">📊 Отчёты</div>
+                <div class="card-title">📊 Формирование отчётов</div>
                 <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                    <button onclick="showReportDialog()" style="padding:10px;background:#1a2d3a;border:1px solid #3a5a6a;border-radius:8px;color:#e6edf3;font-size:12px;font-weight:600;cursor:pointer;">📊 Выбрать данные для отчёта</button>
                     <button onclick="exportAllData()" style="padding:10px;background:#1a2d3a;border:1px solid #3a5a6a;border-radius:8px;color:#e6edf3;font-size:12px;font-weight:600;cursor:pointer;">📤 Экспорт всех данных</button>
-                    <button onclick="exportReport()" style="padding:10px;background:#2d2d1a;border:1px solid #6a6a3a;border-radius:8px;color:#e6edf3;font-size:12px;font-weight:600;cursor:pointer;">📊 Сформировать отчёт</button>
+                    <button onclick="printReport()" style="padding:10px;background:#2d2d1a;border:1px solid #6a6a3a;border-radius:8px;color:#e6edf3;font-size:12px;font-weight:600;cursor:pointer;">🖨️ Печать отчёта</button>
+                    <button onclick="exportToExcel()" style="padding:10px;background:#1a2d2d;border:1px solid #3a6a6a;border-radius:8px;color:#e6edf3;font-size:12px;font-weight:600;cursor:pointer;">📊 Выгрузка в Excel</button>
                 </div>
             </div>
         </div>
@@ -1218,7 +1321,7 @@
     </div>
 
     <!-- ================================================================
-    АВТОРИЗАЦИЯ (модальное окно)
+    АВТОРИЗАЦИЯ
     ================================================================ -->
     <div class="auth-overlay" id="authOverlay">
         <div class="auth-box">
@@ -1247,7 +1350,7 @@
     </div>
 
     <!-- ================================================================
-    МОДАЛЬНОЕ ОКНО (универсальное)
+    МОДАЛЬНОЕ ОКНО
     ================================================================ -->
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal" id="modalContent">
@@ -1256,7 +1359,7 @@
     </div>
 
     <!-- ================================================================
-    НИЖНЯЯ ПАНЕЛЬ (показывается только в вкладках)
+    НИЖНЯЯ ПАНЕЛЬ
     ================================================================ -->
     <div class="bottom-actions" id="bottomActions" style="display:none;">
         <button class="btn-refresh" onclick="updateDashboard()">🔄 Обновить</button>
@@ -1297,6 +1400,7 @@
         let items = [];
         let historyData = [];
         let references = {};
+        let itemTypes = [];
 
         const defaultRefs = {
             carTypes: ['Легковой', 'Грузовой', 'Спецтехника'],
@@ -1306,7 +1410,8 @@
                 'ТО-4 (40 000 км)', 'ТО-5 (50 000 км)', 'ТО-6 (60 000 км)', 'ТО-7 (70 000 км)',
                 'ТО-8 (80 000 км)', 'ТО-9 (90 000 км)', 'ТО-10 (100 000 км)'
             ],
-            drivers: ['Ремнев Артем Сергеевич', 'Магомедов Магомед Насрудинович', 'Федоров Богдан Владимирович',
+            // Эксплуатанты (бывшие Водители)
+            exploitants: ['Ремнев Артем Сергеевич', 'Магомедов Магомед Насрудинович', 'Федоров Богдан Владимирович',
                 'Зарипов Айнур Ильдарович', 'Циденов Михаил Олегович', 'Тимофеев Антон Владимирович',
                 'Никифоров Роман Владимирович', 'Абрамов Владислав Александрович', 'Блинов Сергей Денисович',
                 'Шишков Сергей Александрович', 'Зятиков Илья Михайлович'
@@ -1319,65 +1424,10 @@
             ],
             units: ['шт.', 'компл.', 'л', 'кг', 'м', 'км', 'шт.', 'уп.', 'кор.', 'пач.'],
             weaponTypes: ['Барьер', 'Звездочет'],
-            weaponStatuses: ['Исправно', 'В ремонте', 'Неисправно', 'На хранении', 'Списано']
+            weaponStatuses: ['Исправно', 'В ремонте', 'Неисправно', 'На хранении', 'Списано'],
+            // Типы для склада (группировка)
+            stockTypes: ['Расходные материалы', 'Запасные части', 'Инструмент', 'ГСМ', 'Спецодежда', 'Прочее']
         };
-
-        const defaultCars = [
-            { id: 1, reg: 'Е390НУ977', model: 'Foton Tunland G9', sts: '1234567890', responsible: 'Ремнев Артем Сергеевич',
-                driver: 'Ремнев Артем Сергеевич', mileage: 5359, last_to: 2000, plan_to: 12000, remainder: 3359,
-                status: '🟢', mark: '✅ Пройдено', criticality: '🟢 НИЗКИЙ', notification: '✅ Всё в порядке',
-                type: 'Легковой', dept: 'Штаб', tsStatus: 'В эксплуатации' },
-            { id: 2, reg: 'Е420НУ977', model: 'Foton Tunland G9', sts: '0987654321', responsible: 'Федоров Богдан Владимирович',
-                driver: 'Федоров Богдан Владимирович', mileage: 7485, last_to: 2000, plan_to: 12000, remainder: 5485,
-                status: '🟢', mark: '✅ Пройдено', criticality: '🟢 НИЗКИЙ', notification: '✅ Всё в порядке',
-                type: 'Легковой', dept: 'Инструкторский состав', tsStatus: 'В эксплуатации' },
-            { id: 3, reg: 'Е391НУ977', model: 'Foton Tunland G9', sts: '1122334455', responsible: 'Магомедов Магомед Насрудинович',
-                driver: 'Никифоров Роман Владимирович', mileage: 0, last_to: 2000, plan_to: 12000, remainder: 2000,
-                status: '🟡', mark: '⏳ Скоро ТО', criticality: '🟡 СРЕДНИЙ', notification: '📅 Осталось ≤ 1000 км',
-                type: 'Легковой', dept: 'Штаб', tsStatus: 'В эксплуатации' },
-            { id: 4, reg: 'Е445НУ977', model: 'Foton Tunland G9', sts: '5544332211', responsible: 'Магомедов Магомед Насрудинович',
-                driver: 'Магомедов Магомед Насрудинович', mileage: 144, last_to: 0, plan_to: 2000, remainder: 1856,
-                status: '🟢', mark: '✅ Пройдено', criticality: '🟢 НИЗКИЙ', notification: '✅ Всё в порядке',
-                type: 'Легковой', dept: 'Снабжение', tsStatus: 'В эксплуатации' },
-            { id: 5, reg: 'Е474НУ977', model: 'Foton Tunland G9', sts: '6677889900', responsible: 'Зятиков Илья Михайлович',
-                driver: 'Зятиков Илья Михайлович', mileage: 4185, last_to: 2000, plan_to: 12000, remainder: 2185,
-                status: '🟢', mark: '✅ Пройдено', criticality: '🟢 НИЗКИЙ', notification: '✅ Всё в порядке',
-                type: 'Легковой', dept: 'Штаб', tsStatus: 'В эксплуатации' }
-        ];
-
-        const defaultPersons = [
-            { id: 1, fio: 'Ремнев Артем Сергеевич', position: 'Старшина', department: 'Штаб', rank: 'Старшина',
-                phone: '+7 999 123-45-67' },
-            { id: 2, fio: 'Магомедов Магомед Насрудинович', position: 'Водитель', department: 'Снабжение', rank: 'Сержант',
-                phone: '+7 999 234-56-78' },
-            { id: 3, fio: 'Федоров Богдан Владимирович', position: 'Водитель', department: 'Инструкторский состав',
-                rank: 'Ефрейтор', phone: '+7 999 345-67-89' },
-            { id: 4, fio: 'Зятиков Илья Михайлович', position: 'Командир', department: 'Штаб', rank: 'Капитан',
-                phone: '+7 999 456-78-90' }
-        ];
-
-        const defaultWeapons = [
-            { id: 1, type: 'Барьер', number: 'Б-001', status: 'Исправно', fault: '', repairRequest: '' },
-            { id: 2, type: 'Барьер', number: 'Б-002', status: 'В ремонте', fault: 'Неисправен блок наведения',
-                repairRequest: 'Заявка №1 от 01.09.2026' },
-            { id: 3, type: 'Звездочет', number: 'З-001', status: 'Исправно', fault: '', repairRequest: '' },
-            { id: 4, type: 'Звездочет', number: 'З-002', status: 'Неисправно', fault: 'Сбой системы охлаждения',
-                repairRequest: 'Заявка №2 от 05.09.2026' }
-        ];
-
-        const defaultItems = [
-            { id: 1, name: 'Масло моторное 5W-30', unit: 'л', quantity: 50, storage: 'Склад №1', note: 'Для двигателей' },
-            { id: 2, name: 'Фильтр масляный', unit: 'шт.', quantity: 30, storage: 'Склад №1', note: '' },
-            { id: 3, name: 'Тормозные колодки', unit: 'компл.', quantity: 15, storage: 'Склад №2', note: 'Для легковых' },
-            { id: 4, name: 'Свечи зажигания', unit: 'шт.', quantity: 100, storage: 'Склад №2', note: '' }
-        ];
-
-        const defaultHistory = [
-            { id: 1, date: '13.08.2026', reg: 'Е391НУ977', model: 'Foton Tunland G9', mileage: 1998,
-                toType: 'ТО-0 (2 000 км)', note: '' },
-            { id: 2, date: '12.08.2026', reg: 'Е390НУ977', model: 'Foton Tunland G9', mileage: 1999,
-                toType: 'ТО-0 (2 000 км)', note: '' }
-        ];
 
         // ================================================================
         //  ЗАГРУЗКА / СОХРАНЕНИЕ
@@ -1603,12 +1653,10 @@
                 { id: 'tab7', icon: '⚙️', name: 'Администрирование', count: 0, role: 'admin' }
             ];
 
-            // Проверяем критические моменты для отображения в плитках
             const overdueCount = cars.filter(c => c.remainder < 0).length;
             const repairCount = weapons.filter(w => w.status === 'В ремонте' || w.status === 'Неисправно').length;
 
             grid.innerHTML = tiles.map(t => {
-                const isLocked = t.role !== 'all';
                 let badge = '';
                 if (t.id === 'tab1' && overdueCount > 0) {
                     badge = `<span class="tile-badge">${overdueCount}</span>`;
@@ -1622,7 +1670,7 @@
                         <span class="tile-icon">${t.icon}</span>
                         <span class="tile-name">${t.name}</span>
                         <span class="tile-count">${t.count > 0 ? t.count + ' зап.' : ''}</span>
-                        ${isLocked ? '<span class="tile-lock">🔒</span>' : ''}
+                        ${t.role !== 'all' ? '<span class="tile-lock">🔒</span>' : ''}
                         ${badge}
                     </div>
                 `;
@@ -1646,10 +1694,8 @@
             document.getElementById('authError').classList.remove('show');
             document.getElementById('authOverlay').classList.add('active');
 
-            // Фокус на поле пароля
             setTimeout(() => document.getElementById('authPassword').focus(), 300);
 
-            // Enter для отправки
             document.getElementById('authPassword').onkeydown = function(e) {
                 if (e.key === 'Enter') authLogin();
             };
@@ -1672,7 +1718,6 @@
 
                 showToast('✅ Добро пожаловать, ' + currentUser.name + '!');
 
-                // Показываем кнопки
                 document.getElementById('logoutBtn').style.display = '';
                 document.getElementById('homeBtn').style.display = '';
                 document.getElementById('bottomActions').style.display = '';
@@ -1743,7 +1788,6 @@
             const content = document.getElementById(tabId);
             if (content) content.classList.add('active');
 
-            // Скрываем вкладки, недоступные по роли
             document.querySelectorAll('.tab-btn').forEach(b => {
                 const roles = b.dataset.role.split(',');
                 if (roles.includes('all') || (currentRole && roles.includes(currentRole))) {
@@ -1764,7 +1808,7 @@
         }
 
         // ================================================================
-        //  СПРАВОЧНИКИ
+        //  СПРАВОЧНИКИ (5 позиций + скролл)
         // ================================================================
 
         function toggleRefs() {
@@ -1775,35 +1819,46 @@
 
         function renderRefs() {
             const grid = document.getElementById('refsGrid');
+
+            // Изменяем "Водители" на "Эксплуатанты"
             const groups = [
                 { label: '🚗 Типы ТС', key: 'carTypes' },
                 { label: '🏢 Подразделения', key: 'departments' },
                 { label: '📌 Статусы ТС', key: 'statuses' },
                 { label: '🔧 Типы ТО', key: 'toTypes' },
-                { label: '👤 Водители', key: 'drivers' },
+                { label: '👤 Эксплуатанты', key: 'exploitants' },
                 { label: '💼 Должности', key: 'positions' },
                 { label: '🎖 Звания', key: 'ranks' },
                 { label: '📦 Ед. изм.', key: 'units' },
                 { label: '🔫 Типы вооружения', key: 'weaponTypes' },
-                { label: '🛠 Статусы вооружения', key: 'weaponStatuses' }
+                { label: '🛠 Статусы вооружения', key: 'weaponStatuses' },
+                { label: '📂 Типы ТМЦ', key: 'stockTypes' }
             ];
 
-            grid.innerHTML = groups.map(g => `
-                <div class="ref-group">
-                    <div class="ref-label">${g.label}</div>
-                    ${(references[g.key] || []).map(item => `
-                        <div class="ref-item">
-                            <span>${item}</span>
-                            ${currentRole === 'admin' ? `<span class="del" onclick="deleteRef('${g.key}','${item}')">✕</span>` : ''}
+            grid.innerHTML = groups.map(g => {
+                const items = references[g.key] || [];
+                const showItems = items.slice(0, 5);
+                const hiddenCount = items.length - 5;
+
+                return `
+                    <div class="ref-group">
+                        <div class="ref-label">
+                            <span>${g.label}</span>
+                            ${currentRole === 'admin' ? `<button class="btn-small" onclick="addRef('${g.key}')" style="font-size:9px;padding:1px 6px;">➕</button>` : ''}
                         </div>
-                    `).join('') || '<div style="color:#8b949e;font-size:10px;">Пусто</div>'}
-                    ${currentRole === 'admin' ? `
-                        <div style="margin-top:4px;">
-                            <button class="btn-small" onclick="addRef('${g.key}')" style="font-size:9px;">➕</button>
+                        <div class="ref-list">
+                            ${showItems.map(item => `
+                                <div class="ref-item">
+                                    <span>${item}</span>
+                                    ${currentRole === 'admin' ? `<span class="del" onclick="deleteRef('${g.key}','${item}')">✕</span>` : ''}
+                                </div>
+                            `).join('')}
+                            ${hiddenCount > 0 ? `<div style="color:#4a6a3a;font-size:10px;padding:2px 0;">+ еще ${hiddenCount}</div>` : ''}
+                            ${items.length === 0 ? '<div style="color:#8b949e;font-size:10px;padding:2px 0;">Пусто</div>' : ''}
                         </div>
-                    ` : ''}
-                </div>
-            `).join('');
+                    </div>
+                `;
+            }).join('');
         }
 
         function addRef(key) {
@@ -1854,7 +1909,7 @@
             renderCars();
             renderPersons();
             renderWeapons();
-            renderItems();
+            renderStock();
             renderHistory();
             renderMainScreen();
             saveData();
@@ -1862,7 +1917,7 @@
         }
 
         // ================================================================
-        //  АВТОМОБИЛИ
+        //  АВТОМОБИЛИ (с карточкой по двойному клику)
         // ================================================================
 
         function renderCars() {
@@ -1898,10 +1953,106 @@
                     <td>${c.mileage}</td>
                     <td>${c.remainder}</td>
                     <td><span class="badge ${badgeClass}">${c.status}</span></td>
-                    <td><button onclick="showCarInfo(${c.id})" style="background:none;border:none;color:#4a6a3a;font-size:14px;cursor:pointer;">👁</button></td>
+                    <td><span class="clickable" onclick="showCarCard(${c.id})">👁</span></td>
                 `;
+                tr.addEventListener('dblclick', function() {
+                    showCarCard(c.id);
+                });
                 tbody.appendChild(tr);
             });
+        }
+
+        // Карточка автомобиля (по двойному клику)
+        function showCarCard(id) {
+            const car = cars.find(c => c.id === id);
+            if (!car) return;
+
+            const html = `
+                <div class="modal-title">🚗 Карточка автомобиля</div>
+                <div class="car-card">
+                    <div class="field"><span class="label">Рег.номер</span><span class="value">${car.reg}</span></div>
+                    <div class="field"><span class="label">Модель</span><span class="value">${car.model}</span></div>
+                    <div class="field"><span class="label">СТС</span><span class="value">${car.sts || '—'}</span></div>
+                    <div class="field"><span class="label">Ответственный</span><span class="value">${car.responsible}</span></div>
+                    <div class="field"><span class="label">Водитель</span><span class="value">${car.driver || '—'}</span></div>
+                    <div class="field"><span class="label">Пробег</span><span class="value">${car.mileage} км</span></div>
+                    <div class="field"><span class="label">Последнее ТО</span><span class="value">${car.last_to} км</span></div>
+                    <div class="field"><span class="label">Плановое ТО</span><span class="value">${car.plan_to} км</span></div>
+                    <div class="field"><span class="label">Тип ТС</span><span class="value">${car.type}</span></div>
+                    <div class="field"><span class="label">Подразделение</span><span class="value">${car.dept}</span></div>
+                    <div class="field"><span class="label">Статус</span><span class="value">${car.tsStatus}</span></div>
+                    <div class="field"><span class="label">Критичность</span><span class="value">${car.criticality}</span></div>
+                    <div class="field"><span class="label">Уведомление</span><span class="value">${car.notification}</span></div>
+                </div>
+                <div class="modal-actions">
+                    <button class="btn-primary" onclick="printCarCard(${car.id})">🖨️ Печать</button>
+                    <button class="btn-primary" onclick="exportCarCard(${car.id})">📊 Excel</button>
+                    <button class="btn-secondary" onclick="closeModal()">Закрыть</button>
+                </div>
+            `;
+            openModal(html);
+        }
+
+        function printCarCard(id) {
+            const car = cars.find(c => c.id === id);
+            if (!car) return;
+
+            const html = `
+                <html><head><meta charset="UTF-8"><style>
+                    body { font-family: Arial, sans-serif; margin: 30px; }
+                    h1 { text-align: center; color: #1a1e1a; border-bottom: 2px solid #4a6a3a; padding-bottom: 10px; }
+                    .card { border: 1px solid #ccc; border-radius: 8px; padding: 20px; max-width: 500px; margin: 0 auto; }
+                    .field { display: flex; padding: 6px 0; border-bottom: 1px solid #eee; }
+                    .label { font-weight: bold; width: 150px; color: #555; }
+                    .value { flex: 1; }
+                    .footer { text-align: center; margin-top: 20px; color: #666; font-size: 11px; }
+                </style></head>
+                <body>
+                    <h1>🚗 Карточка автомобиля</h1>
+                    <div class="card">
+                        <div class="field"><span class="label">Рег.номер</span><span class="value">${car.reg}</span></div>
+                        <div class="field"><span class="label">Модель</span><span class="value">${car.model}</span></div>
+                        <div class="field"><span class="label">СТС</span><span class="value">${car.sts || '—'}</span></div>
+                        <div class="field"><span class="label">Ответственный</span><span class="value">${car.responsible}</span></div>
+                        <div class="field"><span class="label">Водитель</span><span class="value">${car.driver || '—'}</span></div>
+                        <div class="field"><span class="label">Пробег</span><span class="value">${car.mileage} км</span></div>
+                        <div class="field"><span class="label">Последнее ТО</span><span class="value">${car.last_to} км</span></div>
+                        <div class="field"><span class="label">Плановое ТО</span><span class="value">${car.plan_to} км</span></div>
+                        <div class="field"><span class="label">Тип ТС</span><span class="value">${car.type}</span></div>
+                        <div class="field"><span class="label">Подразделение</span><span class="value">${car.dept}</span></div>
+                        <div class="field"><span class="label">Статус</span><span class="value">${car.tsStatus}</span></div>
+                    </div>
+                    <div class="footer">Учетная Система Бригада "БАРС-МОСКВА" • ${new Date().toLocaleString()}</div>
+                    <script>window.print(); setTimeout(window.close, 1000);<\/script>
+                </body></html>
+            `;
+            const win = window.open('', '_blank');
+            win.document.write(html);
+            win.document.close();
+        }
+
+        function exportCarCard(id) {
+            const car = cars.find(c => c.id === id);
+            if (!car) return;
+
+            const headers = ['Поле', 'Значение'];
+            const rows = [
+                ['Рег.номер', car.reg],
+                ['Модель', car.model],
+                ['СТС', car.sts || '—'],
+                ['Ответственный', car.responsible],
+                ['Водитель', car.driver || '—'],
+                ['Пробег', car.mileage + ' км'],
+                ['Последнее ТО', car.last_to + ' км'],
+                ['Плановое ТО', car.plan_to + ' км'],
+                ['Тип ТС', car.type],
+                ['Подразделение', car.dept],
+                ['Статус', car.tsStatus]
+            ];
+
+            const csv = [headers.join(';'), ...rows.map(r => r.join(';'))].join('\n');
+            downloadFile(csv, `car_${car.reg}_${new Date().toISOString().slice(0,10)}.csv`, 'text/csv;charset=utf-8');
+            showToast('📊 Карточка выгружена в Excel');
         }
 
         function applyFilters() { renderCars(); }
@@ -1912,208 +2063,8 @@
             renderCars();
         }
 
-        let selectedCarId = null;
-
-        function showCarInfo(id) {
-            const car = cars.find(c => c.id === id);
-            if (!car) return;
-            selectedCarId = id;
-
-            const card = document.getElementById('carInfoCard');
-            card.style.display = 'block';
-
-            const info = document.getElementById('carInfo');
-            info.innerHTML = `
-                <div class="stat-row"><span>Рег.номер</span><span class="stat-value">${car.reg}</span></div>
-                <div class="stat-row"><span>Модель</span><span class="stat-value">${car.model}</span></div>
-                <div class="stat-row"><span>СТС</span><span class="stat-value">${car.sts || '—'}</span></div>
-                <div class="stat-row"><span>Ответственный</span><span class="stat-value">${car.responsible}</span></div>
-                <div class="stat-row"><span>Водитель</span><span class="stat-value">${car.driver || '—'}</span></div>
-                <div class="stat-row"><span>Пробег</span><span class="stat-value">${car.mileage} км</span></div>
-                <div class="stat-row"><span>Последнее ТО</span><span class="stat-value">${car.last_to} км</span></div>
-                <div class="stat-row"><span>Плановое ТО</span><span class="stat-value">${car.plan_to} км</span></div>
-                <div class="stat-row"><span>Тип ТС</span><span class="stat-value">${car.type}</span></div>
-                <div class="stat-row"><span>Подразделение</span><span class="stat-value">${car.dept}</span></div>
-                <div class="stat-row"><span>Статус</span><span class="stat-value">${car.tsStatus}</span></div>
-                <div class="stat-row"><span>Критичность</span><span class="stat-value">${car.criticality}</span></div>
-                <div class="stat-row"><span>Уведомление</span><span class="stat-value">${car.notification}</span></div>
-            `;
-
-            card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-
-        function closeCarInfo() {
-            document.getElementById('carInfoCard').style.display = 'none';
-            selectedCarId = null;
-        }
-
-        function editCarFromInfo() {
-            if (selectedCarId) {
-                const car = cars.find(c => c.id === selectedCarId);
-                if (car) showEditCarModal(car);
-            }
-        }
-
-        function deleteCarFromInfo() {
-            if (selectedCarId && confirm('Удалить этот автомобиль?')) {
-                cars = cars.filter(c => c.id !== selectedCarId);
-                saveData();
-                closeCarInfo();
-                updateDashboard();
-                showToast('🗑️ Автомобиль удалён');
-                syncToCloud();
-            }
-        }
-
         // ================================================================
-        //  МОДАЛЬНЫЕ ОКНА
-        // ================================================================
-
-        function openModal(html) {
-            document.getElementById('modalBody').innerHTML = html;
-            document.getElementById('modalOverlay').classList.add('active');
-        }
-
-        function closeModal() {
-            document.getElementById('modalOverlay').classList.remove('active');
-        }
-
-        document.getElementById('modalOverlay').addEventListener('click', function(e) {
-            if (e.target === this) closeModal();
-        });
-
-        // ================================================================
-        //  ДОБАВЛЕНИЕ АВТО
-        // ================================================================
-
-        function showAddCarModal() {
-            const html = `
-                <div class="modal-title">➕ Добавить автомобиль</div>
-                <div class="form-group"><label>Регистрационный номер *</label><input id="fReg" placeholder="Например: А001АА"></div>
-                <div class="form-group"><label>Модель *</label><input id="fModel" placeholder="Например: Toyota Camry"></div>
-                <div class="form-group"><label>СТС</label><input id="fSts" placeholder="Номер СТС"></div>
-                <div class="form-group"><label>Ответственный *</label><input id="fResp" placeholder="ФИО ответственного"></div>
-                <div class="form-group"><label>Водитель</label><input id="fDriver" placeholder="ФИО водителя" list="driversList"><datalist id="driversList">${references.drivers.map(d => `<option value="${d}">`).join('')}</datalist></div>
-                <div class="form-row">
-                    <div class="form-group"><label>Пробег (км)</label><input id="fMileage" type="number" value="0"></div>
-                    <div class="form-group"><label>Последнее ТО (км)</label><input id="fLastTO" type="number" value="0"></div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group"><label>Плановое ТО (км)</label><input id="fPlanTO" type="number" value="2000"></div>
-                    <div class="form-group"><label>Тип ТС</label><select id="fType">${references.carTypes.map(t => `<option value="${t}">${t}</option>`).join('')}</select></div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group"><label>Подразделение</label><select id="fDept">${references.departments.map(d => `<option value="${d}">${d}</option>`).join('')}</select></div>
-                    <div class="form-group"><label>Статус ТС</label><select id="fStatus">${references.statuses.map(s => `<option value="${s}">${s}</option>`).join('')}</select></div>
-                </div>
-                <div class="modal-actions">
-                    <button class="btn-secondary" onclick="closeModal()">Отмена</button>
-                    <button class="btn-primary" onclick="saveCar()">Сохранить</button>
-                </div>
-            `;
-            openModal(html);
-        }
-
-        function showEditCarModal(car) {
-            const html = `
-                <div class="modal-title">✏️ Редактировать автомобиль</div>
-                <div class="form-group"><label>Рег.номер *</label><input id="fReg" value="${car.reg}"></div>
-                <div class="form-group"><label>Модель *</label><input id="fModel" value="${car.model}"></div>
-                <div class="form-group"><label>СТС</label><input id="fSts" value="${car.sts || ''}"></div>
-                <div class="form-group"><label>Ответственный *</label><input id="fResp" value="${car.responsible}"></div>
-                <div class="form-group"><label>Водитель</label><input id="fDriver" value="${car.driver || ''}" list="driversList"><datalist id="driversList">${references.drivers.map(d => `<option value="${d}">`).join('')}</datalist></div>
-                <div class="form-row">
-                    <div class="form-group"><label>Пробег (км)</label><input id="fMileage" type="number" value="${car.mileage}"></div>
-                    <div class="form-group"><label>Последнее ТО (км)</label><input id="fLastTO" type="number" value="${car.last_to}"></div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group"><label>Плановое ТО (км)</label><input id="fPlanTO" type="number" value="${car.plan_to}"></div>
-                    <div class="form-group"><label>Тип ТС</label><select id="fType">${references.carTypes.map(t => `<option value="${t}" ${t===car.type?'selected':''}>${t}</option>`).join('')}</select></div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group"><label>Подразделение</label><select id="fDept">${references.departments.map(d => `<option value="${d}" ${d===car.dept?'selected':''}>${d}</option>`).join('')}</select></div>
-                    <div class="form-group"><label>Статус ТС</label><select id="fStatus">${references.statuses.map(s => `<option value="${s}" ${s===car.tsStatus?'selected':''}>${s}</option>`).join('')}</select></div>
-                </div>
-                <div class="modal-actions">
-                    <button class="btn-secondary" onclick="closeModal()">Отмена</button>
-                    <button class="btn-primary" onclick="saveCar(${car.id})">Сохранить</button>
-                </div>
-            `;
-            openModal(html);
-        }
-
-        function saveCar(id) {
-            const reg = document.getElementById('fReg').value.trim();
-            const model = document.getElementById('fModel').value.trim();
-            const sts = document.getElementById('fSts').value.trim();
-            const responsible = document.getElementById('fResp').value.trim();
-            const driver = document.getElementById('fDriver').value.trim();
-            const mileage = parseInt(document.getElementById('fMileage').value) || 0;
-            const last_to = parseInt(document.getElementById('fLastTO').value) || 0;
-            const plan_to = parseInt(document.getElementById('fPlanTO').value) || 2000;
-            const type = document.getElementById('fType').value;
-            const dept = document.getElementById('fDept').value;
-            const tsStatus = document.getElementById('fStatus').value;
-
-            if (!reg || !model || !responsible) {
-                showToast('Заполните все обязательные поля!', 'error');
-                return;
-            }
-
-            if (id) {
-                const car = cars.find(c => c.id === id);
-                if (car) {
-                    car.reg = reg;
-                    car.model = model;
-                    car.sts = sts;
-                    car.responsible = responsible;
-                    car.driver = driver;
-                    car.mileage = mileage;
-                    car.last_to = last_to;
-                    car.plan_to = plan_to;
-                    car.type = type;
-                    car.dept = dept;
-                    car.tsStatus = tsStatus;
-                    car.remainder = plan_to - mileage;
-                    saveData();
-                    closeModal();
-                    updateDashboard();
-                    showToast('✅ Данные обновлены');
-                    syncToCloud();
-                }
-            } else {
-                const newId = cars.length > 0 ? Math.max(...cars.map(c => c.id)) + 1 : 1;
-                const newCar = {
-                    id: newId,
-                    reg,
-                    model,
-                    sts,
-                    responsible,
-                    driver,
-                    mileage,
-                    last_to,
-                    plan_to,
-                    remainder: plan_to - mileage,
-                    status: '🟢',
-                    mark: '⏳ Ожидается',
-                    criticality: '🟢 НИЗКИЙ',
-                    notification: '✅ Всё в порядке',
-                    type,
-                    dept,
-                    tsStatus
-                };
-                cars.push(newCar);
-                saveData();
-                closeModal();
-                updateDashboard();
-                showToast('✅ Автомобиль добавлен');
-                syncToCloud();
-                addNotification('info', `🚗 Добавлен автомобиль ${reg} (${model})`);
-            }
-        }
-
-        // ================================================================
-        //  ЛИЧНЫЙ СОСТАВ
+        //  ЛИЧНЫЙ СОСТАВ (ФИО из Эксплуатантов)
         // ================================================================
 
         function renderPersons() {
@@ -2144,10 +2095,16 @@
             });
         }
 
+        // Добавление/редактирование личного состава (с подтягиванием из эксплуатантов)
         function showAddPersonModal() {
+            const exploitants = references.exploitants || [];
             const html = `
                 <div class="modal-title">👤 Добавить военнослужащего</div>
-                <div class="form-group"><label>ФИО *</label><input id="pFio" placeholder="Фамилия Имя Отчество"></div>
+                <div class="form-group">
+                    <label>ФИО *</label>
+                    <input id="pFio" placeholder="Фамилия Имя Отчество" list="exploitantsList">
+                    <datalist id="exploitantsList">${exploitants.map(e => `<option value="${e}">`).join('')}</datalist>
+                </div>
                 <div class="form-group"><label>Должность</label><select id="pPosition">${references.positions.map(p => `<option value="${p}">${p}</option>`).join('')}</select></div>
                 <div class="form-group"><label>Подразделение</label><select id="pDept">${references.departments.map(d => `<option value="${d}">${d}</option>`).join('')}</select></div>
                 <div class="form-group"><label>Звание</label><select id="pRank">${references.ranks.map(r => `<option value="${r}">${r}</option>`).join('')}</select></div>
@@ -2202,9 +2159,14 @@
             const person = persons.find(p => p.id === id);
             if (!person) return;
 
+            const exploitants = references.exploitants || [];
             const html = `
                 <div class="modal-title">✏️ Редактировать военнослужащего</div>
-                <div class="form-group"><label>ФИО *</label><input id="pFio" value="${person.fio}"></div>
+                <div class="form-group">
+                    <label>ФИО *</label>
+                    <input id="pFio" value="${person.fio}" list="exploitantsList">
+                    <datalist id="exploitantsList">${exploitants.map(e => `<option value="${e}">`).join('')}</datalist>
+                </div>
                 <div class="form-group"><label>Должность</label><select id="pPosition">${references.positions.map(p => `<option value="${p}" ${p===person.position?'selected':''}>${p}</option>`).join('')}</select></div>
                 <div class="form-group"><label>Подразделение</label><select id="pDept">${references.departments.map(d => `<option value="${d}" ${d===person.department?'selected':''}>${d}</option>`).join('')}</select></div>
                 <div class="form-group"><label>Звание</label><select id="pRank">${references.ranks.map(r => `<option value="${r}" ${r===person.rank?'selected':''}>${r}</option>`).join('')}</select></div>
@@ -2228,7 +2190,7 @@
         }
 
         // ================================================================
-        //  ВООРУЖЕНИЕ
+        //  ВООРУЖЕНИЕ (с карточкой по двойному клику)
         // ================================================================
 
         function renderWeapons() {
@@ -2254,163 +2216,153 @@
                     <td><span class="badge ${badgeClass}">${w.status}</span></td>
                     <td>${w.fault || '—'}</td>
                     <td>${w.repairRequest || '—'}</td>
-                    <td><button onclick="showWeaponInfo(${w.id})" style="background:none;border:none;color:#4a6a3a;font-size:14px;cursor:pointer;">👁</button></td>
+                    <td><span class="clickable" onclick="showWeaponCard(${w.id})">👁</span></td>
                 `;
+                tr.addEventListener('dblclick', function() {
+                    showWeaponCard(w.id);
+                });
                 tbody.appendChild(tr);
             });
         }
 
-        let selectedWeaponId = null;
-
-        function showWeaponInfo(id) {
+        // Карточка вооружения (по двойному клику)
+        function showWeaponCard(id) {
             const w = weapons.find(w => w.id === id);
             if (!w) return;
-            selectedWeaponId = id;
 
-            const card = document.getElementById('weaponInfoCard');
-            card.style.display = 'block';
-
-            const info = document.getElementById('weaponInfo');
-            info.innerHTML = `
-                <div class="stat-row"><span>Тип</span><span class="stat-value">${w.type}</span></div>
-                <div class="stat-row"><span>Бортовой №</span><span class="stat-value">${w.number}</span></div>
-                <div class="stat-row"><span>Статус</span><span class="stat-value">${w.status}</span></div>
-                <div class="stat-row"><span>Неисправность</span><span class="stat-value">${w.fault || '—'}</span></div>
-                <div class="stat-row"><span>Заявка на ремонт</span><span class="stat-value">${w.repairRequest || '—'}</span></div>
-            `;
-
-            card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-
-        function closeWeaponInfo() {
-            document.getElementById('weaponInfoCard').style.display = 'none';
-            selectedWeaponId = null;
-        }
-
-        function editWeaponFromInfo() {
-            if (selectedWeaponId) {
-                const w = weapons.find(w => w.id === selectedWeaponId);
-                if (w) showEditWeaponModal(w);
-            }
-        }
-
-        function deleteWeaponFromInfo() {
-            if (selectedWeaponId && confirm('Удалить эту единицу вооружения?')) {
-                weapons = weapons.filter(w => w.id !== selectedWeaponId);
-                saveData();
-                closeWeaponInfo();
-                updateDashboard();
-                showToast('🗑️ Запись удалена');
-                syncToCloud();
-            }
-        }
-
-        function showAddWeaponModal() {
             const html = `
-                <div class="modal-title">🔫 Добавить вооружение</div>
-                <div class="form-group"><label>Тип *</label><select id="wType">${references.weaponTypes.map(t => `<option value="${t}">${t}</option>`).join('')}</select></div>
-                <div class="form-group"><label>Бортовой номер *</label><input id="wNumber" placeholder="Например: Б-001"></div>
-                <div class="form-group"><label>Статус</label><select id="wStatus">${references.weaponStatuses.map(s => `<option value="${s}">${s}</option>`).join('')}</select></div>
-                <div class="form-group"><label>Неисправность</label><textarea id="wFault" placeholder="Описание неисправности"></textarea></div>
-                <div class="form-group"><label>Заявка на ремонт</label><input id="wRepair" placeholder="Номер и дата заявки"></div>
+                <div class="modal-title">🔫 Карточка вооружения</div>
+                <div class="weapon-card">
+                    <div class="field"><span class="label">Тип</span><span class="value">${w.type}</span></div>
+                    <div class="field"><span class="label">Бортовой №</span><span class="value">${w.number}</span></div>
+                    <div class="field"><span class="label">Статус</span><span class="value">${w.status}</span></div>
+                    <div class="field"><span class="label">Неисправность</span><span class="value">${w.fault || '—'}</span></div>
+                    <div class="field"><span class="label">Заявка на ремонт</span><span class="value">${w.repairRequest || '—'}</span></div>
+                    ${w.type === 'Барьер' ? `
+                        <div class="field"><span class="label">Характеристики</span><span class="value">Дальность: до 5 км, Мощность: 50 кВт</span></div>
+                    ` : w.type === 'Звездочет' ? `
+                        <div class="field"><span class="label">Характеристики</span><span class="value">Дальность: до 3 км, Мощность: 30 кВт</span></div>
+                    ` : ''}
+                </div>
                 <div class="modal-actions">
-                    <button class="btn-secondary" onclick="closeModal()">Отмена</button>
-                    <button class="btn-primary" onclick="saveWeapon()">Сохранить</button>
+                    <button class="btn-primary" onclick="printWeaponCard(${w.id})">🖨️ Печать</button>
+                    <button class="btn-primary" onclick="exportWeaponCard(${w.id})">📊 Excel</button>
+                    <button class="btn-secondary" onclick="closeModal()">Закрыть</button>
                 </div>
             `;
             openModal(html);
         }
 
-        function showEditWeaponModal(w) {
+        function printWeaponCard(id) {
+            const w = weapons.find(w => w.id === id);
+            if (!w) return;
+
             const html = `
-                <div class="modal-title">✏️ Редактировать вооружение</div>
-                <div class="form-group"><label>Тип *</label><select id="wType">${references.weaponTypes.map(t => `<option value="${t}" ${t===w.type?'selected':''}>${t}</option>`).join('')}</select></div>
-                <div class="form-group"><label>Бортовой номер *</label><input id="wNumber" value="${w.number}"></div>
-                <div class="form-group"><label>Статус</label><select id="wStatus">${references.weaponStatuses.map(s => `<option value="${s}" ${s===w.status?'selected':''}>${s}</option>`).join('')}</select></div>
-                <div class="form-group"><label>Неисправность</label><textarea id="wFault">${w.fault || ''}</textarea></div>
-                <div class="form-group"><label>Заявка на ремонт</label><input id="wRepair" value="${w.repairRequest || ''}"></div>
-                <div class="modal-actions">
-                    <button class="btn-secondary" onclick="closeModal()">Отмена</button>
-                    <button class="btn-primary" onclick="saveWeapon(${w.id})">Сохранить</button>
-                </div>
+                <html><head><meta charset="UTF-8"><style>
+                    body { font-family: Arial, sans-serif; margin: 30px; }
+                    h1 { text-align: center; color: #1a1e1a; border-bottom: 2px solid #4a6a3a; padding-bottom: 10px; }
+                    .card { border: 1px solid #ccc; border-radius: 8px; padding: 20px; max-width: 500px; margin: 0 auto; }
+                    .field { display: flex; padding: 6px 0; border-bottom: 1px solid #eee; }
+                    .label { font-weight: bold; width: 150px; color: #555; }
+                    .value { flex: 1; }
+                    .footer { text-align: center; margin-top: 20px; color: #666; font-size: 11px; }
+                </style></head>
+                <body>
+                    <h1>🔫 Карточка вооружения</h1>
+                    <div class="card">
+                        <div class="field"><span class="label">Тип</span><span class="value">${w.type}</span></div>
+                        <div class="field"><span class="label">Бортовой №</span><span class="value">${w.number}</span></div>
+                        <div class="field"><span class="label">Статус</span><span class="value">${w.status}</span></div>
+                        <div class="field"><span class="label">Неисправность</span><span class="value">${w.fault || '—'}</span></div>
+                        <div class="field"><span class="label">Заявка на ремонт</span><span class="value">${w.repairRequest || '—'}</span></div>
+                        ${w.type === 'Барьер' ? `<div class="field"><span class="label">Характеристики</span><span class="value">Дальность: до 5 км, Мощность: 50 кВт</span></div>` : ''}
+                        ${w.type === 'Звездочет' ? `<div class="field"><span class="label">Характеристики</span><span class="value">Дальность: до 3 км, Мощность: 30 кВт</span></div>` : ''}
+                    </div>
+                    <div class="footer">Учетная Система Бригада "БАРС-МОСКВА" • ${new Date().toLocaleString()}</div>
+                    <script>window.print(); setTimeout(window.close, 1000);<\/script>
+                </body></html>
             `;
-            openModal(html);
+            const win = window.open('', '_blank');
+            win.document.write(html);
+            win.document.close();
         }
 
-        function saveWeapon(id) {
-            const type = document.getElementById('wType').value;
-            const number = document.getElementById('wNumber').value.trim();
-            const status = document.getElementById('wStatus').value;
-            const fault = document.getElementById('wFault').value.trim();
-            const repairRequest = document.getElementById('wRepair').value.trim();
+        function exportWeaponCard(id) {
+            const w = weapons.find(w => w.id === id);
+            if (!w) return;
 
-            if (!type || !number) {
-                showToast('Заполните тип и бортовой номер!', 'error');
-                return;
-            }
+            const headers = ['Поле', 'Значение'];
+            const rows = [
+                ['Тип', w.type],
+                ['Бортовой №', w.number],
+                ['Статус', w.status],
+                ['Неисправность', w.fault || '—'],
+                ['Заявка на ремонт', w.repairRequest || '—']
+            ];
+            if (w.type === 'Барьер') rows.push(['Характеристики', 'Дальность: до 5 км, Мощность: 50 кВт']);
+            if (w.type === 'Звездочет') rows.push(['Характеристики', 'Дальность: до 3 км, Мощность: 30 кВт']);
 
-            if (id) {
-                const w = weapons.find(w => w.id === id);
-                if (w) {
-                    w.type = type;
-                    w.number = number;
-                    w.status = status;
-                    w.fault = fault;
-                    w.repairRequest = repairRequest;
-                    saveData();
-                    closeModal();
-                    updateDashboard();
-                    showToast('✅ Данные обновлены');
-                    syncToCloud();
-                }
-            } else {
-                const newId = weapons.length > 0 ? Math.max(...weapons.map(w => w.id)) + 1 : 1;
-                weapons.push({ id: newId, type, number, status, fault, repairRequest });
-                saveData();
-                closeModal();
-                updateDashboard();
-                showToast('✅ Вооружение добавлено');
-                syncToCloud();
-                addNotification('info', `🔫 Добавлен ${type} ${number}`);
-            }
+            const csv = [headers.join(';'), ...rows.map(r => r.join(';'))].join('\n');
+            downloadFile(csv, `weapon_${w.number}_${new Date().toISOString().slice(0,10)}.csv`, 'text/csv;charset=utf-8');
+            showToast('📊 Карточка выгружена в Excel');
         }
 
         // ================================================================
-        //  СКЛАД
+        //  СКЛАД (группировка по типам, артикул)
         // ================================================================
 
-        function renderItems() {
-            const tbody = document.getElementById('itemsTable');
-            tbody.innerHTML = '';
+        function renderStock() {
+            const container = document.getElementById('stockGroups');
+            container.innerHTML = '';
 
             if (items.length === 0) {
-                tbody.innerHTML =
-                    `<tr><td colspan="7" style="text-align:center;color:#8b949e;padding:12px;">Нет данных</td></tr>`;
+                container.innerHTML =
+                    `<div style="color:#8b949e;padding:12px;text-align:center;">Нет ТМЦ на складе</div>`;
                 return;
             }
 
-            items.forEach((item, idx) => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>${idx + 1}</td>
-                    <td><strong>${item.name}</strong></td>
-                    <td>${item.unit}</td>
-                    <td>${item.quantity}</td>
-                    <td>${item.storage}</td>
-                    <td>${item.note || '—'}</td>
-                    <td>
-                        <button onclick="editItem(${item.id})" style="background:none;border:none;color:#4a6a3a;cursor:pointer;">✏️</button>
-                        <button onclick="deleteItem(${item.id})" style="background:none;border:none;color:#f85149;cursor:pointer;">🗑️</button>
-                    </td>
+            // Группировка по типам
+            const stockTypes = references.stockTypes || ['Расходные материалы', 'Запасные части', 'Инструмент', 'ГСМ',
+                'Спецодежда', 'Прочее'
+            ];
+            const groups = {};
+            stockTypes.forEach(t => groups[t] = []);
+            items.forEach(item => {
+                const type = item.type || 'Прочее';
+                if (!groups[type]) groups[type] = [];
+                groups[type].push(item);
+            });
+
+            Object.keys(groups).forEach(type => {
+                const groupItems = groups[type];
+                if (groupItems.length === 0) return;
+
+                const div = document.createElement('div');
+                div.className = 'stock-group';
+                div.innerHTML = `
+                    <div class="group-title">${type} (${groupItems.length})</div>
+                    ${groupItems.map(item => `
+                        <div class="stock-item">
+                            <span><strong>${item.article || '—'}</strong> ${item.name}</span>
+                            <span>${item.quantity} ${item.unit} | ${item.storage || '—'}</span>
+                            <span>
+                                <button onclick="editItem(${item.id})" style="background:none;border:none;color:#4a6a3a;cursor:pointer;font-size:11px;">✏️</button>
+                                <button onclick="deleteItem(${item.id})" style="background:none;border:none;color:#f85149;cursor:pointer;font-size:11px;">✕</button>
+                            </span>
+                        </div>
+                    `).join('')}
                 `;
-                tbody.appendChild(tr);
+                container.appendChild(div);
             });
         }
 
         function showAddItemModal() {
+            const stockTypes = references.stockTypes || [];
             const html = `
                 <div class="modal-title">📦 Добавить ТМЦ</div>
                 <div class="form-group"><label>Наименование *</label><input id="iName" placeholder="Наименование ТМЦ"></div>
+                <div class="form-group"><label>Артикул</label><input id="iArticle" placeholder="Артикул"></div>
+                <div class="form-group"><label>Тип</label><select id="iType">${stockTypes.map(t => `<option value="${t}">${t}</option>`).join('')}</select></div>
                 <div class="form-group"><label>Единица измерения</label><select id="iUnit">${references.units.map(u => `<option value="${u}">${u}</option>`).join('')}</select></div>
                 <div class="form-group"><label>Количество</label><input id="iQuantity" type="number" value="0"></div>
                 <div class="form-group"><label>Склад</label><input id="iStorage" placeholder="Номер склада"></div>
@@ -2425,6 +2377,8 @@
 
         function saveItem(id) {
             const name = document.getElementById('iName').value.trim();
+            const article = document.getElementById('iArticle').value.trim();
+            const type = document.getElementById('iType').value;
             const unit = document.getElementById('iUnit').value;
             const quantity = parseInt(document.getElementById('iQuantity').value) || 0;
             const storage = document.getElementById('iStorage').value.trim();
@@ -2439,6 +2393,8 @@
                 const item = items.find(i => i.id === id);
                 if (item) {
                     item.name = name;
+                    item.article = article;
+                    item.type = type;
                     item.unit = unit;
                     item.quantity = quantity;
                     item.storage = storage;
@@ -2451,7 +2407,7 @@
                 }
             } else {
                 const newId = items.length > 0 ? Math.max(...items.map(i => i.id)) + 1 : 1;
-                items.push({ id: newId, name, unit, quantity, storage, note });
+                items.push({ id: newId, name, article, type, unit, quantity, storage, note });
                 saveData();
                 closeModal();
                 updateDashboard();
@@ -2465,9 +2421,12 @@
             const item = items.find(i => i.id === id);
             if (!item) return;
 
+            const stockTypes = references.stockTypes || [];
             const html = `
                 <div class="modal-title">✏️ Редактировать ТМЦ</div>
                 <div class="form-group"><label>Наименование *</label><input id="iName" value="${item.name}"></div>
+                <div class="form-group"><label>Артикул</label><input id="iArticle" value="${item.article || ''}"></div>
+                <div class="form-group"><label>Тип</label><select id="iType">${stockTypes.map(t => `<option value="${t}" ${t===item.type?'selected':''}>${t}</option>`).join('')}</select></div>
                 <div class="form-group"><label>Единица измерения</label><select id="iUnit">${references.units.map(u => `<option value="${u}" ${u===item.unit?'selected':''}>${u}</option>`).join('')}</select></div>
                 <div class="form-group"><label>Количество</label><input id="iQuantity" type="number" value="${item.quantity}"></div>
                 <div class="form-group"><label>Склад</label><input id="iStorage" value="${item.storage}"></div>
@@ -2586,6 +2545,261 @@
         }
 
         // ================================================================
+        //  ОТЧЁТЫ (печать + Excel + диалог выбора)
+        // ================================================================
+
+        function showReportDialog() {
+            const html = `
+                <div class="modal-title">📊 Выбор данных для отчёта</div>
+                <div class="form-group">
+                    <label>Выберите данные:</label>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px;">
+                        <label style="display:flex;align-items:center;gap:6px;font-size:12px;">
+                            <input type="checkbox" id="rptCars" checked> 🚗 Автопарк
+                        </label>
+                        <label style="display:flex;align-items:center;gap:6px;font-size:12px;">
+                            <input type="checkbox" id="rptPersons" checked> 👥 Личный состав
+                        </label>
+                        <label style="display:flex;align-items:center;gap:6px;font-size:12px;">
+                            <input type="checkbox" id="rptWeapons" checked> 🔫 Вооружение
+                        </label>
+                        <label style="display:flex;align-items:center;gap:6px;font-size:12px;">
+                            <input type="checkbox" id="rptStock" checked> 📦 Склад
+                        </label>
+                        <label style="display:flex;align-items:center;gap:6px;font-size:12px;">
+                            <input type="checkbox" id="rptHistory" checked> 📋 История ТО
+                        </label>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button class="btn-secondary" onclick="closeModal()">Отмена</button>
+                    <button class="btn-primary" onclick="generateReport()">📊 Сформировать отчёт</button>
+                    <button class="btn-primary" onclick="generateExcelReport()">📊 Выгрузить в Excel</button>
+                </div>
+            `;
+            openModal(html);
+        }
+
+        function generateReport() {
+            closeModal();
+            let html = `
+                <html><head><meta charset="UTF-8"><style>
+                    body { font-family: Arial, sans-serif; margin: 20px; }
+                    h1 { text-align: center; color: #1a1e1a; border-bottom: 2px solid #4a6a3a; padding-bottom: 10px; }
+                    h2 { color: #4a6a3a; margin-top: 20px; border-bottom: 1px solid #ccc; padding-bottom: 4px; }
+                    table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 12px; }
+                    th { background: #1a1e1a; color: white; padding: 6px; text-align: left; border: 1px solid #333; }
+                    td { padding: 4px 6px; border: 1px solid #ccc; }
+                    .footer { text-align: center; margin-top: 30px; color: #666; font-size: 11px; border-top: 1px solid #ccc; padding-top: 10px; }
+                </style></head>
+                <body>
+                    <h1>📊 ОТЧЁТ ПО БРИГАДЕ "БАРС-МОСКВА"</h1>
+                    <p style="text-align:center;">Дата формирования: ${new Date().toLocaleString()}</p>
+            `;
+
+            const rptCars = document.getElementById('rptCars').checked;
+            const rptPersons = document.getElementById('rptPersons').checked;
+            const rptWeapons = document.getElementById('rptWeapons').checked;
+            const rptStock = document.getElementById('rptStock').checked;
+            const rptHistory = document.getElementById('rptHistory').checked;
+
+            if (rptCars && cars.length > 0) {
+                html += `<h2>🚗 Автопарк (${cars.length})</h2><table><thead><tr><th>№</th><th>Рег.номер</th><th>Модель</th><th>Пробег</th><th>Остаток</th><th>Статус</th></tr></thead><tbody>`;
+                cars.forEach((c, i) => {
+                    html +=
+                        `<tr><td>${i+1}</td><td>${c.reg}</td><td>${c.model}</td><td>${c.mileage}</td><td>${c.remainder}</td><td>${c.status}</td></tr>`;
+                });
+                html += `</tbody></table>`;
+            }
+
+            if (rptPersons && persons.length > 0) {
+                html += `<h2>👥 Личный состав (${persons.length})</h2><table><thead><tr><th>№</th><th>ФИО</th><th>Должность</th><th>Подразделение</th><th>Звание</th></tr></thead><tbody>`;
+                persons.forEach((p, i) => {
+                    html +=
+                        `<tr><td>${i+1}</td><td>${p.fio}</td><td>${p.position}</td><td>${p.department}</td><td>${p.rank}</td></tr>`;
+                });
+                html += `</tbody></table>`;
+            }
+
+            if (rptWeapons && weapons.length > 0) {
+                html += `<h2>🔫 Вооружение (${weapons.length})</h2><table><thead><tr><th>№</th><th>Тип</th><th>Бортовой №</th><th>Статус</th><th>Неисправность</th></tr></thead><tbody>`;
+                weapons.forEach((w, i) => {
+                    html +=
+                        `<tr><td>${i+1}</td><td>${w.type}</td><td>${w.number}</td><td>${w.status}</td><td>${w.fault || '—'}</td></tr>`;
+                });
+                html += `</tbody></table>`;
+            }
+
+            if (rptStock && items.length > 0) {
+                html += `<h2>📦 Склад (${items.length})</h2><table><thead><tr><th>№</th><th>Наименование</th><th>Артикул</th><th>Кол-во</th><th>Ед. изм.</th><th>Склад</th></tr></thead><tbody>`;
+                items.forEach((item, i) => {
+                    html +=
+                        `<tr><td>${i+1}</td><td>${item.name}</td><td>${item.article || '—'}</td><td>${item.quantity}</td><td>${item.unit}</td><td>${item.storage || '—'}</td></tr>`;
+                });
+                html += `</tbody></table>`;
+            }
+
+            if (rptHistory && historyData.length > 0) {
+                html += `<h2>📋 История ТО (${historyData.length})</h2><table><thead><tr><th>№</th><th>Дата</th><th>Автомобиль</th><th>Пробег</th><th>Тип ТО</th></tr></thead><tbody>`;
+                const sorted = [...historyData].sort((a, b) => b.id - a.id);
+                sorted.forEach((h, i) => {
+                    html +=
+                        `<tr><td>${i+1}</td><td>${h.date}</td><td>${h.reg}</td><td>${h.mileage}</td><td>${h.toType}</td></tr>`;
+                });
+                html += `</tbody></table>`;
+            }
+
+            html += `
+                    <div class="footer">Учетная Система Бригада "БАРС-МОСКВА" • ${new Date().toLocaleString()}</div>
+                    <script>window.print(); setTimeout(window.close, 1000);<\/script>
+                </body></html>
+            `;
+
+            const win = window.open('', '_blank');
+            win.document.write(html);
+            win.document.close();
+            showToast('📊 Отчёт сформирован');
+        }
+
+        function generateExcelReport() {
+            closeModal();
+            const rptCars = document.getElementById('rptCars').checked;
+            const rptPersons = document.getElementById('rptPersons').checked;
+            const rptWeapons = document.getElementById('rptWeapons').checked;
+            const rptStock = document.getElementById('rptStock').checked;
+            const rptHistory = document.getElementById('rptHistory').checked;
+
+            let csv = 'Учетная Система Бригада "БАРС-МОСКВА"\n';
+            csv += `Отчёт от: ${new Date().toLocaleString()}\n\n`;
+
+            if (rptCars && cars.length > 0) {
+                csv += '=== АВТОПАРК ===\n';
+                csv += '№;Рег.номер;Модель;Пробег;Остаток;Статус\n';
+                cars.forEach((c, i) => {
+                    csv += `${i+1};${c.reg};${c.model};${c.mileage};${c.remainder};${c.status}\n`;
+                });
+                csv += '\n';
+            }
+
+            if (rptPersons && persons.length > 0) {
+                csv += '=== ЛИЧНЫЙ СОСТАВ ===\n';
+                csv += '№;ФИО;Должность;Подразделение;Звание;Телефон\n';
+                persons.forEach((p, i) => {
+                    csv += `${i+1};${p.fio};${p.position};${p.department};${p.rank};${p.phone || ''}\n`;
+                });
+                csv += '\n';
+            }
+
+            if (rptWeapons && weapons.length > 0) {
+                csv += '=== ВООРУЖЕНИЕ ===\n';
+                csv += '№;Тип;Бортовой №;Статус;Неисправность;Заявка\n';
+                weapons.forEach((w, i) => {
+                    csv += `${i+1};${w.type};${w.number};${w.status};${w.fault || ''};${w.repairRequest || ''}\n`;
+                });
+                csv += '\n';
+            }
+
+            if (rptStock && items.length > 0) {
+                csv += '=== СКЛАД ===\n';
+                csv += '№;Наименование;Артикул;Тип;Кол-во;Ед.изм.;Склад;Примечание\n';
+                items.forEach((item, i) => {
+                    csv +=
+                        `${i+1};${item.name};${item.article || ''};${item.type || ''};${item.quantity};${item.unit};${item.storage || ''};${item.note || ''}\n`;
+                });
+                csv += '\n';
+            }
+
+            if (rptHistory && historyData.length > 0) {
+                csv += '=== ИСТОРИЯ ТО ===\n';
+                csv += '№;Дата;Автомобиль;Модель;Пробег;Тип ТО;Примечание\n';
+                const sorted = [...historyData].sort((a, b) => b.id - a.id);
+                sorted.forEach((h, i) => {
+                    csv += `${i+1};${h.date};${h.reg};${h.model};${h.mileage};${h.toType};${h.note || ''}\n`;
+                });
+                csv += '\n';
+            }
+
+            downloadFile(csv, `report_${new Date().toISOString().slice(0,10)}.csv`, 'text/csv;charset=utf-8');
+            showToast('📊 Отчёт выгружен в Excel');
+        }
+
+        function printReport() {
+            // Быстрая печать текущих данных
+            const html = `
+                <html><head><meta charset="UTF-8"><style>
+                    body { font-family: Arial, sans-serif; margin: 20px; }
+                    h1 { text-align: center; color: #1a1e1a; border-bottom: 2px solid #4a6a3a; padding-bottom: 10px; }
+                    .summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 15px 0; }
+                    .stat { background: #f5f5f5; padding: 10px; border-radius: 8px; text-align: center; }
+                    .stat .num { font-size: 24px; font-weight: bold; color: #4a6a3a; }
+                    .stat .label { font-size: 12px; color: #666; }
+                    .footer { text-align: center; margin-top: 30px; color: #666; font-size: 11px; border-top: 1px solid #ccc; padding-top: 10px; }
+                </style></head>
+                <body>
+                    <h1>📊 ОТЧЁТ ПО БРИГАДЕ "БАРС-МОСКВА"</h1>
+                    <p style="text-align:center;">Дата формирования: ${new Date().toLocaleString()}</p>
+                    <div class="summary">
+                        <div class="stat"><div class="num">${cars.length}</div><div class="label">🚗 Автомобилей</div></div>
+                        <div class="stat"><div class="num">${persons.length}</div><div class="label">👥 Личного состава</div></div>
+                        <div class="stat"><div class="num">${weapons.length}</div><div class="label">🔫 Единиц вооружения</div></div>
+                        <div class="stat"><div class="num">${items.length}</div><div class="label">📦 Позиций на складе</div></div>
+                    </div>
+                    <div class="footer">Учетная Система Бригада "БАРС-МОСКВА" • ${new Date().toLocaleString()}</div>
+                    <script>window.print(); setTimeout(window.close, 1000);<\/script>
+                </body></html>
+            `;
+            const win = window.open('', '_blank');
+            win.document.write(html);
+            win.document.close();
+            showToast('🖨️ Отправлено на печать');
+        }
+
+        function exportToExcel() {
+            // Экспорт всех данных в один CSV
+            let csv = 'Учетная Система Бригада "БАРС-МОСКВА"\n';
+            csv += `Экспорт от: ${new Date().toLocaleString()}\n\n`;
+
+            csv += '=== АВТОПАРК ===\n';
+            csv += '№;Рег.номер;Модель;СТС;Пробег;Остаток;Статус\n';
+            cars.forEach((c, i) => {
+                csv += `${i+1};${c.reg};${c.model};${c.sts || ''};${c.mileage};${c.remainder};${c.status}\n`;
+            });
+            csv += '\n';
+
+            csv += '=== ЛИЧНЫЙ СОСТАВ ===\n';
+            csv += '№;ФИО;Должность;Подразделение;Звание;Телефон\n';
+            persons.forEach((p, i) => {
+                csv += `${i+1};${p.fio};${p.position};${p.department};${p.rank};${p.phone || ''}\n`;
+            });
+            csv += '\n';
+
+            csv += '=== ВООРУЖЕНИЕ ===\n';
+            csv += '№;Тип;Бортовой №;Статус;Неисправность;Заявка\n';
+            weapons.forEach((w, i) => {
+                csv += `${i+1};${w.type};${w.number};${w.status};${w.fault || ''};${w.repairRequest || ''}\n`;
+            });
+            csv += '\n';
+
+            csv += '=== СКЛАД ===\n';
+            csv += '№;Наименование;Артикул;Тип;Кол-во;Ед.изм.;Склад;Примечание\n';
+            items.forEach((item, i) => {
+                csv +=
+                    `${i+1};${item.name};${item.article || ''};${item.type || ''};${item.quantity};${item.unit};${item.storage || ''};${item.note || ''}\n`;
+            });
+            csv += '\n';
+
+            csv += '=== ИСТОРИЯ ТО ===\n';
+            csv += '№;Дата;Автомобиль;Модель;Пробег;Тип ТО;Примечание\n';
+            const sorted = [...historyData].sort((a, b) => b.id - a.id);
+            sorted.forEach((h, i) => {
+                csv += `${i+1};${h.date};${h.reg};${h.model};${h.mileage};${h.toType};${h.note || ''}\n`;
+            });
+
+            downloadFile(csv, `bars_full_${new Date().toISOString().slice(0,10)}.csv`, 'text/csv;charset=utf-8');
+            showToast('📊 Все данные выгружены в Excel');
+        }
+
+        // ================================================================
         //  АДМИНИСТРИРОВАНИЕ
         // ================================================================
 
@@ -2612,7 +2826,7 @@
         }
 
         // ================================================================
-        //  ЭКСПОРТ
+        //  ЭКСПОРТ / ЗАГРУЗКА
         // ================================================================
 
         function exportAllData() {
@@ -2625,37 +2839,11 @@
                 references,
                 notifications,
                 exported: new Date().toISOString(),
-                version: '5.0'
+                version: '6.0'
             };
             const json = JSON.stringify(data, null, 2);
             downloadFile(json, `bars_data_${new Date().toISOString().slice(0,10)}.json`, 'application/json');
             showToast('📤 Данные экспортированы');
-        }
-
-        function exportReport() {
-            const report = {
-                title: 'Отчёт по бригаде "Барс-Москва"',
-                date: new Date().toISOString(),
-                summary: {
-                    cars: cars.length,
-                    persons: persons.length,
-                    weapons: weapons.length,
-                    items: items.length,
-                    history: historyData.length,
-                    notifications: notifications.length
-                },
-                critical: {
-                    overdue: cars.filter(c => c.remainder < 0).length,
-                    repairWeapons: weapons.filter(w => w.status === 'В ремонте').length,
-                    faultWeapons: weapons.filter(w => w.status === 'Неисправно').length
-                },
-                cars: cars.map(c => ({ reg: c.reg, model: c.model, mileage: c.mileage, status: c.status })),
-                persons: persons.map(p => ({ fio: p.fio, position: p.position, department: p.department })),
-                weapons: weapons.map(w => ({ type: w.type, number: w.number, status: w.status }))
-            };
-            const json = JSON.stringify(report, null, 2);
-            downloadFile(json, `bars_report_${new Date().toISOString().slice(0,10)}.json`, 'application/json');
-            showToast('📊 Отчёт сформирован');
         }
 
         function downloadFile(data, filename, mimeType) {
@@ -2713,7 +2901,7 @@
         }
 
         // ================================================================
-        //  ВКЛАДКИ (переключение внутри)
+        //  ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК
         // ================================================================
 
         document.querySelectorAll('.tab-btn').forEach(btn => {
@@ -2732,6 +2920,70 @@
         // ================================================================
         //  ЗАПУСК
         // ================================================================
+
+        // Начальные данные для автомобилей (дополнены СТС)
+        const defaultCars = [
+            { id: 1, reg: 'Е390НУ977', model: 'Foton Tunland G9', sts: '1234567890', responsible: 'Ремнев Артем Сергеевич',
+                driver: 'Ремнев Артем Сергеевич', mileage: 5359, last_to: 2000, plan_to: 12000, remainder: 3359,
+                status: '🟢', mark: '✅ Пройдено', criticality: '🟢 НИЗКИЙ', notification: '✅ Всё в порядке',
+                type: 'Легковой', dept: 'Штаб', tsStatus: 'В эксплуатации' },
+            { id: 2, reg: 'Е420НУ977', model: 'Foton Tunland G9', sts: '0987654321', responsible: 'Федоров Богдан Владимирович',
+                driver: 'Федоров Богдан Владимирович', mileage: 7485, last_to: 2000, plan_to: 12000, remainder: 5485,
+                status: '🟢', mark: '✅ Пройдено', criticality: '🟢 НИЗКИЙ', notification: '✅ Всё в порядке',
+                type: 'Легковой', dept: 'Инструкторский состав', tsStatus: 'В эксплуатации' },
+            { id: 3, reg: 'Е391НУ977', model: 'Foton Tunland G9', sts: '1122334455', responsible: 'Магомедов Магомед Насрудинович',
+                driver: 'Никифоров Роман Владимирович', mileage: 0, last_to: 2000, plan_to: 12000, remainder: 2000,
+                status: '🟡', mark: '⏳ Скоро ТО', criticality: '🟡 СРЕДНИЙ', notification: '📅 Осталось ≤ 1000 км',
+                type: 'Легковой', dept: 'Штаб', tsStatus: 'В эксплуатации' },
+            { id: 4, reg: 'Е445НУ977', model: 'Foton Tunland G9', sts: '5544332211', responsible: 'Магомедов Магомед Насрудинович',
+                driver: 'Магомедов Магомед Насрудинович', mileage: 144, last_to: 0, plan_to: 2000, remainder: 1856,
+                status: '🟢', mark: '✅ Пройдено', criticality: '🟢 НИЗКИЙ', notification: '✅ Всё в порядке',
+                type: 'Легковой', dept: 'Снабжение', tsStatus: 'В эксплуатации' },
+            { id: 5, reg: 'Е474НУ977', model: 'Foton Tunland G9', sts: '6677889900', responsible: 'Зятиков Илья Михайлович',
+                driver: 'Зятиков Илья Михайлович', mileage: 4185, last_to: 2000, plan_to: 12000, remainder: 2185,
+                status: '🟢', mark: '✅ Пройдено', criticality: '🟢 НИЗКИЙ', notification: '✅ Всё в порядке',
+                type: 'Легковой', dept: 'Штаб', tsStatus: 'В эксплуатации' }
+        ];
+
+        const defaultPersons = [
+            { id: 1, fio: 'Ремнев Артем Сергеевич', position: 'Старшина', department: 'Штаб', rank: 'Старшина',
+                phone: '+7 999 123-45-67' },
+            { id: 2, fio: 'Магомедов Магомед Насрудинович', position: 'Водитель', department: 'Снабжение', rank: 'Сержант',
+                phone: '+7 999 234-56-78' },
+            { id: 3, fio: 'Федоров Богдан Владимирович', position: 'Водитель', department: 'Инструкторский состав',
+                rank: 'Ефрейтор', phone: '+7 999 345-67-89' },
+            { id: 4, fio: 'Зятиков Илья Михайлович', position: 'Командир', department: 'Штаб', rank: 'Капитан',
+                phone: '+7 999 456-78-90' }
+        ];
+
+        const defaultWeapons = [
+            { id: 1, type: 'Барьер', number: 'Б-001', status: 'Исправно', fault: '', repairRequest: '' },
+            { id: 2, type: 'Барьер', number: 'Б-002', status: 'В ремонте', fault: 'Неисправен блок наведения',
+                repairRequest: 'Заявка №1 от 01.09.2026' },
+            { id: 3, type: 'Звездочет', number: 'З-001', status: 'Исправно', fault: '', repairRequest: '' },
+            { id: 4, type: 'Звездочет', number: 'З-002', status: 'Неисправно', fault: 'Сбой системы охлаждения',
+                repairRequest: 'Заявка №2 от 05.09.2026' }
+        ];
+
+        const defaultItems = [
+            { id: 1, name: 'Масло моторное 5W-30', article: 'M-001', type: 'Расходные материалы', unit: 'л',
+                quantity: 50, storage: 'Склад №1', note: 'Для двигателей' },
+            { id: 2, name: 'Фильтр масляный', article: 'F-001', type: 'Запасные части', unit: 'шт.',
+                quantity: 30, storage: 'Склад №1', note: '' },
+            { id: 3, name: 'Тормозные колодки', article: 'T-001', type: 'Запасные части', unit: 'компл.',
+                quantity: 15, storage: 'Склад №2', note: 'Для легковых' },
+            { id: 4, name: 'Свечи зажигания', article: 'S-001', type: 'Запасные части', unit: 'шт.',
+                quantity: 100, storage: 'Склад №2', note: '' },
+            { id: 5, name: 'Набор гаечных ключей', article: 'I-001', type: 'Инструмент', unit: 'компл.',
+                quantity: 10, storage: 'Склад №3', note: '' }
+        ];
+
+        const defaultHistory = [
+            { id: 1, date: '13.08.2026', reg: 'Е391НУ977', model: 'Foton Tunland G9', mileage: 1998,
+                toType: 'ТО-0 (2 000 км)', note: '' },
+            { id: 2, date: '12.08.2026', reg: 'Е390НУ977', model: 'Foton Tunland G9', mileage: 1999,
+                toType: 'ТО-0 (2 000 км)', note: '' }
+        ];
 
         document.addEventListener('DOMContentLoaded', function() {
             loadData();
@@ -2753,7 +3005,6 @@
             document.getElementById('filterReg').addEventListener('input', renderCars);
             document.getElementById('filterModel').addEventListener('input', renderCars);
 
-            // Автосинхронизация
             setInterval(() => {
                 if (navigator.onLine && currentRole) {
                     syncToCloud();
