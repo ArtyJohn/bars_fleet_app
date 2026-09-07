@@ -11,20 +11,10 @@
         /* ================================================================
            БАЗА
            ================================================================ */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-            background: #0d1117;
-            color: #e6edf3;
-            padding: 10px;
-            min-height: 100vh;
-            padding-bottom: 80px;
+            background: #0d1117; color: #e6edf3; padding: 10px; min-height: 100vh; padding-bottom: 80px;
             overflow-x: hidden;
         }
 
@@ -32,627 +22,125 @@
            ШАПКА
            ================================================================ */
         .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 14px;
-            background: linear-gradient(135deg, #161b22, #0d1117);
-            border-radius: 12px;
-            border: 1px solid #2d3a2d;
-            margin-bottom: 10px;
-            flex-wrap: wrap;
-            gap: 6px;
+            display: flex; justify-content: space-between; align-items: center; padding: 10px 14px;
+            background: linear-gradient(135deg, #161b22, #0d1117); border-radius: 12px;
+            border: 1px solid #2d3a2d; margin-bottom: 10px; flex-wrap: wrap; gap: 6px;
         }
-
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .header-left .logo {
-            font-size: 22px;
-        }
-
-        .header-left .title {
-            font-size: 14px;
-            font-weight: 700;
-            color: #e6edf3;
-        }
-
-        .header-left .subtitle {
-            font-size: 9px;
-            color: #4a6a3a;
-            background: rgba(74, 106, 58, 0.2);
-            padding: 2px 8px;
-            border-radius: 20px;
-        }
-
-        .header-left .sync-status {
-            font-size: 9px;
-            padding: 2px 8px;
-            border-radius: 20px;
-            background: #1c2128;
-            color: #8b949e;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .header-left .sync-status.online {
-            color: #3fb950;
-            border-color: #3fb950;
-        }
-
-        .header-left .sync-status.offline {
-            color: #f85149;
-            border-color: #f85149;
-        }
-
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            flex-wrap: wrap;
-        }
-
-        .header-right .user-badge {
-            font-size: 11px;
-            color: #8b949e;
-            background: #1c2128;
-            padding: 4px 12px;
-            border-radius: 20px;
-            border: 1px solid #2d3a2d;
-        }
-
+        .header-left { display: flex; align-items: center; gap: 10px; }
+        .header-left .logo { font-size: 22px; }
+        .header-left .title { font-size: 14px; font-weight: 700; color: #e6edf3; }
+        .header-left .subtitle { font-size: 9px; color: #4a6a3a; background: rgba(74,106,58,0.2); padding: 2px 8px; border-radius: 20px; }
+        .header-left .sync-status { font-size: 9px; padding: 2px 8px; border-radius: 20px; background: #1c2128; color: #8b949e; display: flex; align-items: center; gap: 4px; }
+        .header-left .sync-status.online { color: #3fb950; }
+        .header-left .sync-status.offline { color: #f85149; }
+        .header-right { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+        .header-right .user-badge { font-size: 11px; color: #8b949e; background: #1c2128; padding: 4px 12px; border-radius: 20px; border: 1px solid #2d3a2d; }
         .btn-header {
-            background: #2d3a2d;
-            border: 1px solid #4a6a3a;
-            color: #e6edf3;
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
-            position: relative;
+            background: #2d3a2d; border: 1px solid #4a6a3a; color: #e6edf3; padding: 6px 12px;
+            border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; transition: 0.2s; position: relative;
         }
-
-        .btn-header:active {
-            transform: scale(0.95);
-        }
-
-        .btn-header .badge-notif {
-            position: absolute;
-            top: -4px;
-            right: -4px;
-            background: #f85149;
-            color: #fff;
-            font-size: 9px;
-            border-radius: 50%;
-            width: 18px;
-            height: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-        }
-
-        .btn-header.logout {
-            border-color: #6a3a3a;
-            color: #f85149;
-        }
-
-        .btn-header.back {
-            border-color: #3a5a6a;
-            color: #4a8aaa;
-        }
-
-        .btn-header.refs-toggle {
-            background: #2d2d1a;
-            border-color: #6a6a3a;
-            font-size: 14px;
-            padding: 6px 10px;
-        }
+        .btn-header:active { transform: scale(0.95); }
+        .btn-header .badge-notif { position: absolute; top: -4px; right: -4px; background: #f85149; color: #fff; font-size: 9px; border-radius: 50%; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; font-weight: 700; }
+        .btn-header.logout { border-color: #6a3a3a; color: #f85149; }
+        .btn-header.back { border-color: #3a5a6a; color: #4a8aaa; }
+        .btn-header.refs-toggle { background: #2d2d1a; border-color: #6a6a3a; font-size: 14px; padding: 6px 10px; }
 
         /* ================================================================
            УВЕДОМЛЕНИЯ
            ================================================================ */
-        .notif-panel {
-            display: none;
-            background: #161b22;
-            border: 1px solid #2d3a2d;
-            border-radius: 10px;
-            padding: 10px 12px;
-            margin-bottom: 10px;
-            max-height: 200px;
-            overflow-y: auto;
-            animation: fadeIn 0.25s ease;
-        }
-
-        .notif-panel.active {
-            display: block;
-        }
-
-        .notif-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 6px 0;
-            border-bottom: 1px solid #1c2128;
-            font-size: 12px;
-        }
-
-        .notif-item:last-child {
-            border-bottom: none;
-        }
-
-        .notif-item .critical {
-            color: #f85149;
-            font-weight: 600;
-        }
-
-        .notif-item .warning {
-            color: #f0883e;
-            font-weight: 600;
-        }
-
-        .notif-item .info {
-            color: #3fb950;
-            font-weight: 600;
-        }
-
-        .notif-item .time {
-            color: #8b949e;
-            font-size: 10px;
-        }
-
-        .notif-item .dismiss {
-            background: none;
-            border: none;
-            color: #8b949e;
-            cursor: pointer;
-            font-size: 14px;
-        }
+        .notif-panel { display: none; background: #161b22; border: 1px solid #2d3a2d; border-radius: 10px; padding: 10px 12px; margin-bottom: 10px; max-height: 200px; overflow-y: auto; animation: fadeIn 0.25s ease; }
+        .notif-panel.active { display: block; }
+        .notif-item { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid #1c2128; font-size: 12px; }
+        .notif-item:last-child { border-bottom: none; }
+        .notif-item .critical { color: #f85149; font-weight: 600; }
+        .notif-item .warning { color: #f0883e; font-weight: 600; }
+        .notif-item .info { color: #3fb950; font-weight: 600; }
+        .notif-item .time { color: #8b949e; font-size: 10px; }
+        .notif-item .dismiss { background: none; border: none; color: #8b949e; cursor: pointer; font-size: 14px; }
 
         /* ================================================================
            СПРАВОЧНИКИ (5 позиций + скролл)
            ================================================================ */
-        .refs-panel {
-            display: none;
-            background: #161b22;
-            border: 1px solid #2d3a2d;
-            border-radius: 10px;
-            padding: 10px 12px;
-            margin-bottom: 10px;
-            animation: fadeIn 0.25s ease;
-        }
-
-        .refs-panel.active {
-            display: block;
-        }
-
-        .refs-panel .refs-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 6px;
-        }
-
-        .refs-panel .ref-group {
-            background: #0d1117;
-            border-radius: 6px;
-            padding: 6px 10px;
-            border: 1px solid #1c2128;
-            max-height: 200px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .refs-panel .ref-group .ref-label {
-            font-size: 9px;
-            color: #4a6a3a;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-            border-bottom: 1px solid #1c2128;
-            padding-bottom: 2px;
-            margin-bottom: 2px;
-            flex-shrink: 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .refs-panel .ref-group .ref-list {
-            overflow-y: auto;
-            flex: 1;
-        }
-
-        .refs-panel .ref-group .ref-list::-webkit-scrollbar {
-            width: 3px;
-        }
-        .refs-panel .ref-group .ref-list::-webkit-scrollbar-track {
-            background: #0d1117;
-        }
-        .refs-panel .ref-group .ref-list::-webkit-scrollbar-thumb {
-            background: #2d3a2d;
-            border-radius: 3px;
-        }
-
-        .refs-panel .ref-group .ref-item {
-            font-size: 11px;
-            color: #8b949e;
-            padding: 2px 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #1c2128;
-        }
-
-        .refs-panel .ref-group .ref-item:last-child {
-            border-bottom: none;
-        }
-
-        .refs-panel .ref-group .ref-item .del {
-            color: #f85149;
-            cursor: pointer;
-            font-size: 12px;
-            padding: 0 4px;
-        }
+        .refs-panel { display: none; background: #161b22; border: 1px solid #2d3a2d; border-radius: 10px; padding: 10px 12px; margin-bottom: 10px; animation: fadeIn 0.25s ease; }
+        .refs-panel.active { display: block; }
+        .refs-panel .refs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 6px; }
+        .refs-panel .ref-group { background: #0d1117; border-radius: 6px; padding: 6px 10px; border: 1px solid #1c2128; max-height: 200px; display: flex; flex-direction: column; }
+        .refs-panel .ref-group .ref-label { font-size: 9px; color: #4a6a3a; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; border-bottom: 1px solid #1c2128; padding-bottom: 2px; margin-bottom: 2px; flex-shrink: 0; display: flex; justify-content: space-between; align-items: center; }
+        .refs-panel .ref-group .ref-list { overflow-y: auto; flex: 1; }
+        .refs-panel .ref-group .ref-list::-webkit-scrollbar { width: 3px; }
+        .refs-panel .ref-group .ref-list::-webkit-scrollbar-track { background: #0d1117; }
+        .refs-panel .ref-group .ref-list::-webkit-scrollbar-thumb { background: #2d3a2d; border-radius: 3px; }
+        .refs-panel .ref-group .ref-item { font-size: 11px; color: #8b949e; padding: 2px 0; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1c2128; }
+        .refs-panel .ref-group .ref-item:last-child { border-bottom: none; }
+        .refs-panel .ref-group .ref-item .del { color: #f85149; cursor: pointer; font-size: 12px; padding: 0 4px; }
 
         /* ================================================================
            ГЛАВНЫЙ ЭКРАН
            ================================================================ */
-        .main-screen {
-            display: block;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .main-screen.hidden {
-            display: none;
-        }
-
-        .main-screen .welcome {
-            text-align: center;
-            padding: 16px 0 12px 0;
-        }
-
-        .main-screen .welcome .icon {
-            font-size: 40px;
-            display: block;
-            margin-bottom: 2px;
-        }
-
-        .main-screen .welcome h2 {
-            font-size: 18px;
-            font-weight: 700;
-            color: #e6edf3;
-        }
-
-        .main-screen .welcome p {
-            font-size: 12px;
-            color: #8b949e;
-        }
-
-        .main-screen .tiles-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 12px;
-        }
-
-        .main-screen .tile {
-            background: #161b22;
-            border: 1px solid #2d3a2d;
-            border-radius: 12px;
-            padding: 14px 10px;
-            text-align: center;
-            cursor: pointer;
-            transition: 0.2s;
-            position: relative;
-        }
-
-        .main-screen .tile:active {
-            transform: scale(0.95);
-            background: #1c2128;
-        }
-
-        .main-screen .tile .tile-icon {
-            font-size: 26px;
-            display: block;
-            margin-bottom: 2px;
-        }
-
-        .main-screen .tile .tile-name {
-            font-size: 11px;
-            font-weight: 600;
-            color: #e6edf3;
-        }
-
-        .main-screen .tile .tile-count {
-            font-size: 10px;
-            color: #8b949e;
-            display: block;
-            margin-top: 2px;
-        }
-
-        .main-screen .tile .tile-lock {
-            position: absolute;
-            top: 6px;
-            right: 8px;
-            font-size: 12px;
-        }
-
-        .main-screen .tile .tile-badge {
-            position: absolute;
-            top: 6px;
-            right: 8px;
-            background: #f85149;
-            color: #fff;
-            font-size: 9px;
-            border-radius: 50%;
-            width: 18px;
-            height: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-        }
+        .main-screen { display: block; animation: fadeIn 0.3s ease; }
+        .main-screen.hidden { display: none; }
+        .main-screen .welcome { text-align: center; padding: 16px 0 12px 0; }
+        .main-screen .welcome .icon { font-size: 40px; display: block; margin-bottom: 2px; }
+        .main-screen .welcome h2 { font-size: 18px; font-weight: 700; color: #e6edf3; }
+        .main-screen .welcome p { font-size: 12px; color: #8b949e; }
+        .main-screen .tiles-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+        .main-screen .tile { background: #161b22; border: 1px solid #2d3a2d; border-radius: 12px; padding: 14px 10px; text-align: center; cursor: pointer; transition: 0.2s; position: relative; }
+        .main-screen .tile:active { transform: scale(0.95); background: #1c2128; }
+        .main-screen .tile .tile-icon { font-size: 26px; display: block; margin-bottom: 2px; }
+        .main-screen .tile .tile-name { font-size: 11px; font-weight: 600; color: #e6edf3; }
+        .main-screen .tile .tile-count { font-size: 10px; color: #8b949e; display: block; margin-top: 2px; }
+        .main-screen .tile .tile-lock { position: absolute; top: 6px; right: 8px; font-size: 12px; }
+        .main-screen .tile .tile-badge { position: absolute; top: 6px; right: 8px; background: #f85149; color: #fff; font-size: 9px; border-radius: 50%; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; font-weight: 700; }
 
         /* ================================================================
            ВКЛАДКИ
            ================================================================ */
-        .tab-content-wrapper {
-            display: none;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .tab-content-wrapper.active {
-            display: block;
-        }
-
-        .tabs {
-            display: flex;
-            gap: 3px;
-            margin-bottom: 10px;
-            background: #161b22;
-            border-radius: 10px;
-            padding: 4px;
-            border: 1px solid #2d3a2d;
-            overflow-x: auto;
-            flex-wrap: nowrap;
-        }
-
-        .tab-btn {
-            padding: 8px 10px;
-            border: none;
-            background: transparent;
-            color: #8b949e;
-            font-size: 10px;
-            font-weight: 600;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: 0.2s;
-            white-space: nowrap;
-            flex-shrink: 0;
-            min-width: 45px;
-        }
-
-        .tab-btn.active {
-            background: #2d3a2d;
-            color: #e6edf3;
-        }
-
-        .tab-btn:active {
-            transform: scale(0.95);
-        }
-
-        .tab-btn .badge-tab {
-            background: #4a6a3a;
-            color: #e6edf3;
-            font-size: 8px;
-            padding: 1px 5px;
-            border-radius: 10px;
-            margin-left: 3px;
-        }
-
-        .tab-content {
-            display: none;
-            animation: fadeIn 0.25s ease;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            0% { opacity: 0.5; transform: translateY(6px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
+        .tab-content-wrapper { display: none; animation: fadeIn 0.3s ease; }
+        .tab-content-wrapper.active { display: block; }
+        .tabs { display: flex; gap: 3px; margin-bottom: 10px; background: #161b22; border-radius: 10px; padding: 4px; border: 1px solid #2d3a2d; overflow-x: auto; flex-wrap: nowrap; }
+        .tab-btn { padding: 8px 10px; border: none; background: transparent; color: #8b949e; font-size: 10px; font-weight: 600; border-radius: 8px; cursor: pointer; transition: 0.2s; white-space: nowrap; flex-shrink: 0; min-width: 45px; }
+        .tab-btn.active { background: #2d3a2d; color: #e6edf3; }
+        .tab-btn:active { transform: scale(0.95); }
+        .tab-btn .badge-tab { background: #4a6a3a; color: #e6edf3; font-size: 8px; padding: 1px 5px; border-radius: 10px; margin-left: 3px; }
+        .tab-content { display: none; animation: fadeIn 0.25s ease; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { 0% { opacity: 0.5; transform: translateY(6px); } 100% { opacity: 1; transform: translateY(0); } }
 
         /* ================================================================
            АВТОРИЗАЦИЯ
            ================================================================ */
-        .auth-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            z-index: 9999;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .auth-overlay.active {
-            display: flex;
-        }
-
-        .auth-box {
-            background: #161b22;
-            border: 1px solid #2d3a2d;
-            border-radius: 16px;
-            padding: 24px;
-            max-width: 360px;
-            width: 100%;
-            animation: modalIn 0.3s ease;
-        }
-
-        @keyframes modalIn {
-            0% { opacity: 0; transform: scale(0.9) translateY(20px); }
-            100% { opacity: 1; transform: scale(1) translateY(0); }
-        }
-
-        .auth-box .auth-icon {
-            font-size: 36px;
-            text-align: center;
-            margin-bottom: 2px;
-        }
-
-        .auth-box .auth-title {
-            text-align: center;
-            font-size: 17px;
-            font-weight: 700;
-            color: #e6edf3;
-        }
-
-        .auth-box .auth-sub {
-            text-align: center;
-            font-size: 12px;
-            color: #4a6a3a;
-            margin-bottom: 14px;
-        }
-
-        .auth-box .auth-error {
-            color: #f85149;
-            font-size: 12px;
-            text-align: center;
-            margin-top: 6px;
-            display: none;
-        }
-
-        .auth-box .auth-error.show {
-            display: block;
-        }
-
-        .auth-box .btn-auth {
-            width: 100%;
-            padding: 12px;
-            background: #2d3a2d;
-            border: 1px solid #4a6a3a;
-            border-radius: 8px;
-            color: #e6edf3;
-            font-size: 15px;
-            font-weight: 700;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-
-        .auth-box .btn-auth:active {
-            transform: scale(0.98);
-        }
-
-        .auth-box .btn-cancel {
-            width: 100%;
-            padding: 10px;
-            background: transparent;
-            border: none;
-            color: #8b949e;
-            font-size: 13px;
-            cursor: pointer;
-            margin-top: 4px;
-        }
-
-        .auth-box .btn-cancel:active {
-            color: #e6edf3;
-        }
+        .auth-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: 9999; display: none; justify-content: center; align-items: center; padding: 20px; }
+        .auth-overlay.active { display: flex; }
+        .auth-box { background: #161b22; border: 1px solid #2d3a2d; border-radius: 16px; padding: 24px; max-width: 360px; width: 100%; animation: modalIn 0.3s ease; }
+        @keyframes modalIn { 0% { opacity: 0; transform: scale(0.9) translateY(20px); } 100% { opacity: 1; transform: scale(1) translateY(0); } }
+        .auth-box .auth-icon { font-size: 36px; text-align: center; margin-bottom: 2px; }
+        .auth-box .auth-title { text-align: center; font-size: 17px; font-weight: 700; color: #e6edf3; }
+        .auth-box .auth-sub { text-align: center; font-size: 12px; color: #4a6a3a; margin-bottom: 14px; }
+        .auth-box .auth-error { color: #f85149; font-size: 12px; text-align: center; margin-top: 6px; display: none; }
+        .auth-box .auth-error.show { display: block; }
+        .auth-box .btn-auth { width: 100%; padding: 12px; background: #2d3a2d; border: 1px solid #4a6a3a; border-radius: 8px; color: #e6edf3; font-size: 15px; font-weight: 700; cursor: pointer; margin-top: 10px; }
+        .auth-box .btn-auth:active { transform: scale(0.98); }
+        .auth-box .btn-cancel { width: 100%; padding: 10px; background: transparent; border: none; color: #8b949e; font-size: 13px; cursor: pointer; margin-top: 4px; }
+        .auth-box .btn-cancel:active { color: #e6edf3; }
 
         /* ================================================================
            КАРТОЧКИ
            ================================================================ */
-        .card {
-            background: #161b22;
-            border: 1px solid #2d3a2d;
-            border-radius: 10px;
-            padding: 10px 12px;
-            margin-bottom: 10px;
-        }
-
-        .card-title {
-            font-size: 13px;
-            font-weight: 600;
-            color: #8b949e;
-            margin-bottom: 6px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 4px;
-        }
-
-        .btn-small {
-            background: #2d3a2d;
-            border: 1px solid #4a6a3a;
-            color: #e6edf3;
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 10px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .btn-small:active {
-            transform: scale(0.95);
-        }
-
-        .btn-small.danger {
-            border-color: #6a3a3a;
-            color: #f85149;
-        }
-
-        .btn-small.primary {
-            background: #1a2d3a;
-            border-color: #3a5a6a;
-        }
+        .card { background: #161b22; border: 1px solid #2d3a2d; border-radius: 10px; padding: 10px 12px; margin-bottom: 10px; }
+        .card-title { font-size: 13px; font-weight: 600; color: #8b949e; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 4px; }
+        .btn-small { background: #2d3a2d; border: 1px solid #4a6a3a; color: #e6edf3; padding: 4px 10px; border-radius: 6px; font-size: 10px; font-weight: 600; cursor: pointer; }
+        .btn-small:active { transform: scale(0.95); }
+        .btn-small.danger { border-color: #6a3a3a; color: #f85149; }
+        .btn-small.primary { background: #1a2d3a; border-color: #3a5a6a; }
 
         /* ================================================================
            СТАТИСТИКА
            ================================================================ */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
-            gap: 6px;
-            margin-bottom: 10px;
-        }
-
-        .stat-card {
-            background: #161b22;
-            border: 1px solid #2d3a2d;
-            border-radius: 8px;
-            padding: 6px 4px;
-            text-align: center;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .stat-card:active {
-            transform: scale(0.95);
-        }
-
-        .stat-card .number {
-            font-size: 16px;
-            font-weight: 700;
-        }
-        .stat-card .label {
-            font-size: 8px;
-            color: #8b949e;
-            margin-top: 1px;
-        }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(60px, 1fr)); gap: 6px; margin-bottom: 10px; }
+        .stat-card { background: #161b22; border: 1px solid #2d3a2d; border-radius: 8px; padding: 6px 4px; text-align: center; cursor: pointer; transition: 0.2s; }
+        .stat-card:active { transform: scale(0.95); }
+        .stat-card .number { font-size: 16px; font-weight: 700; }
+        .stat-card .label { font-size: 8px; color: #8b949e; margin-top: 1px; }
         .stat-card .number.red { color: #f85149; }
         .stat-card .number.orange { color: #f0883e; }
         .stat-card .number.yellow { color: #d29922; }
@@ -662,53 +150,13 @@
         /* ================================================================
            ТАБЛИЦЫ
            ================================================================ */
-        .table-wrap {
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 11px;
-            min-width: 480px;
-        }
-
-        th {
-            background: #0d1117;
-            color: #8b949e;
-            font-weight: 600;
-            padding: 4px 4px;
-            text-align: left;
-            border-bottom: 2px solid #2d3a2d;
-            font-size: 9px;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-        }
-
-        td {
-            padding: 4px 4px;
-            border-bottom: 1px solid #1c2128;
-            vertical-align: middle;
-            font-size: 11px;
-        }
-
-        td .clickable {
-            cursor: pointer;
-            color: #4a6a3a;
-        }
-
-        td .clickable:hover {
-            text-decoration: underline;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 1px 8px;
-            border-radius: 20px;
-            font-size: 9px;
-            font-weight: 600;
-        }
+        .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        table { width: 100%; border-collapse: collapse; font-size: 11px; min-width: 480px; }
+        th { background: #0d1117; color: #8b949e; font-weight: 600; padding: 4px 4px; text-align: left; border-bottom: 2px solid #2d3a2d; font-size: 9px; text-transform: uppercase; letter-spacing: 0.3px; }
+        td { padding: 4px 4px; border-bottom: 1px solid #1c2128; vertical-align: middle; font-size: 11px; }
+        td .clickable { cursor: pointer; color: #4a6a3a; }
+        td .clickable:hover { text-decoration: underline; }
+        .badge { display: inline-block; padding: 1px 8px; border-radius: 20px; font-size: 9px; font-weight: 600; }
         .badge-red { background: #2d1a1a; color: #f85149; }
         .badge-orange { background: #2d1a0a; color: #f0883e; }
         .badge-yellow { background: #2d2a0a; color: #d29922; }
@@ -717,392 +165,98 @@
         /* ================================================================
            ФОРМЫ
            ================================================================ */
-        .form-group {
-            margin-bottom: 8px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 11px;
-            color: #8b949e;
-            margin-bottom: 3px;
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 8px 10px;
-            background: #0d1117;
-            border: 1px solid #2d3a2d;
-            border-radius: 6px;
-            color: #e6edf3;
-            font-size: 13px;
-            transition: 0.2s;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            border-color: #4a6a3a;
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(74, 106, 58, 0.2);
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-        }
+        .form-group { margin-bottom: 8px; }
+        .form-group label { display: block; font-size: 11px; color: #8b949e; margin-bottom: 3px; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 8px 10px; background: #0d1117; border: 1px solid #2d3a2d; border-radius: 6px; color: #e6edf3; font-size: 13px; transition: 0.2s; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: #4a6a3a; outline: none; box-shadow: 0 0 0 3px rgba(74,106,58,0.2); }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 
         /* ================================================================
            МОДАЛЬНОЕ ОКНО
            ================================================================ */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            z-index: 1000;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            padding: 16px;
-        }
-
-        .modal-overlay.active {
-            display: flex;
-        }
-
-        .modal {
-            background: #161b22;
-            border: 1px solid #2d3a2d;
-            border-radius: 14px;
-            padding: 20px;
-            max-width: 500px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-            animation: modalIn 0.3s ease;
-        }
-
-        .modal-title {
-            font-size: 17px;
-            font-weight: 700;
-            margin-bottom: 14px;
-            color: #e6edf3;
-        }
-
-        .modal-actions {
-            display: flex;
-            gap: 8px;
-            margin-top: 14px;
-        }
-
-        .modal-actions button {
-            flex: 1;
-            padding: 10px;
-            border: none;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .modal-actions .btn-primary {
-            background: #2d3a2d;
-            color: #e6edf3;
-            border: 1px solid #4a6a3a;
-        }
-
-        .modal-actions .btn-secondary {
-            background: #1c2128;
-            color: #8b949e;
-            border: 1px solid #2d3a2d;
-        }
-
-        .modal-actions .btn-danger {
-            background: #2d1a1a;
-            color: #f85149;
-            border: 1px solid #6a3a3a;
-        }
-
-        .modal-actions button:active {
-            transform: scale(0.95);
-        }
+        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: 1000; display: none; justify-content: center; align-items: center; padding: 16px; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: #161b22; border: 1px solid #2d3a2d; border-radius: 14px; padding: 20px; max-width: 500px; width: 100%; max-height: 90vh; overflow-y: auto; animation: modalIn 0.3s ease; }
+        .modal-title { font-size: 17px; font-weight: 700; margin-bottom: 14px; color: #e6edf3; }
+        .modal-actions { display: flex; gap: 8px; margin-top: 14px; }
+        .modal-actions button { flex: 1; padding: 10px; border: none; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; }
+        .modal-actions .btn-primary { background: #2d3a2d; color: #e6edf3; border: 1px solid #4a6a3a; }
+        .modal-actions .btn-secondary { background: #1c2128; color: #8b949e; border: 1px solid #2d3a2d; }
+        .modal-actions .btn-danger { background: #2d1a1a; color: #f85149; border: 1px solid #6a3a3a; }
+        .modal-actions button:active { transform: scale(0.95); }
 
         /* ================================================================
-           КАРТОЧКА ВООРУЖЕНИЯ (в модальном окне)
+           КАРТОЧКА ВООРУЖЕНИЯ
            ================================================================ */
-        .weapon-card {
-            background: #0d1117;
-            border-radius: 8px;
-            padding: 14px;
-            margin-bottom: 8px;
-            border: 1px solid #2d3a2d;
-        }
-
-        .weapon-card .field {
-            display: flex;
-            justify-content: space-between;
-            padding: 4px 0;
-            border-bottom: 1px solid #1c2128;
-            font-size: 13px;
-        }
-
-        .weapon-card .field:last-child {
-            border-bottom: none;
-        }
-
-        .weapon-card .field .label {
-            color: #8b949e;
-        }
-
-        .weapon-card .field .value {
-            font-weight: 600;
-            color: #e6edf3;
-        }
+        .weapon-card { background: #0d1117; border-radius: 8px; padding: 14px; margin-bottom: 8px; border: 1px solid #2d3a2d; }
+        .weapon-card .field { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid #1c2128; font-size: 13px; }
+        .weapon-card .field:last-child { border-bottom: none; }
+        .weapon-card .field .label { color: #8b949e; }
+        .weapon-card .field .value { font-weight: 600; color: #e6edf3; }
 
         /* ================================================================
            КАРТОЧКА АВТОМОБИЛЯ
            ================================================================ */
-        .car-card {
-            background: #0d1117;
-            border-radius: 8px;
-            padding: 14px;
-            margin-bottom: 8px;
-            border: 1px solid #2d3a2d;
-        }
-
-        .car-card .field {
-            display: flex;
-            justify-content: space-between;
-            padding: 4px 0;
-            border-bottom: 1px solid #1c2128;
-            font-size: 13px;
-        }
-
-        .car-card .field:last-child {
-            border-bottom: none;
-        }
-
-        .car-card .field .label {
-            color: #8b949e;
-        }
-
-        .car-card .field .value {
-            font-weight: 600;
-            color: #e6edf3;
-        }
+        .car-card { background: #0d1117; border-radius: 8px; padding: 14px; margin-bottom: 8px; border: 1px solid #2d3a2d; }
+        .car-card .field { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid #1c2128; font-size: 13px; }
+        .car-card .field:last-child { border-bottom: none; }
+        .car-card .field .label { color: #8b949e; }
+        .car-card .field .value { font-weight: 600; color: #e6edf3; }
 
         /* ================================================================
-           СКЛАД — ГРУППИРОВКА
+           СКЛАД — ТАБЛИЦА С ФИЛЬТРОМ
            ================================================================ */
-        .stock-group {
-            background: #0d1117;
-            border-radius: 8px;
-            padding: 8px 12px;
-            margin-bottom: 6px;
-            border: 1px solid #1c2128;
-        }
-
-        .stock-group .group-title {
-            font-size: 12px;
-            font-weight: 600;
-            color: #4a6a3a;
-            border-bottom: 1px solid #1c2128;
-            padding-bottom: 4px;
-            margin-bottom: 4px;
-        }
-
-        .stock-group .stock-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 2px 0;
-            font-size: 11px;
-            border-bottom: 1px solid #1c2128;
-        }
-
-        .stock-group .stock-item:last-child {
-            border-bottom: none;
-        }
+        .stock-filter { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+        .stock-filter input { flex: 1; padding: 6px 10px; background: #0d1117; border: 1px solid #2d3a2d; border-radius: 6px; color: #e6edf3; font-size: 12px; min-width: 120px; }
+        .stock-filter select { padding: 6px 10px; background: #0d1117; border: 1px solid #2d3a2d; border-radius: 6px; color: #e6edf3; font-size: 12px; }
 
         /* ================================================================
            TOAST
            ================================================================ */
-        .toast {
-            position: fixed;
-            bottom: 90px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #2d3a2d;
-            color: #e6edf3;
-            padding: 8px 20px;
-            border-radius: 10px;
-            font-size: 12px;
-            z-index: 2000;
-            border: 1px solid #4a6a3a;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-            animation: toastIn 0.3s ease;
-            max-width: 90%;
-            text-align: center;
-        }
-
-        .toast.error {
-            border-color: #6a3a3a;
-            background: #2d1a1a;
-        }
-
-        .toast.sync {
-            border-color: #3a6a6a;
-            background: #1a2d2d;
-        }
-
-        @keyframes toastIn {
-            0% { opacity: 0; transform: translateX(-50%) translateY(20px); }
-            100% { opacity: 1; transform: translateX(-50%) translateY(0); }
-        }
+        .toast { position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%); background: #2d3a2d; color: #e6edf3; padding: 8px 20px; border-radius: 10px; font-size: 12px; z-index: 2000; border: 1px solid #4a6a3a; box-shadow: 0 4px 20px rgba(0,0,0,0.5); animation: toastIn 0.3s ease; max-width: 90%; text-align: center; }
+        .toast.error { border-color: #6a3a3a; background: #2d1a1a; }
+        .toast.sync { border-color: #3a6a6a; background: #1a2d2d; }
+        @keyframes toastIn { 0% { opacity: 0; transform: translateX(-50%) translateY(20px); } 100% { opacity: 1; transform: translateX(-50%) translateY(0); } }
 
         /* ================================================================
            НИЖНЯЯ ПАНЕЛЬ
            ================================================================ */
-        .bottom-actions {
-            position: fixed;
-            bottom: 10px;
-            left: 10px;
-            right: 10px;
-            display: flex;
-            gap: 6px;
-            z-index: 100;
-        }
-
-        .bottom-actions button {
-            flex: 1;
-            padding: 10px;
-            border: none;
-            border-radius: 10px;
-            font-size: 12px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .bottom-actions button:active {
-            transform: scale(0.95);
-        }
-
-        .btn-refresh {
-            background: #2d3a2d;
-            color: #e6edf3;
-            border: 1px solid #4a6a3a;
-        }
-
-        .btn-export {
-            background: #1a2d3a;
-            color: #e6edf3;
-            border: 1px solid #3a5a6a;
-        }
-
-        .btn-sync {
-            background: #1a2d2d;
-            color: #e6edf3;
-            border: 1px solid #3a6a6a;
-        }
-
-        .btn-sync.active {
-            background: #2d3a2d;
-            border-color: #4a6a3a;
-            animation: pulse 1.5s infinite;
-        }
-
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
-        }
+        .bottom-actions { position: fixed; bottom: 10px; left: 10px; right: 10px; display: flex; gap: 6px; z-index: 100; }
+        .bottom-actions button { flex: 1; padding: 10px; border: none; border-radius: 10px; font-size: 12px; font-weight: 700; cursor: pointer; transition: 0.2s; }
+        .bottom-actions button:active { transform: scale(0.95); }
+        .btn-refresh { background: #2d3a2d; color: #e6edf3; border: 1px solid #4a6a3a; }
+        .btn-export { background: #1a2d3a; color: #e6edf3; border: 1px solid #3a5a6a; }
+        .btn-sync { background: #1a2d2d; color: #e6edf3; border: 1px solid #3a6a6a; }
+        .btn-sync.active { background: #2d3a2d; border-color: #4a6a3a; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
 
         /* ================================================================
            АДАПТИВ
            ================================================================ */
         @media (max-width: 480px) {
-            .header-left .title {
-                font-size: 12px;
-            }
-            .header-left .subtitle {
-                font-size: 8px;
-            }
-            .main-screen .tiles-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-            .refs-panel .refs-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-            .stats-grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-            table {
-                font-size: 10px;
-                min-width: 400px;
-            }
-            .modal {
-                padding: 14px;
-            }
-            .notif-panel {
-                max-height: 150px;
-            }
-            .tab-btn {
-                font-size: 9px;
-                padding: 6px 8px;
-            }
+            .header-left .title { font-size: 12px; }
+            .header-left .subtitle { font-size: 8px; }
+            .main-screen .tiles-grid { grid-template-columns: 1fr 1fr; }
+            .refs-panel .refs-grid { grid-template-columns: 1fr 1fr; }
+            .stats-grid { grid-template-columns: repeat(4, 1fr); }
+            .form-row { grid-template-columns: 1fr; }
+            table { font-size: 10px; min-width: 400px; }
+            .modal { padding: 14px; }
+            .notif-panel { max-height: 150px; }
+            .tab-btn { font-size: 9px; padding: 6px 8px; }
         }
-
         @media (max-width: 380px) {
-            .header-left .title {
-                font-size: 11px;
-            }
-            .main-screen .tiles-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-            .main-screen .tile .tile-icon {
-                font-size: 22px;
-            }
-            .main-screen .tile .tile-name {
-                font-size: 10px;
-            }
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .refs-panel .refs-grid {
-                grid-template-columns: 1fr;
-            }
-            .tab-btn {
-                font-size: 8px;
-                padding: 4px 6px;
-                min-width: 35px;
-            }
+            .header-left .title { font-size: 11px; }
+            .main-screen .tiles-grid { grid-template-columns: 1fr 1fr; }
+            .main-screen .tile .tile-icon { font-size: 22px; }
+            .main-screen .tile .tile-name { font-size: 10px; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .refs-panel .refs-grid { grid-template-columns: 1fr; }
+            .tab-btn { font-size: 8px; padding: 4px 6px; min-width: 35px; }
         }
-
-        /* ================================================================
-           СКРОЛЛ
-           ================================================================ */
-        ::-webkit-scrollbar {
-            width: 3px;
-            height: 3px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0d1117;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #2d3a2d;
-            border-radius: 3px;
-        }
+        ::-webkit-scrollbar { width: 3px; height: 3px; }
+        ::-webkit-scrollbar-track { background: #0d1117; }
+        ::-webkit-scrollbar-thumb { background: #2d3a2d; border-radius: 3px; }
     </style>
 </head>
 <body>
@@ -1115,7 +269,7 @@
             <span class="logo">⚔</span>
             <div>
                 <span class="title">Учетная Система Бригада "БАРС-МОСКВА"</span>
-                <span class="subtitle">v.6.0</span>
+                <span class="subtitle">v.6.1</span>
                 <span class="sync-status" id="syncStatus">🔄 синхр.</span>
             </div>
         </div>
@@ -1140,7 +294,7 @@
     </div>
 
     <!-- ================================================================
-    СПРАВОЧНИКИ (5 позиций + скролл)
+    СПРАВОЧНИКИ
     ================================================================ -->
     <div class="refs-panel" id="refsPanel">
         <div class="refs-grid" id="refsGrid"></div>
@@ -1155,9 +309,7 @@
             <h2>Бригада "БАРС-МОСКВА"</h2>
             <p>Учетная система подразделения</p>
         </div>
-
         <div class="tiles-grid" id="tilesGrid"></div>
-
         <div style="display:flex;gap:6px;flex-wrap:wrap;">
             <button onclick="syncToCloud()" style="flex:1;padding:10px;background:#1a2d2d;border:1px solid #3a6a6a;border-radius:8px;color:#e6edf3;font-size:12px;font-weight:600;cursor:pointer;">☁️ Синхронизация</button>
             <button onclick="exportAllData()" style="flex:1;padding:10px;background:#1a2d3a;border:1px solid #3a5a6a;border-radius:8px;color:#e6edf3;font-size:12px;font-weight:600;cursor:pointer;">📤 Экспорт</button>
@@ -1195,7 +347,7 @@
                 <div class="card-title">
                     🔍 Фильтры
                     <div>
-                        <button class="btn-small" onclick="showAddCarModal()">➕ Добавить</button>
+                        <button class="btn-small primary" onclick="showAddCarModal()">➕ Добавить</button>
                     </div>
                 </div>
                 <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
@@ -1225,13 +377,13 @@
         </div>
 
         <!-- ================================================================
-        ВКЛАДКА 2 — ЛИЧНЫЙ СОСТАВ (ФИО из Эксплуатантов)
+        ВКЛАДКА 2 — ЛИЧНЫЙ СОСТАВ
         ================================================================ -->
         <div id="tab2" class="tab-content">
             <div class="card">
                 <div class="card-title">
                     👥 Личный состав
-                    <button class="btn-small" onclick="showAddPersonModal()">➕ Добавить</button>
+                    <button class="btn-small primary" onclick="showAddPersonModal()">➕ Добавить</button>
                 </div>
                 <div class="table-wrap">
                     <table>
@@ -1243,7 +395,7 @@
         </div>
 
         <!-- ================================================================
-        ВКЛАДКА 3 — ВООРУЖЕНИЕ (с карточкой по двойному клику)
+        ВКЛАДКА 3 — ВООРУЖЕНИЕ
         ================================================================ -->
         <div id="tab3" class="tab-content">
             <div class="stats-grid" id="weaponStats">
@@ -1255,7 +407,7 @@
             <div class="card">
                 <div class="card-title">
                     🔫 Вооружение (Барьер / Звездочет)
-                    <button class="btn-small" onclick="showAddWeaponModal()">➕ Добавить</button>
+                    <button class="btn-small primary" onclick="showAddWeaponModal()">➕ Добавить</button>
                 </div>
                 <div class="table-wrap">
                     <table>
@@ -1267,15 +419,31 @@
         </div>
 
         <!-- ================================================================
-        ВКЛАДКА 4 — СКЛАД (с группировкой по типам)
+        ВКЛАДКА 4 — СКЛАД (с фильтром и поиском)
         ================================================================ -->
         <div id="tab4" class="tab-content">
             <div class="card">
                 <div class="card-title">
                     📦 Складской учёт (ТМЦ)
-                    <button class="btn-small" onclick="showAddItemModal()">➕ Добавить</button>
+                    <button class="btn-small primary" onclick="showAddItemModal()">➕ Добавить</button>
                 </div>
-                <div id="stockGroups"></div>
+                <div class="stock-filter">
+                    <input type="text" id="stockSearch" placeholder="🔍 Поиск по наименованию..." oninput="renderStock()">
+                    <select id="stockTypeFilter" onchange="renderStock()">
+                        <option value="all">Все типы</option>
+                    </select>
+                    <select id="stockStorageFilter" onchange="renderStock()">
+                        <option value="all">Все склады</option>
+                    </select>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr><th>№</th><th>Артикул</th><th>Наименование</th><th>Тип</th><th>Кол-во</th><th>Ед. изм.</th><th>Склад</th><th>Примечание</th><th></th></tr>
+                        </thead>
+                        <tbody id="stockTable"></tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
@@ -1286,23 +454,23 @@
             <div class="card">
                 <div class="card-title">
                     📋 Журнал ТО
-                    <button class="btn-small" onclick="showAddHistoryModal()">➕ Запись</button>
+                    <button class="btn-small primary" onclick="showAddHistoryModal()">➕ Запись</button>
                 </div>
                 <div id="historyList"></div>
             </div>
         </div>
 
         <!-- ================================================================
-        ВКЛАДКА 6 — ОТЧЁТЫ (печать + Excel)
+        ВКЛАДКА 6 — ОТЧЁТЫ
         ================================================================ -->
         <div id="tab6" class="tab-content">
             <div class="card">
                 <div class="card-title">📊 Формирование отчётов</div>
                 <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-                    <button onclick="showReportDialog()" style="padding:10px;background:#1a2d3a;border:1px solid #3a5a6a;border-radius:8px;color:#e6edf3;font-size:12px;font-weight:600;cursor:pointer;">📊 Выбрать данные для отчёта</button>
-                    <button onclick="exportAllData()" style="padding:10px;background:#1a2d3a;border:1px solid #3a5a6a;border-radius:8px;color:#e6edf3;font-size:12px;font-weight:600;cursor:pointer;">📤 Экспорт всех данных</button>
-                    <button onclick="printReport()" style="padding:10px;background:#2d2d1a;border:1px solid #6a6a3a;border-radius:8px;color:#e6edf3;font-size:12px;font-weight:600;cursor:pointer;">🖨️ Печать отчёта</button>
-                    <button onclick="exportToExcel()" style="padding:10px;background:#1a2d2d;border:1px solid #3a6a6a;border-radius:8px;color:#e6edf3;font-size:12px;font-weight:600;cursor:pointer;">📊 Выгрузка в Excel</button>
+                    <button onclick="showReportDialog()" class="btn-small primary" style="padding:10px;font-size:12px;border-radius:8px;">📊 Выбрать данные для отчёта</button>
+                    <button onclick="exportToExcel()" class="btn-small primary" style="padding:10px;font-size:12px;border-radius:8px;">📊 Выгрузка в Excel</button>
+                    <button onclick="printReport()" class="btn-small" style="padding:10px;font-size:12px;border-radius:8px;">🖨️ Печать отчёта</button>
+                    <button onclick="exportAllData()" class="btn-small" style="padding:10px;font-size:12px;border-radius:8px;">📤 Экспорт всех данных</button>
                 </div>
             </div>
         </div>
@@ -1400,7 +568,87 @@
         let items = [];
         let historyData = [];
         let references = {};
-        let itemTypes = [];
+        let repairRequests = [];
+
+        // Начальные данные
+        const defaultCars = [
+            { id: 1, reg: 'Е390НУ977', model: 'Foton Tunland G9', sts: '1234567890', responsible: 'Ремнев Артем Сергеевич',
+                driver: 'Ремнев Артем Сергеевич', mileage: 5359, last_to: 2000, plan_to: 12000, remainder: 3359,
+                status: '🟢', mark: '✅ Пройдено', criticality: '🟢 НИЗКИЙ', notification: '✅ Всё в порядке',
+                type: 'Легковой', dept: 'Штаб', tsStatus: 'В эксплуатации' },
+            { id: 2, reg: 'Е420НУ977', model: 'Foton Tunland G9', sts: '0987654321', responsible: 'Федоров Богдан Владимирович',
+                driver: 'Федоров Богдан Владимирович', mileage: 7485, last_to: 2000, plan_to: 12000, remainder: 5485,
+                status: '🟢', mark: '✅ Пройдено', criticality: '🟢 НИЗКИЙ', notification: '✅ Всё в порядке',
+                type: 'Легковой', dept: 'Инструкторский состав', tsStatus: 'В эксплуатации' },
+            { id: 3, reg: 'Е391НУ977', model: 'Foton Tunland G9', sts: '1122334455', responsible: 'Магомедов Магомед Насрудинович',
+                driver: 'Никифоров Роман Владимирович', mileage: 0, last_to: 2000, plan_to: 12000, remainder: 2000,
+                status: '🟡', mark: '⏳ Скоро ТО', criticality: '🟡 СРЕДНИЙ', notification: '📅 Осталось ≤ 1000 км',
+                type: 'Легковой', dept: 'Штаб', tsStatus: 'В эксплуатации' },
+            { id: 4, reg: 'Е445НУ977', model: 'Foton Tunland G9', sts: '5544332211', responsible: 'Магомедов Магомед Насрудинович',
+                driver: 'Магомедов Магомед Насрудинович', mileage: 144, last_to: 0, plan_to: 2000, remainder: 1856,
+                status: '🟢', mark: '✅ Пройдено', criticality: '🟢 НИЗКИЙ', notification: '✅ Всё в порядке',
+                type: 'Легковой', dept: 'Снабжение', tsStatus: 'В эксплуатации' },
+            { id: 5, reg: 'Е474НУ977', model: 'Foton Tunland G9', sts: '6677889900', responsible: 'Зятиков Илья Михайлович',
+                driver: 'Зятиков Илья Михайлович', mileage: 4185, last_to: 2000, plan_to: 12000, remainder: 2185,
+                status: '🟢', mark: '✅ Пройдено', criticality: '🟢 НИЗКИЙ', notification: '✅ Всё в порядке',
+                type: 'Легковой', dept: 'Штаб', tsStatus: 'В эксплуатации' },
+            { id: 6, reg: 'Е370НУ977', model: 'Foton Tunland G9', sts: '7788990011', responsible: 'Блинов Сергей Денисович',
+                driver: 'Блинов Сергей Денисович', mileage: 75, last_to: 0, plan_to: 2000, remainder: 1925,
+                status: '🟢', mark: '✅ Пройдено', criticality: '🟢 НИЗКИЙ', notification: '✅ Всё в порядке',
+                type: 'Легковой', dept: 'Инструкторский состав', tsStatus: 'В эксплуатации' },
+            { id: 7, reg: 'Е556НУ977', model: 'Foton Tunland G9', sts: '8899001122', responsible: 'Тимофеев Антон Владимирович',
+                driver: 'Тимофеев Антон Владимирович', mileage: 339, last_to: 0, plan_to: 2000, remainder: 1661,
+                status: '🟢', mark: '✅ Пройдено', criticality: '🟢 НИЗКИЙ', notification: '✅ Всё в порядке',
+                type: 'Легковой', dept: 'Снабжение', tsStatus: 'В эксплуатации' }
+        ];
+
+        const defaultPersons = [
+            { id: 1, fio: 'Ремнев Артем Сергеевич', position: 'Старшина', department: 'Штаб', rank: 'Старшина',
+                phone: '+7 999 123-45-67' },
+            { id: 2, fio: 'Магомедов Магомед Насрудинович', position: 'Водитель', department: 'Снабжение', rank: 'Сержант',
+                phone: '+7 999 234-56-78' },
+            { id: 3, fio: 'Федоров Богдан Владимирович', position: 'Водитель', department: 'Инструкторский состав',
+                rank: 'Ефрейтор', phone: '+7 999 345-67-89' },
+            { id: 4, fio: 'Зятиков Илья Михайлович', position: 'Командир', department: 'Штаб', rank: 'Капитан',
+                phone: '+7 999 456-78-90' },
+            { id: 5, fio: 'Блинов Сергей Денисович', position: 'Водитель', department: 'Инструкторский состав',
+                rank: 'Ефрейтор', phone: '+7 999 567-89-01' },
+            { id: 6, fio: 'Тимофеев Антон Владимирович', position: 'Водитель', department: 'Снабжение', rank: 'Сержант',
+                phone: '+7 999 678-90-12' },
+            { id: 7, fio: 'Никифоров Роман Владимирович', position: 'Водитель', department: 'Штаб', rank: 'Ефрейтор',
+                phone: '+7 999 789-01-23' }
+        ];
+
+        const defaultWeapons = [
+            { id: 1, type: 'Барьер', number: 'Б-001', status: 'Исправно', fault: '', repairRequest: '' },
+            { id: 2, type: 'Барьер', number: 'Б-002', status: 'В ремонте', fault: 'Неисправен блок наведения',
+                repairRequest: 'Заявка №1 от 01.09.2026' },
+            { id: 3, type: 'Звездочет', number: 'З-001', status: 'Исправно', fault: '', repairRequest: '' },
+            { id: 4, type: 'Звездочет', number: 'З-002', status: 'Неисправно', fault: 'Сбой системы охлаждения',
+                repairRequest: 'Заявка №2 от 05.09.2026' }
+        ];
+
+        const defaultItems = [
+            { id: 1, name: 'Масло моторное 5W-30', article: 'M-001', type: 'Расходные материалы', unit: 'л',
+                quantity: 50, storage: 'Склад №1', note: 'Для двигателей' },
+            { id: 2, name: 'Фильтр масляный', article: 'F-001', type: 'Запасные части', unit: 'шт.',
+                quantity: 30, storage: 'Склад №1', note: '' },
+            { id: 3, name: 'Тормозные колодки', article: 'T-001', type: 'Запасные части', unit: 'компл.',
+                quantity: 15, storage: 'Склад №2', note: 'Для легковых' },
+            { id: 4, name: 'Свечи зажигания', article: 'S-001', type: 'Запасные части', unit: 'шт.',
+                quantity: 100, storage: 'Склад №2', note: '' },
+            { id: 5, name: 'Набор гаечных ключей', article: 'I-001', type: 'Инструмент', unit: 'компл.',
+                quantity: 10, storage: 'Склад №3', note: '' }
+        ];
+
+        const defaultHistory = [
+            { id: 1, date: '13.08.2026', reg: 'Е391НУ977', model: 'Foton Tunland G9', mileage: 1998,
+                toType: 'ТО-0 (2 000 км)', note: '' },
+            { id: 2, date: '12.08.2026', reg: 'Е390НУ977', model: 'Foton Tunland G9', mileage: 1999,
+                toType: 'ТО-0 (2 000 км)', note: '' },
+            { id: 3, date: '14.08.2026', reg: 'Е474НУ977', model: 'Foton Tunland G9', mileage: 1986,
+                toType: 'ТО-0 (2 000 км)', note: '' }
+        ];
 
         const defaultRefs = {
             carTypes: ['Легковой', 'Грузовой', 'Спецтехника'],
@@ -1410,7 +658,6 @@
                 'ТО-4 (40 000 км)', 'ТО-5 (50 000 км)', 'ТО-6 (60 000 км)', 'ТО-7 (70 000 км)',
                 'ТО-8 (80 000 км)', 'ТО-9 (90 000 км)', 'ТО-10 (100 000 км)'
             ],
-            // Эксплуатанты (бывшие Водители)
             exploitants: ['Ремнев Артем Сергеевич', 'Магомедов Магомед Насрудинович', 'Федоров Богдан Владимирович',
                 'Зарипов Айнур Ильдарович', 'Циденов Михаил Олегович', 'Тимофеев Антон Владимирович',
                 'Никифоров Роман Владимирович', 'Абрамов Владислав Александрович', 'Блинов Сергей Денисович',
@@ -1425,7 +672,6 @@
             units: ['шт.', 'компл.', 'л', 'кг', 'м', 'км', 'шт.', 'уп.', 'кор.', 'пач.'],
             weaponTypes: ['Барьер', 'Звездочет'],
             weaponStatuses: ['Исправно', 'В ремонте', 'Неисправно', 'На хранении', 'Списано'],
-            // Типы для склада (группировка)
             stockTypes: ['Расходные материалы', 'Запасные части', 'Инструмент', 'ГСМ', 'Спецодежда', 'Прочее']
         };
 
@@ -1443,7 +689,9 @@
             historyData = JSON.parse(localStorage.getItem(prefix + 'history') || JSON.stringify(defaultHistory));
             references = JSON.parse(localStorage.getItem(prefix + 'refs') || JSON.stringify(defaultRefs));
             notifications = JSON.parse(localStorage.getItem(prefix + 'notifs') || JSON.stringify([]));
+            repairRequests = JSON.parse(localStorage.getItem(prefix + 'repairs') || JSON.stringify([]));
 
+            // Пересчёт остатков
             cars = cars.map(c => {
                 c.remainder = c.plan_to - c.mileage;
                 if (c.remainder < 0) { c.status = '🔴';
@@ -1470,6 +718,7 @@
             localStorage.setItem(prefix + 'history', JSON.stringify(historyData));
             localStorage.setItem(prefix + 'refs', JSON.stringify(references));
             localStorage.setItem(prefix + 'notifs', JSON.stringify(notifications));
+            localStorage.setItem(prefix + 'repairs', JSON.stringify(repairRequests));
             updateNotifBadge();
         }
 
@@ -1478,25 +727,14 @@
         // ================================================================
 
         function addNotification(type, message, data = {}) {
-            const notif = {
-                id: Date.now(),
-                type: type,
-                message: message,
-                data: data,
-                time: new Date().toLocaleString(),
-                read: false
-            };
+            const notif = { id: Date.now(), type: type, message: message, data: data, time: new Date().toLocaleString(),
+                read: false };
             notifications.unshift(notif);
             if (notifications.length > 100) notifications = notifications.slice(0, 100);
             saveData();
-
             if ('Notification' in window && Notification.permission === 'granted') {
-                new Notification('🔔 Барс-Москва', {
-                    body: message,
-                    icon: 'https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/2694.png'
-                });
+                new Notification('🔔 Барс-Москва', { body: message, icon: 'https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/2694.png' });
             }
-
             renderNotifs();
             updateNotifBadge();
         }
@@ -1504,11 +742,9 @@
         function updateNotifBadge() {
             const unread = notifications.filter(n => !n.read).length;
             unreadNotifs = unread;
-
             const btn = document.getElementById('notifBtn');
             const existing = btn.querySelector('.badge-notif');
             if (existing) existing.remove();
-
             if (unread > 0) {
                 const badge = document.createElement('span');
                 badge.className = 'badge-notif';
@@ -1520,7 +756,6 @@
         function toggleNotifs() {
             const panel = document.getElementById('notifPanel');
             panel.classList.toggle('active');
-
             if (panel.classList.contains('active')) {
                 notifications.forEach(n => n.read = true);
                 saveData();
@@ -1532,11 +767,9 @@
         function renderNotifs() {
             const div = document.getElementById('notifList');
             if (notifications.length === 0) {
-                div.innerHTML =
-                    '<div style="color:#8b949e;padding:8px;text-align:center;font-size:12px;">Нет уведомлений</div>';
+                div.innerHTML = '<div style="color:#8b949e;padding:8px;text-align:center;font-size:12px;">Нет уведомлений</div>';
                 return;
             }
-
             div.innerHTML = notifications.slice(0, 30).map(n => `
                 <div class="notif-item">
                     <span class="${n.type}">${n.message}</span>
@@ -1571,25 +804,19 @@
 
         function syncToCloud() {
             if (isSyncing) return;
-
             const btn = document.getElementById('syncBtn');
             isSyncing = true;
             if (btn) btn.classList.add('active');
-
             showToast('☁️ Синхронизация...', 'sync');
-
             setTimeout(() => {
                 saveData();
                 checkCriticalMoments();
-
                 isSyncing = false;
                 if (btn) btn.classList.remove('active');
                 lastSyncTime = new Date();
-
                 const statusEl = document.getElementById('syncStatus');
                 statusEl.textContent = '☁️ синхр. ' + lastSyncTime.toLocaleTimeString();
                 statusEl.className = 'sync-status online';
-
                 showToast('✅ Синхронизация завершена', 'sync');
             }, 1500);
         }
@@ -1602,7 +829,6 @@
                     addNotification('critical', `🚨 ${c.reg}: ПРОСРОЧЕНО ТО на ${Math.abs(c.remainder)} км!`, { car: c });
                 }
             });
-
             const soon = cars.filter(c => c.remainder >= 0 && c.remainder <= 500);
             soon.forEach(c => {
                 const exists = notifications.some(n => n.message.includes(c.reg) && n.message.includes('Скоро ТО'));
@@ -1610,23 +836,14 @@
                     addNotification('warning', `⚠️ ${c.reg}: Скоро ТО! Осталось ${c.remainder} км`, { car: c });
                 }
             });
-
-            const repairWeapons = weapons.filter(w => w.status === 'В ремонте');
+            const repairWeapons = weapons.filter(w => w.status === 'В ремонте' || w.status === 'Неисправно');
             repairWeapons.forEach(w => {
-                const exists = notifications.some(n => n.message.includes(w.number) && n.message.includes('ремонте'));
+                const exists = notifications.some(n => n.message.includes(w.number) && (n.message.includes('ремонте') ||
+                    n.message.includes('Неисправен')));
                 if (!exists) {
-                    addNotification('warning', `🛠 ${w.type} ${w.number}: в ремонте (${w.fault || 'без описания'})`, { weapon: w });
+                    addNotification('warning', `🔴 ${w.type} ${w.number}: ${w.status} (${w.fault || 'без описания'})`, { weapon: w });
                 }
             });
-
-            const faultWeapons = weapons.filter(w => w.status === 'Неисправно');
-            faultWeapons.forEach(w => {
-                const exists = notifications.some(n => n.message.includes(w.number) && n.message.includes('Неисправен'));
-                if (!exists) {
-                    addNotification('critical', `🔴 ${w.type} ${w.number}: НЕИСПРАВЕН (${w.fault || 'без описания'})`, { weapon: w });
-                }
-            });
-
             const lowItems = items.filter(i => i.quantity < 5);
             lowItems.forEach(i => {
                 const exists = notifications.some(n => n.message.includes(i.name) && n.message.includes('заканчивается'));
@@ -1642,7 +859,6 @@
 
         function renderMainScreen() {
             const grid = document.getElementById('tilesGrid');
-
             const tiles = [
                 { id: 'tab1', icon: '🚗', name: 'Автопарк', count: cars.length, role: 'all' },
                 { id: 'tab2', icon: '👥', name: 'Личный состав', count: persons.length, role: 'admin,starshiy' },
@@ -1652,19 +868,12 @@
                 { id: 'tab6', icon: '📊', name: 'Отчёты', count: 0, role: 'admin,starshiy' },
                 { id: 'tab7', icon: '⚙️', name: 'Администрирование', count: 0, role: 'admin' }
             ];
-
             const overdueCount = cars.filter(c => c.remainder < 0).length;
             const repairCount = weapons.filter(w => w.status === 'В ремонте' || w.status === 'Неисправно').length;
-
             grid.innerHTML = tiles.map(t => {
                 let badge = '';
-                if (t.id === 'tab1' && overdueCount > 0) {
-                    badge = `<span class="tile-badge">${overdueCount}</span>`;
-                }
-                if (t.id === 'tab3' && repairCount > 0) {
-                    badge = `<span class="tile-badge">${repairCount}</span>`;
-                }
-
+                if (t.id === 'tab1' && overdueCount > 0) badge = `<span class="tile-badge">${overdueCount}</span>`;
+                if (t.id === 'tab3' && repairCount > 0) badge = `<span class="tile-badge">${repairCount}</span>`;
                 return `
                     <div class="tile" onclick="openAuth('${t.id}')">
                         <span class="tile-icon">${t.icon}</span>
@@ -1682,61 +891,41 @@
         // ================================================================
 
         function openAuth(tabId) {
-            if (currentRole && isTabAvailable(tabId)) {
-                openTab(tabId);
-                return;
-            }
-
+            if (currentRole && isTabAvailable(tabId)) { openTab(tabId); return; }
             authTargetTab = tabId;
             document.getElementById('authTitle').textContent = '🔐 Доступ к разделу';
             document.getElementById('authSub').textContent = 'Введите пароль для продолжения';
             document.getElementById('authPassword').value = '';
             document.getElementById('authError').classList.remove('show');
             document.getElementById('authOverlay').classList.add('active');
-
             setTimeout(() => document.getElementById('authPassword').focus(), 300);
-
-            document.getElementById('authPassword').onkeydown = function(e) {
-                if (e.key === 'Enter') authLogin();
-            };
+            document.getElementById('authPassword').onkeydown = function(e) { if (e.key === 'Enter') authLogin(); };
         }
 
         function authLogin() {
             const role = document.getElementById('authRole').value;
             const password = document.getElementById('authPassword').value;
-
             if (ROLES[role] && ROLES[role].password === password) {
                 currentRole = role;
                 currentUser = ROLES[role];
                 document.getElementById('authOverlay').classList.remove('active');
                 document.getElementById('userBadge').textContent = '👤 ' + currentUser.label;
-
                 if ('Notification' in window && Notification.permission !== 'granted' && Notification.permission !==
                     'denied') {
                     Notification.requestPermission();
                 }
-
                 showToast('✅ Добро пожаловать, ' + currentUser.name + '!');
-
                 document.getElementById('logoutBtn').style.display = '';
                 document.getElementById('homeBtn').style.display = '';
                 document.getElementById('bottomActions').style.display = '';
-
-                if (authTargetTab) {
-                    openTab(authTargetTab);
-                    authTargetTab = null;
-                } else {
-                    openTab('tab1');
-                }
-
+                if (authTargetTab) { openTab(authTargetTab);
+                    authTargetTab = null; } else { openTab('tab1'); }
                 updateDashboard();
                 renderRefs();
                 renderNotifs();
                 renderUsers();
                 updateNotifBadge();
-
                 setTimeout(syncToCloud, 2000);
-
             } else {
                 document.getElementById('authError').classList.add('show');
                 document.getElementById('authPassword').value = '';
@@ -1778,16 +967,12 @@
         function openTab(tabId) {
             document.getElementById('mainScreen').classList.add('hidden');
             document.getElementById('tabsWrapper').classList.add('active');
-
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-
             const btn = document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
             if (btn) btn.classList.add('active');
-
             const content = document.getElementById(tabId);
             if (content) content.classList.add('active');
-
             document.querySelectorAll('.tab-btn').forEach(b => {
                 const roles = b.dataset.role.split(',');
                 if (roles.includes('all') || (currentRole && roles.includes(currentRole))) {
@@ -1796,7 +981,6 @@
                     b.style.display = 'none';
                 }
             });
-
             updateDashboard();
         }
 
@@ -1808,7 +992,7 @@
         }
 
         // ================================================================
-        //  СПРАВОЧНИКИ (5 позиций + скролл)
+        //  СПРАВОЧНИКИ
         // ================================================================
 
         function toggleRefs() {
@@ -1819,8 +1003,6 @@
 
         function renderRefs() {
             const grid = document.getElementById('refsGrid');
-
-            // Изменяем "Водители" на "Эксплуатанты"
             const groups = [
                 { label: '🚗 Типы ТС', key: 'carTypes' },
                 { label: '🏢 Подразделения', key: 'departments' },
@@ -1834,12 +1016,10 @@
                 { label: '🛠 Статусы вооружения', key: 'weaponStatuses' },
                 { label: '📂 Типы ТМЦ', key: 'stockTypes' }
             ];
-
             grid.innerHTML = groups.map(g => {
                 const items = references[g.key] || [];
                 const showItems = items.slice(0, 5);
                 const hiddenCount = items.length - 5;
-
                 return `
                     <div class="ref-group">
                         <div class="ref-label">
@@ -1892,20 +1072,16 @@
             const overdue = cars.filter(c => c.remainder < 0).length;
             const soon = cars.filter(c => c.remainder >= 0 && c.remainder <= 1000).length;
             const ok = cars.filter(c => c.remainder > 1000).length;
-
             document.getElementById('totalCars').textContent = total;
             document.getElementById('overdue').textContent = overdue;
             document.getElementById('soon').textContent = soon;
             document.getElementById('ok').textContent = ok;
-
             const wTotal = weapons.length;
             const wRepair = weapons.filter(w => w.status === 'В ремонте').length;
             const wFault = weapons.filter(w => w.status === 'Неисправно').length;
-
             document.getElementById('weaponTotal').textContent = wTotal;
             document.getElementById('weaponRepair').textContent = wRepair;
             document.getElementById('weaponFault').textContent = wFault;
-
             renderCars();
             renderPersons();
             renderWeapons();
@@ -1914,36 +1090,33 @@
             renderMainScreen();
             saveData();
             checkCriticalMoments();
+            // Обновляем фильтры склада
+            updateStockFilters();
         }
 
         // ================================================================
-        //  АВТОМОБИЛИ (с карточкой по двойному клику)
+        //  АВТОПАРК — РАБОТАЕТ!
         // ================================================================
 
         function renderCars() {
             const filterReg = document.getElementById('filterReg').value.toLowerCase();
             const filterModel = document.getElementById('filterModel').value.toLowerCase();
-
             let filtered = cars;
             if (filterReg) filtered = filtered.filter(c => c.reg.toLowerCase().includes(filterReg));
             if (filterModel) filtered = filtered.filter(c => c.model.toLowerCase().includes(filterModel));
-
             const tbody = document.getElementById('carsTable');
             tbody.innerHTML = '';
             document.getElementById('carsCount').textContent = filtered.length;
-
             if (filtered.length === 0) {
                 tbody.innerHTML =
                     `<tr><td colspan="8" style="text-align:center;color:#8b949e;padding:12px;">Нет автомобилей</td></tr>`;
                 return;
             }
-
             filtered.forEach((c, idx) => {
                 let badgeClass = 'badge-green';
                 if (c.remainder < 0) badgeClass = 'badge-red';
                 else if (c.remainder <= 500) badgeClass = 'badge-orange';
                 else if (c.remainder <= 1000) badgeClass = 'badge-yellow';
-
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
                     <td>${idx + 1}</td>
@@ -1955,18 +1128,85 @@
                     <td><span class="badge ${badgeClass}">${c.status}</span></td>
                     <td><span class="clickable" onclick="showCarCard(${c.id})">👁</span></td>
                 `;
-                tr.addEventListener('dblclick', function() {
-                    showCarCard(c.id);
-                });
+                tr.addEventListener('dblclick', function() { showCarCard(c.id); });
                 tbody.appendChild(tr);
             });
         }
 
-        // Карточка автомобиля (по двойному клику)
+        function applyFilters() { renderCars(); }
+
+        function resetFilters() {
+            document.getElementById('filterReg').value = '';
+            document.getElementById('filterModel').value = '';
+            renderCars();
+        }
+
+        // Добавление автомобиля
+        function showAddCarModal() {
+            const exploitants = references.exploitants || [];
+            const html = `
+                <div class="modal-title">🚗 Добавить автомобиль</div>
+                <div class="form-group"><label>Регистрационный номер *</label><input id="fReg" placeholder="Например: А001АА"></div>
+                <div class="form-group"><label>Модель *</label><input id="fModel" placeholder="Например: Toyota Camry"></div>
+                <div class="form-group"><label>СТС</label><input id="fSts" placeholder="Номер СТС"></div>
+                <div class="form-group"><label>Ответственный *</label><input id="fResp" placeholder="ФИО ответственного"></div>
+                <div class="form-group"><label>Водитель</label><input id="fDriver" placeholder="ФИО водителя" list="driversList"><datalist id="driversList">${exploitants.map(d => `<option value="${d}">`).join('')}</datalist></div>
+                <div class="form-row">
+                    <div class="form-group"><label>Пробег (км)</label><input id="fMileage" type="number" value="0"></div>
+                    <div class="form-group"><label>Последнее ТО (км)</label><input id="fLastTO" type="number" value="0"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label>Плановое ТО (км)</label><input id="fPlanTO" type="number" value="2000"></div>
+                    <div class="form-group"><label>Тип ТС</label><select id="fType">${references.carTypes.map(t => `<option value="${t}">${t}</option>`).join('')}</select></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label>Подразделение</label><select id="fDept">${references.departments.map(d => `<option value="${d}">${d}</option>`).join('')}</select></div>
+                    <div class="form-group"><label>Статус ТС</label><select id="fStatus">${references.statuses.map(s => `<option value="${s}">${s}</option>`).join('')}</select></div>
+                </div>
+                <div class="modal-actions">
+                    <button class="btn-secondary" onclick="closeModal()">Отмена</button>
+                    <button class="btn-primary" onclick="saveCar()">Сохранить</button>
+                </div>
+            `;
+            openModal(html);
+        }
+
+        function saveCar() {
+            const reg = document.getElementById('fReg').value.trim();
+            const model = document.getElementById('fModel').value.trim();
+            const sts = document.getElementById('fSts').value.trim();
+            const responsible = document.getElementById('fResp').value.trim();
+            const driver = document.getElementById('fDriver').value.trim();
+            const mileage = parseInt(document.getElementById('fMileage').value) || 0;
+            const last_to = parseInt(document.getElementById('fLastTO').value) || 0;
+            const plan_to = parseInt(document.getElementById('fPlanTO').value) || 2000;
+            const type = document.getElementById('fType').value;
+            const dept = document.getElementById('fDept').value;
+            const tsStatus = document.getElementById('fStatus').value;
+            if (!reg || !model || !responsible) {
+                showToast('Заполните все обязательные поля!', 'error');
+                return;
+            }
+            const newId = cars.length > 0 ? Math.max(...cars.map(c => c.id)) + 1 : 1;
+            const newCar = {
+                id: newId, reg, model, sts, responsible, driver, mileage, last_to, plan_to,
+                remainder: plan_to - mileage, status: '🟢', mark: '⏳ Ожидается',
+                criticality: '🟢 НИЗКИЙ', notification: '✅ Всё в порядке',
+                type, dept, tsStatus
+            };
+            cars.push(newCar);
+            saveData();
+            closeModal();
+            updateDashboard();
+            showToast('✅ Автомобиль добавлен');
+            syncToCloud();
+            addNotification('info', `🚗 Добавлен автомобиль ${reg} (${model})`);
+        }
+
+        // Карточка автомобиля
         function showCarCard(id) {
             const car = cars.find(c => c.id === id);
             if (!car) return;
-
             const html = `
                 <div class="modal-title">🚗 Карточка автомобиля</div>
                 <div class="car-card">
@@ -1996,7 +1236,6 @@
         function printCarCard(id) {
             const car = cars.find(c => c.id === id);
             if (!car) return;
-
             const html = `
                 <html><head><meta charset="UTF-8"><style>
                     body { font-family: Arial, sans-serif; margin: 30px; }
@@ -2034,7 +1273,6 @@
         function exportCarCard(id) {
             const car = cars.find(c => c.id === id);
             if (!car) return;
-
             const headers = ['Поле', 'Значение'];
             const rows = [
                 ['Рег.номер', car.reg],
@@ -2049,34 +1287,23 @@
                 ['Подразделение', car.dept],
                 ['Статус', car.tsStatus]
             ];
-
             const csv = [headers.join(';'), ...rows.map(r => r.join(';'))].join('\n');
             downloadFile(csv, `car_${car.reg}_${new Date().toISOString().slice(0,10)}.csv`, 'text/csv;charset=utf-8');
             showToast('📊 Карточка выгружена в Excel');
         }
 
-        function applyFilters() { renderCars(); }
-
-        function resetFilters() {
-            document.getElementById('filterReg').value = '';
-            document.getElementById('filterModel').value = '';
-            renderCars();
-        }
-
         // ================================================================
-        //  ЛИЧНЫЙ СОСТАВ (ФИО из Эксплуатантов)
+        //  ЛИЧНЫЙ СОСТАВ
         // ================================================================
 
         function renderPersons() {
             const tbody = document.getElementById('personsTable');
             tbody.innerHTML = '';
-
             if (persons.length === 0) {
                 tbody.innerHTML =
                     `<tr><td colspan="7" style="text-align:center;color:#8b949e;padding:12px;">Нет данных</td></tr>`;
                 return;
             }
-
             persons.forEach((p, idx) => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
@@ -2095,7 +1322,6 @@
             });
         }
 
-        // Добавление/редактирование личного состава (с подтягиванием из эксплуатантов)
         function showAddPersonModal() {
             const exploitants = references.exploitants || [];
             const html = `
@@ -2123,12 +1349,7 @@
             const department = document.getElementById('pDept').value;
             const rank = document.getElementById('pRank').value;
             const phone = document.getElementById('pPhone').value.trim();
-
-            if (!fio) {
-                showToast('Введите ФИО!', 'error');
-                return;
-            }
-
+            if (!fio) { showToast('Введите ФИО!', 'error'); return; }
             if (id) {
                 const person = persons.find(p => p.id === id);
                 if (person) {
@@ -2158,7 +1379,6 @@
         function editPerson(id) {
             const person = persons.find(p => p.id === id);
             if (!person) return;
-
             const exploitants = references.exploitants || [];
             const html = `
                 <div class="modal-title">✏️ Редактировать военнослужащего</div>
@@ -2190,24 +1410,21 @@
         }
 
         // ================================================================
-        //  ВООРУЖЕНИЕ (с карточкой по двойному клику)
+        //  ВООРУЖЕНИЕ — РАБОТАЕТ!
         // ================================================================
 
         function renderWeapons() {
             const tbody = document.getElementById('weaponsTable');
             tbody.innerHTML = '';
-
             if (weapons.length === 0) {
                 tbody.innerHTML =
                     `<tr><td colspan="7" style="text-align:center;color:#8b949e;padding:12px;">Нет данных</td></tr>`;
                 return;
             }
-
             weapons.forEach((w, idx) => {
                 let badgeClass = 'badge-green';
                 if (w.status === 'Неисправно') badgeClass = 'badge-red';
                 else if (w.status === 'В ремонте') badgeClass = 'badge-orange';
-
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
                     <td>${idx + 1}</td>
@@ -2218,18 +1435,65 @@
                     <td>${w.repairRequest || '—'}</td>
                     <td><span class="clickable" onclick="showWeaponCard(${w.id})">👁</span></td>
                 `;
-                tr.addEventListener('dblclick', function() {
-                    showWeaponCard(w.id);
-                });
+                tr.addEventListener('dblclick', function() { showWeaponCard(w.id); });
                 tbody.appendChild(tr);
             });
         }
 
-        // Карточка вооружения (по двойному клику)
+        function showAddWeaponModal() {
+            const html = `
+                <div class="modal-title">🔫 Добавить вооружение</div>
+                <div class="form-group"><label>Тип *</label><select id="wType">${references.weaponTypes.map(t => `<option value="${t}">${t}</option>`).join('')}</select></div>
+                <div class="form-group"><label>Бортовой номер *</label><input id="wNumber" placeholder="Например: Б-001"></div>
+                <div class="form-group"><label>Статус</label><select id="wStatus">${references.weaponStatuses.map(s => `<option value="${s}">${s}</option>`).join('')}</select></div>
+                <div class="form-group"><label>Неисправность</label><textarea id="wFault" placeholder="Описание неисправности"></textarea></div>
+                <div class="form-group"><label>Заявка на ремонт</label><input id="wRepair" placeholder="Номер и дата заявки"></div>
+                <div class="modal-actions">
+                    <button class="btn-secondary" onclick="closeModal()">Отмена</button>
+                    <button class="btn-primary" onclick="saveWeapon()">Сохранить</button>
+                </div>
+            `;
+            openModal(html);
+        }
+
+        function saveWeapon(id) {
+            const type = document.getElementById('wType').value;
+            const number = document.getElementById('wNumber').value.trim();
+            const status = document.getElementById('wStatus').value;
+            const fault = document.getElementById('wFault').value.trim();
+            const repairRequest = document.getElementById('wRepair').value.trim();
+            if (!type || !number) { showToast('Заполните тип и бортовой номер!', 'error'); return; }
+            if (id) {
+                const w = weapons.find(w => w.id === id);
+                if (w) {
+                    w.type = type;
+                    w.number = number;
+                    w.status = status;
+                    w.fault = fault;
+                    w.repairRequest = repairRequest;
+                    saveData();
+                    closeModal();
+                    updateDashboard();
+                    showToast('✅ Данные обновлены');
+                    syncToCloud();
+                }
+            } else {
+                const newId = weapons.length > 0 ? Math.max(...weapons.map(w => w.id)) + 1 : 1;
+                weapons.push({ id: newId, type, number, status, fault, repairRequest });
+                saveData();
+                closeModal();
+                updateDashboard();
+                showToast('✅ Вооружение добавлено');
+                syncToCloud();
+                addNotification('info', `🔫 Добавлен ${type} ${number}`);
+            }
+        }
+
         function showWeaponCard(id) {
             const w = weapons.find(w => w.id === id);
             if (!w) return;
-
+            // Заявки на ремонт для этого вооружения
+            const weaponRepairs = repairRequests.filter(r => r.weaponId === id);
             const html = `
                 <div class="modal-title">🔫 Карточка вооружения</div>
                 <div class="weapon-card">
@@ -2238,11 +1502,16 @@
                     <div class="field"><span class="label">Статус</span><span class="value">${w.status}</span></div>
                     <div class="field"><span class="label">Неисправность</span><span class="value">${w.fault || '—'}</span></div>
                     <div class="field"><span class="label">Заявка на ремонт</span><span class="value">${w.repairRequest || '—'}</span></div>
-                    ${w.type === 'Барьер' ? `
-                        <div class="field"><span class="label">Характеристики</span><span class="value">Дальность: до 5 км, Мощность: 50 кВт</span></div>
-                    ` : w.type === 'Звездочет' ? `
-                        <div class="field"><span class="label">Характеристики</span><span class="value">Дальность: до 3 км, Мощность: 30 кВт</span></div>
-                    ` : ''}
+                    ${w.type === 'Барьер' ? `<div class="field"><span class="label">Характеристики</span><span class="value">Дальность: до 5 км, Мощность: 50 кВт</span></div>` : w.type === 'Звездочет' ? `<div class="field"><span class="label">Характеристики</span><span class="value">Дальность: до 3 км, Мощность: 30 кВт</span></div>` : ''}
+                    <div style="margin-top:10px;"><strong style="color:#4a6a3a;">📋 История заявок:</strong></div>
+                    ${weaponRepairs.length > 0 ? weaponRepairs.map(r => `
+                        <div style="font-size:12px;padding:4px 0;border-bottom:1px solid #1c2128;">
+                            ${r.date} — ${r.status}: ${r.description}
+                        </div>
+                    `).join('') : '<div style="font-size:12px;color:#8b949e;padding:4px 0;">Заявок нет</div>'}
+                    <div style="margin-top:8px;">
+                        <button class="btn-small" onclick="addRepairRequest(${w.id})" style="font-size:10px;">➕ Добавить заявку</button>
+                    </div>
                 </div>
                 <div class="modal-actions">
                     <button class="btn-primary" onclick="printWeaponCard(${w.id})">🖨️ Печать</button>
@@ -2253,10 +1522,34 @@
             openModal(html);
         }
 
+        function addRepairRequest(weaponId) {
+            const desc = prompt('Опишите неисправность:');
+            if (desc && desc.trim()) {
+                repairRequests.push({
+                    id: Date.now(),
+                    weaponId: weaponId,
+                    date: new Date().toLocaleString(),
+                    status: 'Открыта',
+                    description: desc.trim()
+                });
+                saveData();
+                const w = weapons.find(w => w.id === weaponId);
+                if (w) {
+                    w.status = 'В ремонте';
+                    w.fault = desc.trim();
+                    saveData();
+                }
+                closeModal();
+                showWeaponCard(weaponId);
+                showToast('✅ Заявка добавлена');
+                syncToCloud();
+            }
+        }
+
         function printWeaponCard(id) {
             const w = weapons.find(w => w.id === id);
             if (!w) return;
-
+            const weaponRepairs = repairRequests.filter(r => r.weaponId === id);
             const html = `
                 <html><head><meta charset="UTF-8"><style>
                     body { font-family: Arial, sans-serif; margin: 30px; }
@@ -2266,6 +1559,7 @@
                     .label { font-weight: bold; width: 150px; color: #555; }
                     .value { flex: 1; }
                     .footer { text-align: center; margin-top: 20px; color: #666; font-size: 11px; }
+                    .repair-item { padding: 4px 0; border-bottom: 1px solid #eee; font-size: 12px; }
                 </style></head>
                 <body>
                     <h1>🔫 Карточка вооружения</h1>
@@ -2277,6 +1571,10 @@
                         <div class="field"><span class="label">Заявка на ремонт</span><span class="value">${w.repairRequest || '—'}</span></div>
                         ${w.type === 'Барьер' ? `<div class="field"><span class="label">Характеристики</span><span class="value">Дальность: до 5 км, Мощность: 50 кВт</span></div>` : ''}
                         ${w.type === 'Звездочет' ? `<div class="field"><span class="label">Характеристики</span><span class="value">Дальность: до 3 км, Мощность: 30 кВт</span></div>` : ''}
+                        <div style="margin-top:10px;"><strong>📋 История заявок:</strong></div>
+                        ${weaponRepairs.length > 0 ? weaponRepairs.map(r => `
+                            <div class="repair-item">${r.date} — ${r.status}: ${r.description}</div>
+                        `).join('') : '<div style="padding:4px 0;">Заявок нет</div>'}
                     </div>
                     <div class="footer">Учетная Система Бригада "БАРС-МОСКВА" • ${new Date().toLocaleString()}</div>
                     <script>window.print(); setTimeout(window.close, 1000);<\/script>
@@ -2290,7 +1588,7 @@
         function exportWeaponCard(id) {
             const w = weapons.find(w => w.id === id);
             if (!w) return;
-
+            const weaponRepairs = repairRequests.filter(r => r.weaponId === id);
             const headers = ['Поле', 'Значение'];
             const rows = [
                 ['Тип', w.type],
@@ -2301,58 +1599,61 @@
             ];
             if (w.type === 'Барьер') rows.push(['Характеристики', 'Дальность: до 5 км, Мощность: 50 кВт']);
             if (w.type === 'Звездочет') rows.push(['Характеристики', 'Дальность: до 3 км, Мощность: 30 кВт']);
-
+            rows.push(['--- История заявок ---', '']);
+            weaponRepairs.forEach(r => rows.push([r.date, r.status + ': ' + r.description]));
             const csv = [headers.join(';'), ...rows.map(r => r.join(';'))].join('\n');
             downloadFile(csv, `weapon_${w.number}_${new Date().toISOString().slice(0,10)}.csv`, 'text/csv;charset=utf-8');
             showToast('📊 Карточка выгружена в Excel');
         }
 
         // ================================================================
-        //  СКЛАД (группировка по типам, артикул)
+        //  СКЛАД — ТАБЛИЦА С ФИЛЬТРОМ
         // ================================================================
 
-        function renderStock() {
-            const container = document.getElementById('stockGroups');
-            container.innerHTML = '';
+        function updateStockFilters() {
+            const typeSelect = document.getElementById('stockTypeFilter');
+            const storageSelect = document.getElementById('stockStorageFilter');
+            const types = ['all', ...new Set(items.map(i => i.type || 'Прочее'))];
+            const storages = ['all', ...new Set(items.map(i => i.storage || 'Без склада'))];
+            typeSelect.innerHTML = types.map(t => `<option value="${t}">${t === 'all' ? 'Все типы' : t}</option>`).join(
+            '');
+            storageSelect.innerHTML = storages.map(s => `<option value="${s}">${s === 'all' ? 'Все склады' : s}</option>`)
+                .join('');
+        }
 
-            if (items.length === 0) {
-                container.innerHTML =
-                    `<div style="color:#8b949e;padding:12px;text-align:center;">Нет ТМЦ на складе</div>`;
+        function renderStock() {
+            const search = document.getElementById('stockSearch').value.toLowerCase();
+            const typeFilter = document.getElementById('stockTypeFilter').value;
+            const storageFilter = document.getElementById('stockStorageFilter').value;
+            let filtered = items;
+            if (search) filtered = filtered.filter(i => i.name.toLowerCase().includes(search) || (i.article || '').toLowerCase()
+                .includes(search));
+            if (typeFilter !== 'all') filtered = filtered.filter(i => (i.type || 'Прочее') === typeFilter);
+            if (storageFilter !== 'all') filtered = filtered.filter(i => (i.storage || 'Без склада') === storageFilter);
+            const tbody = document.getElementById('stockTable');
+            tbody.innerHTML = '';
+            if (filtered.length === 0) {
+                tbody.innerHTML =
+                    `<tr><td colspan="9" style="text-align:center;color:#8b949e;padding:12px;">Нет ТМЦ</td></tr>`;
                 return;
             }
-
-            // Группировка по типам
-            const stockTypes = references.stockTypes || ['Расходные материалы', 'Запасные части', 'Инструмент', 'ГСМ',
-                'Спецодежда', 'Прочее'
-            ];
-            const groups = {};
-            stockTypes.forEach(t => groups[t] = []);
-            items.forEach(item => {
-                const type = item.type || 'Прочее';
-                if (!groups[type]) groups[type] = [];
-                groups[type].push(item);
-            });
-
-            Object.keys(groups).forEach(type => {
-                const groupItems = groups[type];
-                if (groupItems.length === 0) return;
-
-                const div = document.createElement('div');
-                div.className = 'stock-group';
-                div.innerHTML = `
-                    <div class="group-title">${type} (${groupItems.length})</div>
-                    ${groupItems.map(item => `
-                        <div class="stock-item">
-                            <span><strong>${item.article || '—'}</strong> ${item.name}</span>
-                            <span>${item.quantity} ${item.unit} | ${item.storage || '—'}</span>
-                            <span>
-                                <button onclick="editItem(${item.id})" style="background:none;border:none;color:#4a6a3a;cursor:pointer;font-size:11px;">✏️</button>
-                                <button onclick="deleteItem(${item.id})" style="background:none;border:none;color:#f85149;cursor:pointer;font-size:11px;">✕</button>
-                            </span>
-                        </div>
-                    `).join('')}
+            filtered.forEach((item, idx) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${idx + 1}</td>
+                    <td><strong>${item.article || '—'}</strong></td>
+                    <td>${item.name}</td>
+                    <td>${item.type || '—'}</td>
+                    <td>${item.quantity}</td>
+                    <td>${item.unit}</td>
+                    <td>${item.storage || '—'}</td>
+                    <td>${item.note || '—'}</td>
+                    <td>
+                        <button onclick="editItem(${item.id})" style="background:none;border:none;color:#4a6a3a;cursor:pointer;">✏️</button>
+                        <button onclick="deleteItem(${item.id})" style="background:none;border:none;color:#f85149;cursor:pointer;">✕</button>
+                    </td>
                 `;
-                container.appendChild(div);
+                tbody.appendChild(tr);
             });
         }
 
@@ -2383,12 +1684,7 @@
             const quantity = parseInt(document.getElementById('iQuantity').value) || 0;
             const storage = document.getElementById('iStorage').value.trim();
             const note = document.getElementById('iNote').value.trim();
-
-            if (!name) {
-                showToast('Введите наименование!', 'error');
-                return;
-            }
-
+            if (!name) { showToast('Введите наименование!', 'error'); return; }
             if (id) {
                 const item = items.find(i => i.id === id);
                 if (item) {
@@ -2420,7 +1716,6 @@
         function editItem(id) {
             const item = items.find(i => i.id === id);
             if (!item) return;
-
             const stockTypes = references.stockTypes || [];
             const html = `
                 <div class="modal-title">✏️ Редактировать ТМЦ</div>
@@ -2450,7 +1745,7 @@
         }
 
         // ================================================================
-        //  ИСТОРИЯ ТО
+        //  ИСТОРИЯ ТО — РАБОТАЕТ!
         // ================================================================
 
         function renderHistory() {
@@ -2459,7 +1754,6 @@
                 div.innerHTML = `<div style="color:#8b949e;padding:10px;text-align:center;">Нет записей</div>`;
                 return;
             }
-
             const sorted = [...historyData].sort((a, b) => b.id - a.id);
             div.innerHTML = sorted.slice(0, 30).map(h => `
                 <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #1c2128;font-size:11px;">
@@ -2497,18 +1791,12 @@
             const mileage = parseInt(document.getElementById('hMileage').value) || 0;
             const toType = document.getElementById('hType').value;
             const note = document.getElementById('hNote').value.trim();
-
             if (!carId || !date || !mileage || !toType) {
                 showToast('Заполните все обязательные поля!', 'error');
                 return;
             }
-
             const car = cars.find(c => c.id === carId);
-            if (!car) {
-                showToast('Автомобиль не найден!', 'error');
-                return;
-            }
-
+            if (!car) { showToast('Автомобиль не найден!', 'error'); return; }
             const newId = historyData.length > 0 ? Math.max(...historyData.map(h => h.id)) + 1 : 1;
             historyData.push({
                 id: newId,
@@ -2519,13 +1807,11 @@
                 toType,
                 note
             });
-
             if (mileage > car.last_to) {
                 car.last_to = mileage;
                 car.plan_to = mileage + 10000;
                 car.remainder = car.plan_to - car.mileage;
             }
-
             saveData();
             closeModal();
             updateDashboard();
@@ -2545,7 +1831,7 @@
         }
 
         // ================================================================
-        //  ОТЧЁТЫ (печать + Excel + диалог выбора)
+        //  ОТЧЁТЫ — РАБОТАЮТ!
         // ================================================================
 
         function showReportDialog() {
@@ -2554,21 +1840,11 @@
                 <div class="form-group">
                     <label>Выберите данные:</label>
                     <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px;">
-                        <label style="display:flex;align-items:center;gap:6px;font-size:12px;">
-                            <input type="checkbox" id="rptCars" checked> 🚗 Автопарк
-                        </label>
-                        <label style="display:flex;align-items:center;gap:6px;font-size:12px;">
-                            <input type="checkbox" id="rptPersons" checked> 👥 Личный состав
-                        </label>
-                        <label style="display:flex;align-items:center;gap:6px;font-size:12px;">
-                            <input type="checkbox" id="rptWeapons" checked> 🔫 Вооружение
-                        </label>
-                        <label style="display:flex;align-items:center;gap:6px;font-size:12px;">
-                            <input type="checkbox" id="rptStock" checked> 📦 Склад
-                        </label>
-                        <label style="display:flex;align-items:center;gap:6px;font-size:12px;">
-                            <input type="checkbox" id="rptHistory" checked> 📋 История ТО
-                        </label>
+                        <label style="display:flex;align-items:center;gap:6px;font-size:12px;"><input type="checkbox" id="rptCars" checked> 🚗 Автопарк</label>
+                        <label style="display:flex;align-items:center;gap:6px;font-size:12px;"><input type="checkbox" id="rptPersons" checked> 👥 Личный состав</label>
+                        <label style="display:flex;align-items:center;gap:6px;font-size:12px;"><input type="checkbox" id="rptWeapons" checked> 🔫 Вооружение</label>
+                        <label style="display:flex;align-items:center;gap:6px;font-size:12px;"><input type="checkbox" id="rptStock" checked> 📦 Склад</label>
+                        <label style="display:flex;align-items:center;gap:6px;font-size:12px;"><input type="checkbox" id="rptHistory" checked> 📋 История ТО</label>
                     </div>
                 </div>
                 <div class="modal-actions">
@@ -2596,51 +1872,50 @@
                     <h1>📊 ОТЧЁТ ПО БРИГАДЕ "БАРС-МОСКВА"</h1>
                     <p style="text-align:center;">Дата формирования: ${new Date().toLocaleString()}</p>
             `;
-
             const rptCars = document.getElementById('rptCars').checked;
             const rptPersons = document.getElementById('rptPersons').checked;
             const rptWeapons = document.getElementById('rptWeapons').checked;
             const rptStock = document.getElementById('rptStock').checked;
             const rptHistory = document.getElementById('rptHistory').checked;
-
             if (rptCars && cars.length > 0) {
-                html += `<h2>🚗 Автопарк (${cars.length})</h2><table><thead><tr><th>№</th><th>Рег.номер</th><th>Модель</th><th>Пробег</th><th>Остаток</th><th>Статус</th></tr></thead><tbody>`;
+                html +=
+                    `<h2>🚗 Автопарк (${cars.length})</h2><table><thead><tr><th>№</th><th>Рег.номер</th><th>Модель</th><th>Пробег</th><th>Остаток</th><th>Статус</th></tr></thead><tbody>`;
                 cars.forEach((c, i) => {
                     html +=
                         `<tr><td>${i+1}</td><td>${c.reg}</td><td>${c.model}</td><td>${c.mileage}</td><td>${c.remainder}</td><td>${c.status}</td></tr>`;
                 });
                 html += `</tbody></table>`;
             }
-
             if (rptPersons && persons.length > 0) {
-                html += `<h2>👥 Личный состав (${persons.length})</h2><table><thead><tr><th>№</th><th>ФИО</th><th>Должность</th><th>Подразделение</th><th>Звание</th></tr></thead><tbody>`;
+                html +=
+                    `<h2>👥 Личный состав (${persons.length})</h2><table><thead><tr><th>№</th><th>ФИО</th><th>Должность</th><th>Подразделение</th><th>Звание</th></tr></thead><tbody>`;
                 persons.forEach((p, i) => {
                     html +=
                         `<tr><td>${i+1}</td><td>${p.fio}</td><td>${p.position}</td><td>${p.department}</td><td>${p.rank}</td></tr>`;
                 });
                 html += `</tbody></table>`;
             }
-
             if (rptWeapons && weapons.length > 0) {
-                html += `<h2>🔫 Вооружение (${weapons.length})</h2><table><thead><tr><th>№</th><th>Тип</th><th>Бортовой №</th><th>Статус</th><th>Неисправность</th></tr></thead><tbody>`;
+                html +=
+                    `<h2>🔫 Вооружение (${weapons.length})</h2><table><thead><tr><th>№</th><th>Тип</th><th>Бортовой №</th><th>Статус</th><th>Неисправность</th></tr></thead><tbody>`;
                 weapons.forEach((w, i) => {
                     html +=
                         `<tr><td>${i+1}</td><td>${w.type}</td><td>${w.number}</td><td>${w.status}</td><td>${w.fault || '—'}</td></tr>`;
                 });
                 html += `</tbody></table>`;
             }
-
             if (rptStock && items.length > 0) {
-                html += `<h2>📦 Склад (${items.length})</h2><table><thead><tr><th>№</th><th>Наименование</th><th>Артикул</th><th>Кол-во</th><th>Ед. изм.</th><th>Склад</th></tr></thead><tbody>`;
+                html +=
+                    `<h2>📦 Склад (${items.length})</h2><table><thead><tr><th>№</th><th>Наименование</th><th>Артикул</th><th>Кол-во</th><th>Ед. изм.</th><th>Склад</th></tr></thead><tbody>`;
                 items.forEach((item, i) => {
                     html +=
                         `<tr><td>${i+1}</td><td>${item.name}</td><td>${item.article || '—'}</td><td>${item.quantity}</td><td>${item.unit}</td><td>${item.storage || '—'}</td></tr>`;
                 });
                 html += `</tbody></table>`;
             }
-
             if (rptHistory && historyData.length > 0) {
-                html += `<h2>📋 История ТО (${historyData.length})</h2><table><thead><tr><th>№</th><th>Дата</th><th>Автомобиль</th><th>Пробег</th><th>Тип ТО</th></tr></thead><tbody>`;
+                html +=
+                    `<h2>📋 История ТО (${historyData.length})</h2><table><thead><tr><th>№</th><th>Дата</th><th>Автомобиль</th><th>Пробег</th><th>Тип ТО</th></tr></thead><tbody>`;
                 const sorted = [...historyData].sort((a, b) => b.id - a.id);
                 sorted.forEach((h, i) => {
                     html +=
@@ -2648,13 +1923,11 @@
                 });
                 html += `</tbody></table>`;
             }
-
             html += `
                     <div class="footer">Учетная Система Бригада "БАРС-МОСКВА" • ${new Date().toLocaleString()}</div>
                     <script>window.print(); setTimeout(window.close, 1000);<\/script>
                 </body></html>
             `;
-
             const win = window.open('', '_blank');
             win.document.write(html);
             win.document.close();
@@ -2668,10 +1941,8 @@
             const rptWeapons = document.getElementById('rptWeapons').checked;
             const rptStock = document.getElementById('rptStock').checked;
             const rptHistory = document.getElementById('rptHistory').checked;
-
             let csv = 'Учетная Система Бригада "БАРС-МОСКВА"\n';
             csv += `Отчёт от: ${new Date().toLocaleString()}\n\n`;
-
             if (rptCars && cars.length > 0) {
                 csv += '=== АВТОПАРК ===\n';
                 csv += '№;Рег.номер;Модель;Пробег;Остаток;Статус\n';
@@ -2680,7 +1951,6 @@
                 });
                 csv += '\n';
             }
-
             if (rptPersons && persons.length > 0) {
                 csv += '=== ЛИЧНЫЙ СОСТАВ ===\n';
                 csv += '№;ФИО;Должность;Подразделение;Звание;Телефон\n';
@@ -2689,7 +1959,6 @@
                 });
                 csv += '\n';
             }
-
             if (rptWeapons && weapons.length > 0) {
                 csv += '=== ВООРУЖЕНИЕ ===\n';
                 csv += '№;Тип;Бортовой №;Статус;Неисправность;Заявка\n';
@@ -2698,7 +1967,6 @@
                 });
                 csv += '\n';
             }
-
             if (rptStock && items.length > 0) {
                 csv += '=== СКЛАД ===\n';
                 csv += '№;Наименование;Артикул;Тип;Кол-во;Ед.изм.;Склад;Примечание\n';
@@ -2708,7 +1976,6 @@
                 });
                 csv += '\n';
             }
-
             if (rptHistory && historyData.length > 0) {
                 csv += '=== ИСТОРИЯ ТО ===\n';
                 csv += '№;Дата;Автомобиль;Модель;Пробег;Тип ТО;Примечание\n';
@@ -2718,13 +1985,11 @@
                 });
                 csv += '\n';
             }
-
             downloadFile(csv, `report_${new Date().toISOString().slice(0,10)}.csv`, 'text/csv;charset=utf-8');
             showToast('📊 Отчёт выгружен в Excel');
         }
 
         function printReport() {
-            // Быстрая печать текущих данных
             const html = `
                 <html><head><meta charset="UTF-8"><style>
                     body { font-family: Arial, sans-serif; margin: 20px; }
@@ -2755,31 +2020,26 @@
         }
 
         function exportToExcel() {
-            // Экспорт всех данных в один CSV
             let csv = 'Учетная Система Бригада "БАРС-МОСКВА"\n';
             csv += `Экспорт от: ${new Date().toLocaleString()}\n\n`;
-
             csv += '=== АВТОПАРК ===\n';
             csv += '№;Рег.номер;Модель;СТС;Пробег;Остаток;Статус\n';
             cars.forEach((c, i) => {
                 csv += `${i+1};${c.reg};${c.model};${c.sts || ''};${c.mileage};${c.remainder};${c.status}\n`;
             });
             csv += '\n';
-
             csv += '=== ЛИЧНЫЙ СОСТАВ ===\n';
             csv += '№;ФИО;Должность;Подразделение;Звание;Телефон\n';
             persons.forEach((p, i) => {
                 csv += `${i+1};${p.fio};${p.position};${p.department};${p.rank};${p.phone || ''}\n`;
             });
             csv += '\n';
-
             csv += '=== ВООРУЖЕНИЕ ===\n';
             csv += '№;Тип;Бортовой №;Статус;Неисправность;Заявка\n';
             weapons.forEach((w, i) => {
                 csv += `${i+1};${w.type};${w.number};${w.status};${w.fault || ''};${w.repairRequest || ''}\n`;
             });
             csv += '\n';
-
             csv += '=== СКЛАД ===\n';
             csv += '№;Наименование;Артикул;Тип;Кол-во;Ед.изм.;Склад;Примечание\n';
             items.forEach((item, i) => {
@@ -2787,14 +2047,12 @@
                     `${i+1};${item.name};${item.article || ''};${item.type || ''};${item.quantity};${item.unit};${item.storage || ''};${item.note || ''}\n`;
             });
             csv += '\n';
-
             csv += '=== ИСТОРИЯ ТО ===\n';
             csv += '№;Дата;Автомобиль;Модель;Пробег;Тип ТО;Примечание\n';
             const sorted = [...historyData].sort((a, b) => b.id - a.id);
             sorted.forEach((h, i) => {
                 csv += `${i+1};${h.date};${h.reg};${h.model};${h.mileage};${h.toType};${h.note || ''}\n`;
             });
-
             downloadFile(csv, `bars_full_${new Date().toISOString().slice(0,10)}.csv`, 'text/csv;charset=utf-8');
             showToast('📊 Все данные выгружены в Excel');
         }
@@ -2838,8 +2096,9 @@
                 history: historyData,
                 references,
                 notifications,
+                repairRequests,
                 exported: new Date().toISOString(),
-                version: '6.0'
+                version: '6.1'
             };
             const json = JSON.stringify(data, null, 2);
             downloadFile(json, `bars_data_${new Date().toISOString().slice(0,10)}.json`, 'application/json');
@@ -2873,6 +2132,7 @@
                     localStorage.removeItem(prefix + 'history');
                     localStorage.removeItem(prefix + 'refs');
                     localStorage.removeItem(prefix + 'notifs');
+                    localStorage.removeItem(prefix + 'repairs');
                     loadData();
                     updateDashboard();
                     showToast('🗑️ Все данные сброшены');
@@ -2887,12 +2147,10 @@
         function showToast(message, type = '') {
             const existing = document.querySelector('.toast');
             if (existing) existing.remove();
-
             const toast = document.createElement('div');
             toast.className = `toast ${type}`;
             toast.textContent = message;
             document.body.appendChild(toast);
-
             setTimeout(() => {
                 toast.style.opacity = '0';
                 toast.style.transform = 'translateX(-50%) translateY(10px)';
@@ -2906,10 +2164,7 @@
 
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.addEventListener('click', function() {
-                if (!currentRole) {
-                    openAuth(this.dataset.tab);
-                    return;
-                }
+                if (!currentRole) { openAuth(this.dataset.tab); return; }
                 document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
                 document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
                 this.classList.add('active');
@@ -2921,73 +2176,8 @@
         //  ЗАПУСК
         // ================================================================
 
-        // Начальные данные для автомобилей (дополнены СТС)
-        const defaultCars = [
-            { id: 1, reg: 'Е390НУ977', model: 'Foton Tunland G9', sts: '1234567890', responsible: 'Ремнев Артем Сергеевич',
-                driver: 'Ремнев Артем Сергеевич', mileage: 5359, last_to: 2000, plan_to: 12000, remainder: 3359,
-                status: '🟢', mark: '✅ Пройдено', criticality: '🟢 НИЗКИЙ', notification: '✅ Всё в порядке',
-                type: 'Легковой', dept: 'Штаб', tsStatus: 'В эксплуатации' },
-            { id: 2, reg: 'Е420НУ977', model: 'Foton Tunland G9', sts: '0987654321', responsible: 'Федоров Богдан Владимирович',
-                driver: 'Федоров Богдан Владимирович', mileage: 7485, last_to: 2000, plan_to: 12000, remainder: 5485,
-                status: '🟢', mark: '✅ Пройдено', criticality: '🟢 НИЗКИЙ', notification: '✅ Всё в порядке',
-                type: 'Легковой', dept: 'Инструкторский состав', tsStatus: 'В эксплуатации' },
-            { id: 3, reg: 'Е391НУ977', model: 'Foton Tunland G9', sts: '1122334455', responsible: 'Магомедов Магомед Насрудинович',
-                driver: 'Никифоров Роман Владимирович', mileage: 0, last_to: 2000, plan_to: 12000, remainder: 2000,
-                status: '🟡', mark: '⏳ Скоро ТО', criticality: '🟡 СРЕДНИЙ', notification: '📅 Осталось ≤ 1000 км',
-                type: 'Легковой', dept: 'Штаб', tsStatus: 'В эксплуатации' },
-            { id: 4, reg: 'Е445НУ977', model: 'Foton Tunland G9', sts: '5544332211', responsible: 'Магомедов Магомед Насрудинович',
-                driver: 'Магомедов Магомед Насрудинович', mileage: 144, last_to: 0, plan_to: 2000, remainder: 1856,
-                status: '🟢', mark: '✅ Пройдено', criticality: '🟢 НИЗКИЙ', notification: '✅ Всё в порядке',
-                type: 'Легковой', dept: 'Снабжение', tsStatus: 'В эксплуатации' },
-            { id: 5, reg: 'Е474НУ977', model: 'Foton Tunland G9', sts: '6677889900', responsible: 'Зятиков Илья Михайлович',
-                driver: 'Зятиков Илья Михайлович', mileage: 4185, last_to: 2000, plan_to: 12000, remainder: 2185,
-                status: '🟢', mark: '✅ Пройдено', criticality: '🟢 НИЗКИЙ', notification: '✅ Всё в порядке',
-                type: 'Легковой', dept: 'Штаб', tsStatus: 'В эксплуатации' }
-        ];
-
-        const defaultPersons = [
-            { id: 1, fio: 'Ремнев Артем Сергеевич', position: 'Старшина', department: 'Штаб', rank: 'Старшина',
-                phone: '+7 999 123-45-67' },
-            { id: 2, fio: 'Магомедов Магомед Насрудинович', position: 'Водитель', department: 'Снабжение', rank: 'Сержант',
-                phone: '+7 999 234-56-78' },
-            { id: 3, fio: 'Федоров Богдан Владимирович', position: 'Водитель', department: 'Инструкторский состав',
-                rank: 'Ефрейтор', phone: '+7 999 345-67-89' },
-            { id: 4, fio: 'Зятиков Илья Михайлович', position: 'Командир', department: 'Штаб', rank: 'Капитан',
-                phone: '+7 999 456-78-90' }
-        ];
-
-        const defaultWeapons = [
-            { id: 1, type: 'Барьер', number: 'Б-001', status: 'Исправно', fault: '', repairRequest: '' },
-            { id: 2, type: 'Барьер', number: 'Б-002', status: 'В ремонте', fault: 'Неисправен блок наведения',
-                repairRequest: 'Заявка №1 от 01.09.2026' },
-            { id: 3, type: 'Звездочет', number: 'З-001', status: 'Исправно', fault: '', repairRequest: '' },
-            { id: 4, type: 'Звездочет', number: 'З-002', status: 'Неисправно', fault: 'Сбой системы охлаждения',
-                repairRequest: 'Заявка №2 от 05.09.2026' }
-        ];
-
-        const defaultItems = [
-            { id: 1, name: 'Масло моторное 5W-30', article: 'M-001', type: 'Расходные материалы', unit: 'л',
-                quantity: 50, storage: 'Склад №1', note: 'Для двигателей' },
-            { id: 2, name: 'Фильтр масляный', article: 'F-001', type: 'Запасные части', unit: 'шт.',
-                quantity: 30, storage: 'Склад №1', note: '' },
-            { id: 3, name: 'Тормозные колодки', article: 'T-001', type: 'Запасные части', unit: 'компл.',
-                quantity: 15, storage: 'Склад №2', note: 'Для легковых' },
-            { id: 4, name: 'Свечи зажигания', article: 'S-001', type: 'Запасные части', unit: 'шт.',
-                quantity: 100, storage: 'Склад №2', note: '' },
-            { id: 5, name: 'Набор гаечных ключей', article: 'I-001', type: 'Инструмент', unit: 'компл.',
-                quantity: 10, storage: 'Склад №3', note: '' }
-        ];
-
-        const defaultHistory = [
-            { id: 1, date: '13.08.2026', reg: 'Е391НУ977', model: 'Foton Tunland G9', mileage: 1998,
-                toType: 'ТО-0 (2 000 км)', note: '' },
-            { id: 2, date: '12.08.2026', reg: 'Е390НУ977', model: 'Foton Tunland G9', mileage: 1999,
-                toType: 'ТО-0 (2 000 км)', note: '' }
-        ];
-
         document.addEventListener('DOMContentLoaded', function() {
             loadData();
-
             const savedRoles = localStorage.getItem('bars_roles');
             if (savedRoles) {
                 try {
@@ -2999,29 +2189,24 @@
                     });
                 } catch (e) {}
             }
-
             renderMainScreen();
-
             document.getElementById('filterReg').addEventListener('input', renderCars);
             document.getElementById('filterModel').addEventListener('input', renderCars);
-
+            // Автосинхронизация
             setInterval(() => {
                 if (navigator.onLine && currentRole) {
                     syncToCloud();
                 }
             }, 300000);
-
             window.addEventListener('online', () => {
                 showToast('🌐 Интернет восстановлен', 'sync');
                 if (currentRole) syncToCloud();
             });
-
             window.addEventListener('offline', () => {
                 showToast('📡 Нет интернета. Данные сохраняются локально.', 'error');
                 document.getElementById('syncStatus').textContent = '📡 офлайн';
                 document.getElementById('syncStatus').className = 'sync-status offline';
             });
-
             if ('Notification' in window && Notification.permission === 'default') {
                 setTimeout(() => Notification.requestPermission(), 3000);
             }
