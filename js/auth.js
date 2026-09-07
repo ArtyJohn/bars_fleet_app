@@ -43,6 +43,11 @@ const AuthManager = {
             
             Utils.showToast('✅ Добро пожаловать, ' + roleData.name + '!');
             
+            // Запись в историю
+            if (window.historyLog) {
+                window.historyLog.add('auth', 'Вход пользователя: ' + roleData.label);
+            }
+            
             if (AuthManager.targetTab) {
                 console.log('➡️ Переход на вкладку:', AuthManager.targetTab);
                 if (window.app && typeof window.app.openTab === 'function') {
@@ -134,16 +139,28 @@ const AuthManager = {
     
     updateUI: () => {
         console.log('🔐 AuthManager.updateUI()');
+        const refsBtn = document.getElementById('refsBtn');
+        
         if (AuthManager.currentUser) {
             document.getElementById('userBadge').textContent = '👤 ' + AuthManager.currentUser.label;
             document.getElementById('logoutBtn').style.display = '';
             document.getElementById('homeBtn').style.display = '';
             document.getElementById('bottomActions').style.display = '';
+            
+            // Справочники доступны только командиру (admin)
+            if (AuthManager.currentRole === 'admin') {
+                if (refsBtn) refsBtn.style.display = '';
+            } else {
+                if (refsBtn) refsBtn.style.display = 'none';
+                document.getElementById('refsPanel').classList.remove('active');
+            }
         } else {
             document.getElementById('userBadge').textContent = '👤 Гость';
             document.getElementById('logoutBtn').style.display = 'none';
             document.getElementById('homeBtn').style.display = 'none';
             document.getElementById('bottomActions').style.display = 'none';
+            if (refsBtn) refsBtn.style.display = 'none';
+            document.getElementById('refsPanel').classList.remove('active');
         }
     },
     
@@ -153,6 +170,10 @@ const AuthManager = {
             DataManager.roles[role].passwordHash = DataManager.hashPassword(newPass.trim());
             DataManager.save();
             Utils.showToast('✅ Пароль изменён для ' + DataManager.roles[role].label);
+            
+            if (window.historyLog) {
+                window.historyLog.add('auth', 'Изменён пароль для роли: ' + role);
+            }
         } else if (newPass !== null) {
             Utils.showToast('❌ Пароль должен быть не менее 4 символов', 'error');
         }
@@ -163,7 +184,7 @@ const AuthManager = {
 // ⚠️ ВАЖНО! ЭКСПОРТ В ГЛОБАЛЬНУЮ ОБЛАСТЬ
 // ================================================================
 window.AuthManager = AuthManager;
-window.auth = AuthManager;  // ← ЭТА СТРОКА БЫЛА ПРОПУЩЕНА!
+window.auth = AuthManager;
 
 console.log('✅ AuthManager загружен');
 console.log('✅ window.auth доступен');
