@@ -1,7 +1,7 @@
 {
-    "name": "Учетная Система Бригада БАРС-МОСКВА",
-    "short_name": "БАРС-МОСКВА",
-    "description": "Учетная система ЛК Бригада Барс-Москва",
+    "name": "Учетная система роты ЛК",
+    "short_name": "Рота ЛК",
+    "description": "Учетная система роты ЛК",
     "start_url": "index.html",
     "display": "standalone",
     "background_color": "#0d1117",
