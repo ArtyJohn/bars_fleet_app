@@ -1,6 +1,11 @@
 // js/refs.js - Справочники
 const RefsManager = {
     toggle: () => {
+        // Проверка доступа
+        if (AuthManager.currentRole !== 'admin') {
+            Utils.showToast('❌ Доступ только у командира', 'error');
+            return;
+        }
         const panel = document.getElementById('refsPanel');
         panel.classList.toggle('active');
         if (panel.classList.contains('active')) RefsManager.render();
@@ -24,9 +29,9 @@ const RefsManager = {
         
         grid.innerHTML = groups.map(g => {
             const items = DataManager.refs[g.key] || [];
-            const showItems = items.slice(0, 5);
-            const hiddenCount = items.length - 5;
             const isAdmin = AuthManager.currentRole === 'admin';
+            // Показываем все элементы
+            const allItems = items;
             
             return `
                 <div class="ref-group">
@@ -35,14 +40,13 @@ const RefsManager = {
                         ${isAdmin ? `<button class="btn-small" onclick="window.refs.add('${g.key}')" style="font-size:9px;padding:1px 6px;">➕</button>` : ''}
                     </div>
                     <div class="ref-list">
-                        ${showItems.map(item => `
+                        ${allItems.length === 0 ? '<div style="color:#8b949e;font-size:10px;padding:2px 0;">Пусто</div>' : ''}
+                        ${allItems.map(item => `
                             <div class="ref-item">
                                 <span>${item}</span>
                                 ${isAdmin ? `<span class="del" onclick="window.refs.delete('${g.key}','${item}')">✕</span>` : ''}
                             </div>
                         `).join('')}
-                        ${hiddenCount > 0 ? `<div style="color:#4a6a3a;font-size:10px;padding:2px 0;">+ еще ${hiddenCount}</div>` : ''}
-                        ${items.length === 0 ? '<div style="color:#8b949e;font-size:10px;padding:2px 0;">Пусто</div>' : ''}
                     </div>
                 </div>
             `;
@@ -58,6 +62,10 @@ const RefsManager = {
             RefsManager.render();
             Utils.showToast('✅ Добавлено: ' + value.trim());
             window.sync.sync();
+            
+            if (window.historyLog) {
+                window.historyLog.add('refs', 'Добавлено значение "' + value.trim() + '" в справочник ' + key);
+            }
         }
     },
     
@@ -68,6 +76,10 @@ const RefsManager = {
             RefsManager.render();
             Utils.showToast('🗑️ Удалено');
             window.sync.sync();
+            
+            if (window.historyLog) {
+                window.historyLog.add('refs', 'Удалено значение "' + value + '" из справочника ' + key);
+            }
         }
     }
 };
