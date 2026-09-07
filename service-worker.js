@@ -17,7 +17,7 @@ self.addEventListener('install', (event) => {
     event.waitUntil(
         caches.open(CACHE_NAME)
             .then((cache) => {
-                console.log('✅ Барс-Москва: кэш создан');
+                console.log('✅ Рота ЛК: кэш создан');
                 return cache.addAll(urlsToCache);
             })
             .catch((err) => console.error('❌ Ошибка кэширования:', err))
