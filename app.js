@@ -1,5 +1,5 @@
 // ================================================================
-//  app.js — вся логика приложения
+//  app.js — ВСЯ ЛОГИКА ПРИЛОЖЕНИЯ
 // ================================================================
 
 // ================================================================
@@ -83,12 +83,14 @@ const defaultPersons = [
 ];
 
 const defaultWeapons = [
-    { id: 1, type: 'Барьер', number: 'Б-001', status: 'Исправно', fault: '', repairRequest: '' },
-    { id: 2, type: 'Барьер', number: 'Б-002', status: 'В ремонте', fault: 'Неисправен блок наведения',
-        repairRequest: 'Заявка №1 от 01.09.2026' },
-    { id: 3, type: 'Звездочет', number: 'З-001', status: 'Исправно', fault: '', repairRequest: '' },
-    { id: 4, type: 'Звездочет', number: 'З-002', status: 'Неисправно', fault: 'Сбой системы охлаждения',
-        repairRequest: 'Заявка №2 от 05.09.2026' }
+    { id: 1, type: 'Барьер', number: 'Б-001', symbol: 'Б-1', coordinates: '55.75, 37.62', status: 'Исправно',
+        fault: '', lastRequest: '' },
+    { id: 2, type: 'Барьер', number: 'Б-002', symbol: 'Б-2', coordinates: '55.76, 37.63', status: 'В ремонте',
+        fault: 'Неисправен блок наведения', lastRequest: 'Заявка №1 от 01.09.2026' },
+    { id: 3, type: 'Звездочет', number: 'З-001', symbol: 'З-1', coordinates: '55.77, 37.64', status: 'Исправно',
+        fault: '', lastRequest: '' },
+    { id: 4, type: 'Звездочет', number: 'З-002', symbol: 'З-2', coordinates: '55.78, 37.65', status: 'Неисправно',
+        fault: 'Сбой системы охлаждения', lastRequest: 'Заявка №2 от 05.09.2026' }
 ];
 
 const defaultItems = [
@@ -540,12 +542,17 @@ function updateDashboard() {
     document.getElementById('overdue').textContent = overdue;
     document.getElementById('soon').textContent = soon;
     document.getElementById('ok').textContent = ok;
+
     const wTotal = weapons.length;
     const wRepair = weapons.filter(w => w.status === 'В ремонте').length;
     const wFault = weapons.filter(w => w.status === 'Неисправно').length;
+    const openRequests = repairRequests.filter(r => r.status === 'Открыта').length;
+
     document.getElementById('weaponTotal').textContent = wTotal;
     document.getElementById('weaponRepair').textContent = wRepair;
     document.getElementById('weaponFault').textContent = wFault;
+    document.getElementById('weaponRequests').textContent = openRequests;
+
     renderCars();
     renderPersons();
     renderWeapons();
@@ -604,7 +611,6 @@ function resetFilters() {
     renderCars();
 }
 
-// ===== ДОБАВЛЕНИЕ АВТОМОБИЛЯ (РАБОТАЕТ) =====
 function showAddCarModal() {
     const exploitants = references.exploitants || [];
     const html = `
@@ -666,7 +672,6 @@ function saveCar() {
     addNotification('info', `🚗 Добавлен автомобиль ${reg} (${model})`);
 }
 
-// ===== КАРТОЧКА АВТОМОБИЛЯ =====
 function showCarCard(id) {
     const car = cars.find(c => c.id === id);
     if (!car) return;
@@ -879,7 +884,7 @@ function deletePerson(id) {
 }
 
 // ================================================================
-//  ВООРУЖЕНИЕ
+//  ВООРУЖЕНИЕ — НОВАЯ ВЕРСИЯ
 // ================================================================
 
 function renderWeapons() {
@@ -887,13 +892,14 @@ function renderWeapons() {
     tbody.innerHTML = '';
     if (weapons.length === 0) {
         tbody.innerHTML =
-            `<tr><td colspan="7" style="text-align:center;color:#8b949e;padding:12px;">Нет данных</td></tr>`;
+            `<tr><td colspan="8" style="text-align:center;color:#8b949e;padding:12px;">Нет данных</td></tr>`;
         return;
     }
     weapons.forEach((w, idx) => {
         let badgeClass = 'badge-green';
         if (w.status === 'Неисправно') badgeClass = 'badge-red';
         else if (w.status === 'В ремонте') badgeClass = 'badge-orange';
+
         const tr = document.createElement('tr');
         tr.innerHTML = `
                     <td>${idx + 1}</td>
@@ -901,7 +907,8 @@ function renderWeapons() {
                     <td>${w.number}</td>
                     <td><span class="badge ${badgeClass}">${w.status}</span></td>
                     <td>${w.fault || '—'}</td>
-                    <td>${w.repairRequest || '—'}</td>
+                    <td>${w.coordinates || '—'}</td>
+                    <td>${w.lastRequest || '—'}</td>
                     <td><span class="clickable" onclick="showWeaponCard(${w.id})">👁</span></td>
                 `;
         tr.addEventListener('dblclick', function() { showWeaponCard(w.id); });
@@ -914,9 +921,11 @@ function showAddWeaponModal() {
                 <div class="modal-title">🔫 Добавить вооружение</div>
                 <div class="form-group"><label>Тип *</label><select id="wType">${references.weaponTypes.map(t => `<option value="${t}">${t}</option>`).join('')}</select></div>
                 <div class="form-group"><label>Бортовой номер *</label><input id="wNumber" placeholder="Например: Б-001"></div>
+                <div class="form-group"><label>Условное обозначение</label><input id="wSymbol" placeholder="Например: Б-1"></div>
+                <div class="form-group"><label>Координаты</label><input id="wCoords" placeholder="Например: 55.75, 37.62"></div>
                 <div class="form-group"><label>Статус</label><select id="wStatus">${references.weaponStatuses.map(s => `<option value="${s}">${s}</option>`).join('')}</select></div>
                 <div class="form-group"><label>Неисправность</label><textarea id="wFault" placeholder="Описание неисправности"></textarea></div>
-                <div class="form-group"><label>Заявка на ремонт</label><input id="wRepair" placeholder="Номер и дата заявки"></div>
+                <div class="form-group"><label>Последняя заявка</label><input id="wLastRequest" placeholder="№ заявки"></div>
                 <div class="modal-actions">
                     <button class="btn-secondary" onclick="closeModal()">Отмена</button>
                     <button class="btn-primary" onclick="saveWeapon()">Сохранить</button>
@@ -928,12 +937,23 @@ function showAddWeaponModal() {
 function saveWeapon() {
     const type = document.getElementById('wType').value;
     const number = document.getElementById('wNumber').value.trim();
+    const symbol = document.getElementById('wSymbol').value.trim();
+    const coordinates = document.getElementById('wCoords').value.trim();
     const status = document.getElementById('wStatus').value;
     const fault = document.getElementById('wFault').value.trim();
-    const repairRequest = document.getElementById('wRepair').value.trim();
+    const lastRequest = document.getElementById('wLastRequest').value.trim();
     if (!type || !number) { showToast('Заполните тип и бортовой номер!', 'error'); return; }
     const newId = weapons.length > 0 ? Math.max(...weapons.map(w => w.id)) + 1 : 1;
-    weapons.push({ id: newId, type, number, status, fault, repairRequest });
+    weapons.push({
+        id: newId,
+        type,
+        number,
+        symbol,
+        coordinates,
+        status,
+        fault,
+        lastRequest
+    });
     saveData();
     closeModal();
     updateDashboard();
@@ -945,26 +965,67 @@ function saveWeapon() {
 function showWeaponCard(id) {
     const w = weapons.find(w => w.id === id);
     if (!w) return;
+
     const weaponRepairs = repairRequests.filter(r => r.weaponId === id);
+    const openRepairs = weaponRepairs.filter(r => r.status === 'Открыта');
+    const closedRepairs = weaponRepairs.filter(r => r.status === 'Закрыта');
+
+    let criticality = '🟢 НИЗКИЙ';
+    let critColor = 'green';
+    if (w.status === 'Неисправно') { criticality = '🔴 КРИТИЧНЫЙ';
+        critColor = 'red'; } else if (w.status === 'В ремонте') { criticality = '🟠 СРЕДНИЙ';
+        critColor = 'orange'; }
+
     const html = `
-                <div class="modal-title">🔫 Карточка вооружения</div>
-                <div class="weapon-card">
-                    <div class="field"><span class="label">Тип</span><span class="value">${w.type}</span></div>
-                    <div class="field"><span class="label">Бортовой №</span><span class="value">${w.number}</span></div>
-                    <div class="field"><span class="label">Статус</span><span class="value">${w.status}</span></div>
-                    <div class="field"><span class="label">Неисправность</span><span class="value">${w.fault || '—'}</span></div>
-                    <div class="field"><span class="label">Заявка на ремонт</span><span class="value">${w.repairRequest || '—'}</span></div>
-                    ${w.type === 'Барьер' ? `<div class="field"><span class="label">Характеристики</span><span class="value">Дальность: до 5 км, Мощность: 50 кВт</span></div>` : w.type === 'Звездочет' ? `<div class="field"><span class="label">Характеристики</span><span class="value">Дальность: до 3 км, Мощность: 30 кВт</span></div>` : ''}
-                    <div style="margin-top:10px;"><strong style="color:#4a6a3a;">📋 История заявок:</strong></div>
-                    ${weaponRepairs.length > 0 ? weaponRepairs.map(r => `
-                        <div style="font-size:12px;padding:4px 0;border-bottom:1px solid #1c2128;">
-                            ${r.date} — ${r.status}: ${r.description}
+                <div class="modal-title">🔫 Карточка вооружения — ${w.number}</div>
+
+                <!-- ВЕРХНЕЕ ОКНО — ИНФОРМАЦИЯ -->
+                <div class="weapon-card" style="margin-bottom:12px;">
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+                        <div class="field"><span class="label">Тип</span><span class="value">${w.type}</span></div>
+                        <div class="field"><span class="label">Бортовой №</span><span class="value">${w.number}</span></div>
+                        <div class="field"><span class="label">Условное обозначение</span><span class="value">${w.symbol || '—'}</span></div>
+                        <div class="field"><span class="label">Координаты</span><span class="value">${w.coordinates || '—'}</span></div>
+                        <div class="field"><span class="label">Статус</span><span class="value" style="color:${critColor};">${w.status}</span></div>
+                        <div class="field"><span class="label">Критичность</span><span class="value" style="color:${critColor};">${criticality}</span></div>
+                        <div class="field" style="grid-column:1/3;"><span class="label">Неисправность</span><span class="value">${w.fault || '—'}</span></div>
+                        <div class="field" style="grid-column:1/3;"><span class="label">Последняя заявка</span><span class="value">${w.lastRequest || '—'}</span></div>
+                        <div class="field" style="grid-column:1/3;border-bottom:none;padding-top:6px;">
+                            <span class="label">📊 Статистика заявок</span>
+                            <span class="value">Открыто: ${openRepairs.length} | Закрыто: ${closedRepairs.length}</span>
                         </div>
-                    `).join('') : '<div style="font-size:12px;color:#8b949e;padding:4px 0;">Заявок нет</div>'}
-                    <div style="margin-top:8px;">
+                    </div>
+                    <div style="margin-top:8px;display:flex;gap:6px;">
                         <button class="btn-small" onclick="addRepairRequest(${w.id})" style="font-size:10px;">➕ Добавить заявку</button>
+                        <button class="btn-small primary" onclick="editWeapon(${w.id})" style="font-size:10px;">✏️ Редактировать</button>
+                        <button class="btn-small danger" onclick="deleteWeapon(${w.id})" style="font-size:10px;">🗑️ Удалить</button>
                     </div>
                 </div>
+
+                <!-- НИЖНЕЕ ОКНО — ЗАЯВКИ -->
+                <div style="border-top:1px solid #2d3a2d;padding-top:10px;">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                        <strong style="color:#4a6a3a;">📋 Заявки на ремонт</strong>
+                        <div style="display:flex;gap:6px;">
+                            <span style="font-size:11px;color:#f0883e;">🟠 Открытых: ${openRepairs.length}</span>
+                            <span style="font-size:11px;color:#3fb950;">🟢 Закрытых: ${closedRepairs.length}</span>
+                        </div>
+                    </div>
+                    ${weaponRepairs.length === 0 ? '<div style="color:#8b949e;font-size:12px;padding:8px 0;">Заявок нет</div>' : ''}
+                    ${weaponRepairs.map(r => `
+                        <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 8px;border-bottom:1px solid #1c2128;font-size:12px;background:${r.status === 'Закрыта' ? '#0d1117' : 'transparent'};">
+                            <div style="display:flex;flex-direction:column;gap:2px;flex:1;">
+                                <span><strong>${r.date}</strong> — ${r.description}</span>
+                                <span style="font-size:10px;color:#8b949e;">${r.status === 'Открыта' ? '🟠 Открыта' : '🟢 Закрыта'}</span>
+                            </div>
+                            <div style="display:flex;gap:4px;">
+                                ${r.status === 'Открыта' ? `<button onclick="closeRepairRequest(${r.id})" style="background:#2d3a2d;border:1px solid #4a6a3a;color:#e6edf3;padding:2px 8px;border-radius:4px;font-size:10px;cursor:pointer;">Закрыть</button>` : ''}
+                                <button onclick="deleteRepairRequest(${r.id})" style="background:none;border:none;color:#f85149;cursor:pointer;font-size:12px;">✕</button>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+
                 <div class="modal-actions">
                     <button class="btn-primary" onclick="printWeaponCard(${w.id})">🖨️ Печать</button>
                     <button class="btn-primary" onclick="exportWeaponCard(${w.id})">📊 Excel</button>
@@ -972,6 +1033,64 @@ function showWeaponCard(id) {
                 </div>
             `;
     openModal(html);
+}
+
+function editWeapon(id) {
+    const w = weapons.find(w => w.id === id);
+    if (!w) return;
+    const html = `
+                <div class="modal-title">✏️ Редактировать вооружение</div>
+                <div class="form-group"><label>Тип *</label><select id="wType">${references.weaponTypes.map(t => `<option value="${t}" ${t===w.type?'selected':''}>${t}</option>`).join('')}</select></div>
+                <div class="form-group"><label>Бортовой номер *</label><input id="wNumber" value="${w.number}"></div>
+                <div class="form-group"><label>Условное обозначение</label><input id="wSymbol" value="${w.symbol || ''}"></div>
+                <div class="form-group"><label>Координаты</label><input id="wCoords" value="${w.coordinates || ''}"></div>
+                <div class="form-group"><label>Статус</label><select id="wStatus">${references.weaponStatuses.map(s => `<option value="${s}" ${s===w.status?'selected':''}>${s}</option>`).join('')}</select></div>
+                <div class="form-group"><label>Неисправность</label><textarea id="wFault">${w.fault || ''}</textarea></div>
+                <div class="form-group"><label>Последняя заявка</label><input id="wLastRequest" value="${w.lastRequest || ''}"></div>
+                <div class="modal-actions">
+                    <button class="btn-secondary" onclick="closeModal()">Отмена</button>
+                    <button class="btn-primary" onclick="saveWeaponEdit(${w.id})">Сохранить</button>
+                </div>
+            `;
+    openModal(html);
+}
+
+function saveWeaponEdit(id) {
+    const type = document.getElementById('wType').value;
+    const number = document.getElementById('wNumber').value.trim();
+    const symbol = document.getElementById('wSymbol').value.trim();
+    const coordinates = document.getElementById('wCoords').value.trim();
+    const status = document.getElementById('wStatus').value;
+    const fault = document.getElementById('wFault').value.trim();
+    const lastRequest = document.getElementById('wLastRequest').value.trim();
+    if (!type || !number) { showToast('Заполните тип и бортовой номер!', 'error'); return; }
+    const w = weapons.find(w => w.id === id);
+    if (w) {
+        w.type = type;
+        w.number = number;
+        w.symbol = symbol;
+        w.coordinates = coordinates;
+        w.status = status;
+        w.fault = fault;
+        w.lastRequest = lastRequest;
+        saveData();
+        closeModal();
+        updateDashboard();
+        showToast('✅ Данные обновлены');
+        syncToCloud();
+    }
+}
+
+function deleteWeapon(id) {
+    if (confirm('Удалить эту единицу вооружения?')) {
+        weapons = weapons.filter(w => w.id !== id);
+        repairRequests = repairRequests.filter(r => r.weaponId !== id);
+        saveData();
+        closeModal();
+        updateDashboard();
+        showToast('🗑️ Запись удалена');
+        syncToCloud();
+    }
 }
 
 function addRepairRequest(weaponId) {
@@ -989,6 +1108,7 @@ function addRepairRequest(weaponId) {
         if (w) {
             w.status = 'В ремонте';
             w.fault = desc.trim();
+            w.lastRequest = 'Заявка №' + Date.now().toString().slice(-6);
             saveData();
         }
         closeModal();
@@ -998,35 +1118,104 @@ function addRepairRequest(weaponId) {
     }
 }
 
+function closeRepairRequest(requestId) {
+    if (confirm('Закрыть эту заявку?')) {
+        const req = repairRequests.find(r => r.id === requestId);
+        if (req) {
+            req.status = 'Закрыта';
+            saveData();
+            const openReqs = repairRequests.filter(r => r.weaponId === req.weaponId && r.status === 'Открыта');
+            if (openReqs.length === 0) {
+                const w = weapons.find(w => w.id === req.weaponId);
+                if (w && w.status === 'В ремонте') {
+                    w.status = 'Исправно';
+                    w.fault = '';
+                    saveData();
+                }
+            }
+            closeModal();
+            showWeaponCard(req.weaponId);
+            showToast('✅ Заявка закрыта');
+            syncToCloud();
+        }
+    }
+}
+
+function deleteRepairRequest(requestId) {
+    if (confirm('Удалить эту заявку?')) {
+        const req = repairRequests.find(r => r.id === requestId);
+        if (req) {
+            const weaponId = req.weaponId;
+            repairRequests = repairRequests.filter(r => r.id !== requestId);
+            saveData();
+            const openReqs = repairRequests.filter(r => r.weaponId === weaponId && r.status === 'Открыта');
+            if (openReqs.length === 0) {
+                const w = weapons.find(w => w.id === weaponId);
+                if (w && w.status === 'В ремонте') {
+                    w.status = 'Исправно';
+                    w.fault = '';
+                    saveData();
+                }
+            }
+            closeModal();
+            showWeaponCard(weaponId);
+            showToast('🗑️ Заявка удалена');
+            syncToCloud();
+        }
+    }
+}
+
 function printWeaponCard(id) {
     const w = weapons.find(w => w.id === id);
     if (!w) return;
     const weaponRepairs = repairRequests.filter(r => r.weaponId === id);
+    const openReqs = weaponRepairs.filter(r => r.status === 'Открыта');
+    const closedReqs = weaponRepairs.filter(r => r.status === 'Закрыта');
+
+    let criticality = 'Низкий';
+    let critColor = '#27ae60';
+    if (w.status === 'Неисправно') { criticality = 'Критичный';
+        critColor = '#e74c3c'; } else if (w.status === 'В ремонте') { criticality = 'Средний';
+        critColor = '#e67e22'; }
+
     const html = `
                 <html><head><meta charset="UTF-8"><style>
                     body { font-family: Arial, sans-serif; margin: 30px; }
                     h1 { text-align: center; color: #1a1e1a; border-bottom: 2px solid #4a6a3a; padding-bottom: 10px; }
-                    .card { border: 1px solid #ccc; border-radius: 8px; padding: 20px; max-width: 500px; margin: 0 auto; }
-                    .field { display: flex; padding: 6px 0; border-bottom: 1px solid #eee; }
-                    .label { font-weight: bold; width: 150px; color: #555; }
+                    .card { border: 1px solid #ccc; border-radius: 8px; padding: 20px; max-width: 700px; margin: 0 auto; }
+                    .section-title { font-weight: bold; color: #4a6a3a; margin: 10px 0 6px 0; border-bottom: 1px solid #eee; padding-bottom: 4px; }
+                    .field { display: flex; padding: 4px 0; border-bottom: 1px solid #eee; font-size: 13px; }
+                    .label { font-weight: bold; width: 160px; color: #555; }
                     .value { flex: 1; }
-                    .footer { text-align: center; margin-top: 20px; color: #666; font-size: 11px; }
-                    .repair-item { padding: 4px 0; border-bottom: 1px solid #eee; font-size: 12px; }
+                    .repair-item { padding: 4px 0; border-bottom: 1px solid #eee; font-size: 12px; display: flex; justify-content: space-between; }
+                    .footer { text-align: center; margin-top: 20px; color: #666; font-size: 11px; border-top: 1px solid #ccc; padding-top: 10px; }
+                    .status-open { color: #e67e22; }
+                    .status-closed { color: #27ae60; }
+                    .crit-${w.status === 'Неисправно' ? 'red' : w.status === 'В ремонте' ? 'orange' : 'green'} { color: ${critColor}; }
                 </style></head>
                 <body>
-                    <h1>🔫 Карточка вооружения</h1>
+                    <h1>🔫 Карточка вооружения — ${w.number}</h1>
                     <div class="card">
                         <div class="field"><span class="label">Тип</span><span class="value">${w.type}</span></div>
-                        <div class="field"><span class="label">Бортовой №</span><span class="value">${w.number}</span></div>
-                        <div class="field"><span class="label">Статус</span><span class="value">${w.status}</span></div>
+                        <div class="field"><span class="label">Бортовой номер</span><span class="value">${w.number}</span></div>
+                        <div class="field"><span class="label">Условное обозначение</span><span class="value">${w.symbol || '—'}</span></div>
+                        <div class="field"><span class="label">Координаты</span><span class="value">${w.coordinates || '—'}</span></div>
+                        <div class="field"><span class="label">Статус</span><span class="value crit-${w.status === 'Неисправно' ? 'red' : w.status === 'В ремонте' ? 'orange' : 'green'}">${w.status}</span></div>
+                        <div class="field"><span class="label">Критичность</span><span class="value crit-${w.status === 'Неисправно' ? 'red' : w.status === 'В ремонте' ? 'orange' : 'green'}">${criticality}</span></div>
                         <div class="field"><span class="label">Неисправность</span><span class="value">${w.fault || '—'}</span></div>
-                        <div class="field"><span class="label">Заявка на ремонт</span><span class="value">${w.repairRequest || '—'}</span></div>
-                        ${w.type === 'Барьер' ? `<div class="field"><span class="label">Характеристики</span><span class="value">Дальность: до 5 км, Мощность: 50 кВт</span></div>` : ''}
-                        ${w.type === 'Звездочет' ? `<div class="field"><span class="label">Характеристики</span><span class="value">Дальность: до 3 км, Мощность: 30 кВт</span></div>` : ''}
-                        <div style="margin-top:10px;"><strong>📋 История заявок:</strong></div>
-                        ${weaponRepairs.length > 0 ? weaponRepairs.map(r => `
-                            <div class="repair-item">${r.date} — ${r.status}: ${r.description}</div>
-                        `).join('') : '<div style="padding:4px 0;">Заявок нет</div>'}
+                        <div class="field"><span class="label">Последняя заявка</span><span class="value">${w.lastRequest || '—'}</span></div>
+
+                        <div class="section-title">📋 Заявки на ремонт (${weaponRepairs.length})</div>
+                        <div style="margin-bottom:4px;font-size:12px;color:#666;">
+                            Открытых: ${openReqs.length} | Закрытых: ${closedReqs.length}
+                        </div>
+                        ${weaponRepairs.length === 0 ? '<div style="color:#999;font-size:12px;padding:4px 0;">Заявок нет</div>' : ''}
+                        ${weaponRepairs.map(r => `
+                            <div class="repair-item">
+                                <span>${r.date} — ${r.description}</span>
+                                <span class="${r.status === 'Открыта' ? 'status-open' : 'status-closed'}">${r.status === 'Открыта' ? '🟠 Открыта' : '🟢 Закрыта'}</span>
+                            </div>
+                        `).join('')}
                     </div>
                     <div class="footer">Учетная Система Бригада "БАРС-МОСКВА" • ${new Date().toLocaleString()}</div>
                     <script>window.print(); setTimeout(window.close, 1000);<\/script>
@@ -1041,19 +1230,33 @@ function exportWeaponCard(id) {
     const w = weapons.find(w => w.id === id);
     if (!w) return;
     const weaponRepairs = repairRequests.filter(r => r.weaponId === id);
+
+    let criticality = 'Низкий';
+    if (w.status === 'Неисправно') criticality = 'Критичный';
+    else if (w.status === 'В ремонте') criticality = 'Средний';
+
     const headers = ['Поле', 'Значение'];
     const rows = [
         ['Тип', w.type],
-        ['Бортовой №', w.number],
+        ['Бортовой номер', w.number],
+        ['Условное обозначение', w.symbol || '—'],
+        ['Координаты', w.coordinates || '—'],
         ['Статус', w.status],
+        ['Критичность', criticality],
         ['Неисправность', w.fault || '—'],
-        ['Заявка на ремонт', w.repairRequest || '—']
+        ['Последняя заявка', w.lastRequest || '—'],
+        ['--- Заявки ---', ''],
+        ['Дата', 'Описание', 'Статус']
     ];
-    if (w.type === 'Барьер') rows.push(['Характеристики', 'Дальность: до 5 км, Мощность: 50 кВт']);
-    if (w.type === 'Звездочет') rows.push(['Характеристики', 'Дальность: до 3 км, Мощность: 30 кВт']);
-    rows.push(['--- История заявок ---', '']);
-    weaponRepairs.forEach(r => rows.push([r.date, r.status + ': ' + r.description]));
-    const csv = [headers.join(';'), ...rows.map(r => r.join(';'))].join('\n');
+    weaponRepairs.forEach(r => {
+        rows.push([r.date, r.description, r.status]);
+    });
+
+    let csv = headers.join(';') + '\n';
+    rows.forEach(r => {
+        csv += r.join(';') + '\n';
+    });
+
     downloadFile(csv, `weapon_${w.number}_${new Date().toISOString().slice(0,10)}.csv`, 'text/csv;charset=utf-8');
     showToast('📊 Карточка выгружена в Excel');
 }
