@@ -234,8 +234,8 @@
 
         .refs-panel .refs-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 6px;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 8px;
         }
 
         .refs-panel .ref-group {
@@ -243,7 +243,7 @@
             border-radius: 6px;
             padding: 6px 10px;
             border: 1px solid #1c2128;
-            max-height: 200px;
+            max-height: 250px;
             display: flex;
             flex-direction: column;
         }
@@ -1104,6 +1104,27 @@
         }
 
         /* ================================================================
+           ИСТОРИЯ ИЗМЕНЕНИЙ
+           ================================================================ */
+        #historyLogList {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        #historyLogList::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        #historyLogList::-webkit-scrollbar-track {
+            background: #0d1117;
+        }
+
+        #historyLogList::-webkit-scrollbar-thumb {
+            background: #2d3a2d;
+            border-radius: 4px;
+        }
+
+        /* ================================================================
            АДАПТИВ
            ================================================================ */
         @media (max-width: 480px) {
@@ -1214,7 +1235,7 @@
         <div class="header-right">
             <span class="user-badge" id="userBadge">👤 Гость</span>
             <button class="btn-header" onclick="window.notifications.toggle()" id="notifBtn">🔔</button>
-            <button class="btn-header refs-toggle" onclick="window.refs.toggle()">📚</button>
+            <button class="btn-header refs-toggle" onclick="window.refs.toggle()" id="refsBtn" style="display:none;">📚</button>
             <button class="btn-header back" onclick="window.app.goHome()" id="homeBtn" style="display:none;">🏠</button>
             <button class="btn-header logout" onclick="window.auth.logout()" id="logoutBtn" style="display:none;">🚪</button>
         </div>
@@ -1261,13 +1282,14 @@
     <div class="tab-content-wrapper" id="tabsWrapper">
 
         <div class="tabs" id="tabsContainer">
-            <button class="tab-btn active" data-tab="tab1" data-role="all">🚗 Автопарк</button>
+            <button class="tab-btn active" data-tab="tab1" data-role="admin,starshiy,mehanik,voditel,oruzhie,klad">🚗 Автопарк</button>
             <button class="tab-btn" data-tab="tab2" data-role="admin,starshiy">👥 Личный состав</button>
             <button class="tab-btn" data-tab="tab3" data-role="admin,oruzhie">🔫 Вооружение</button>
             <button class="tab-btn" data-tab="tab4" data-role="admin,klad,mehanik">📦 Склад</button>
             <button class="tab-btn" data-tab="tab5" data-role="admin,starshiy,mehanik">📋 Журнал ТО</button>
             <button class="tab-btn" data-tab="tab6" data-role="admin,starshiy">📊 Отчёты</button>
             <button class="tab-btn" data-tab="tab7" data-role="admin">⚙️ Администрирование</button>
+            <button class="tab-btn" data-tab="tab8" data-role="admin">📜 История</button>
         </div>
 
         <!-- ================================================================
@@ -1315,13 +1337,22 @@
         </div>
 
         <!-- ================================================================
-        ВКЛАДКА 2 — ЛИЧНЫЙ СОСТАВ
+        ВКЛАДКА 2 — ЛИЧНЫЙ СОСТАВ (с поиском)
         ================================================================ -->
         <div id="tab2" class="tab-content">
             <div class="card">
                 <div class="card-title">
                     👥 Личный состав
                     <button class="btn-small primary" onclick="window.persons.showAddModal()">➕ Добавить</button>
+                </div>
+                <div style="display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap;">
+                    <input type="text" id="personSearch" placeholder="🔍 Поиск по ФИО, должности, подразделению..." 
+                           style="flex:1;background:#0d1117;border:1px solid #2d3a2d;border-radius:6px;padding:6px 8px;color:#e6edf3;font-size:12px;min-width:150px;" 
+                           oninput="window.persons.render()">
+                    <select id="personDepartmentFilter" onchange="window.persons.render()" 
+                            style="background:#0d1117;border:1px solid #2d3a2d;border-radius:6px;padding:6px 8px;color:#e6edf3;font-size:12px;">
+                        <option value="all">Все подразделения</option>
+                    </select>
                 </div>
                 <div class="table-wrap">
                     <table>
@@ -1442,6 +1473,25 @@
             </div>
         </div>
 
+        <!-- ================================================================
+        ВКЛАДКА 8 — ИСТОРИЯ ИЗМЕНЕНИЙ
+        ================================================================ -->
+        <div id="tab8" class="tab-content">
+            <div class="card">
+                <div class="card-title">
+                    📜 История изменений
+                    <div>
+                        <button class="btn-small danger" onclick="window.historyLog.clear()">🗑️ Очистить</button>
+                        <button class="btn-small primary" onclick="window.historyLog.render('historyLogList')">🔄 Обновить</button>
+                    </div>
+                </div>
+                <div style="font-size:10px;color:#8b949e;margin-bottom:8px;">
+                    Всего записей: <span id="historyLogCount">0</span>
+                </div>
+                <div id="historyLogList" style="max-height:400px;overflow-y:auto;"></div>
+            </div>
+        </div>
+
     </div>
 
     <!-- ================================================================
@@ -1500,6 +1550,7 @@
     <script src="js/notifications.js"></script>
     <script src="js/sync.js"></script>
     <script src="js/refs.js"></script>
+    <script src="js/historyLog.js"></script>
     <script src="js/cars.js"></script>
     <script src="js/persons.js"></script>
     <script src="js/weapons.js"></script>
