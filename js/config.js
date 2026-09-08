@@ -9,7 +9,7 @@ const CONFIG = {
     GIST_ID: 'b5707797cd66d1f26f9b5e127d2f7af7',
     
     // Ваш секретный токен (как пароль)
-    GITHUB_TOKEN: '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'
+    GITHUB_TOKEN: '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'
 };
 
 // Сохраняем настройки в глобальную область
