@@ -1,7 +1,7 @@
 // js/cloudSync.js - Российская облачная синхронизация
 const CloudSync = {
     // ⚠️ ВСТАВЬТЕ ВАШ URL ИЗ CALCAL.RU
-    STORAGE_URL: 'https://calcal.ru/api/json-hosting/9yPyEJU',
+    STORAGE_URL: 'https://calcal.ru/j/9yPyEJU',
     
     // ================================================================
     //  СОХРАНИТЬ В ОБЛАКО
