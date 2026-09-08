@@ -8,7 +8,7 @@ const CloudSync = {
     //  ⚠️ ВСТАВЬТЕ ВАШ URL ИЗ CALCAL.RU!
     //  Получить: https://calcal.ru/json-hosting-mock-api-onlajn
     // ================================================================
-    STORAGE_URL: 'https://calcal.ru/api/json-hosting/ВАШ_ID_ЗДЕСЬ',
+    STORAGE_URL: 'https://calcal.ru/j/8Ays5qN',
     
     // ================================================================
     //  СОХРАНИТЬ В ОБЛАКО
