@@ -1,26 +1,28 @@
 // ================================================================
 //  cloudSync.js - СИНХРОНИЗАЦИЯ ЧЕРЕЗ CALCAL.RU
-//  С обходом CORS через прокси
+//  Бесплатно, работает в России, БЕЗ токенов!
+//  Исправлено: правильный URL для PUT-запросов
 // ================================================================
 
 const CloudSync = {
     // ================================================================
-    //  ✅ ВАШ URL ИЗ CALCAL.RU
+    //  ВАШИ ДАННЫЕ ИЗ CALCAL.RU
     // ================================================================
-    STORAGE_URL: 'https://calcal.ru/j/8Ays5qN',
+    STORAGE_URL: 'https://calcal.ru/j/8Ays5qN',          // URL для чтения (GET)
+    STORAGE_ID: '8Ays5qN',                                // ID для обновления (PUT)
+    UPDATE_URL: 'https://calcal.ru/api/json-hosting?id=8Ays5qN', // Правильный URL для PUT
     
     // ================================================================
-    //  ПРОКСИ ДЛЯ ОБХОДА CORS (используем бесплатный)
-    // ================================================================
-    // Вариант 1: Используем corsproxy.io (бесплатно, работает в РФ)
-    PROXY_URL: 'https://corsproxy.io/?',
-    
-    // ================================================================
-    //  СОХРАНИТЬ В ОБЛАКО (через прокси)
+    //  СОХРАНИТЬ В ОБЛАКО (PUT через правильный endpoint)
     // ================================================================
     async upload() {
         try {
             Utils.showToast('☁️ Сохранение в облако...', 'sync');
+            
+            // Проверяем, что ID задан
+            if (!CloudSync.STORAGE_ID || CloudSync.STORAGE_ID === '8Ays5qN') {
+                throw new Error('Сначала получите ID на calcal.ru и вставьте в cloudSync.js');
+            }
             
             // Собираем все данные
             const data = {
@@ -36,8 +38,8 @@ const CloudSync = {
                 lastUser: AuthManager.currentUser?.label || 'Гость'
             };
             
-            // Отправляем через прокси (PUT с обходом CORS)
-            const response = await fetch(`${CloudSync.PROXY_URL}${CloudSync.STORAGE_URL}`, {
+            // Отправляем на правильный endpoint для обновления
+            const response = await fetch(CloudSync.UPDATE_URL, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -52,6 +54,7 @@ const CloudSync = {
             
             Utils.showToast('✅ Данные сохранены в облако (calcal.ru)!', 'sync');
             
+            // Запись в историю
             if (window.historyLog) {
                 window.historyLog.add('sync', 
                     `📤 Данные загружены в облако (авто: ${DataManager.cars.length}, люди: ${DataManager.persons.length})`
@@ -68,13 +71,18 @@ const CloudSync = {
     },
     
     // ================================================================
-    //  ЗАГРУЗИТЬ ИЗ ОБЛАКА (обычный GET, CORS не блокирует)
+    //  ЗАГРУЗИТЬ ИЗ ОБЛАКА (GET через короткий URL)
     // ================================================================
     async download() {
         try {
             Utils.showToast('☁️ Загрузка из облака...', 'sync');
             
-            // GET-запросы обычно работают без CORS
+            // Проверяем URL
+            if (!CloudSync.STORAGE_URL || CloudSync.STORAGE_URL === 'https://calcal.ru/j/8Ays5qN') {
+                throw new Error('Сначала получите URL на calcal.ru и вставьте в cloudSync.js');
+            }
+            
+            // Загружаем данные (GET-запрос на короткий URL)
             const response = await fetch(CloudSync.STORAGE_URL);
             
             if (!response.ok) {
@@ -90,10 +98,12 @@ const CloudSync = {
                 throw new Error('Некорректный формат данных');
             }
             
+            // Применяем данные
             CloudSync.applyData(data);
             
             Utils.showToast('✅ Данные загружены из облака (calcal.ru)!', 'sync');
             
+            // Запись в историю
             if (window.historyLog) {
                 window.historyLog.add('sync', 
                     `📥 Данные загружены из облака (авто: ${data.cars.length}, люди: ${data.persons.length})`
@@ -115,6 +125,7 @@ const CloudSync = {
     applyData(data) {
         if (!data.cars) return;
         
+        // Обновляем статусы автомобилей
         data.cars = data.cars.map(c => {
             c.remainder = c.plan_to - c.mileage;
             if (c.remainder < 0) {
@@ -137,6 +148,7 @@ const CloudSync = {
             return c;
         });
         
+        // Загружаем данные
         DataManager.cars = data.cars;
         DataManager.persons = data.persons || [];
         DataManager.weapons = data.weapons || [];
@@ -148,13 +160,14 @@ const CloudSync = {
         DataManager.save();
         window.app.updateDashboard();
         
+        // Показываем информацию о последнем обновлении
         if (data.lastUser) {
             Utils.showToast(`👤 Последнее обновление: ${data.lastUser} (${data.timestamp || 'неизвестно'})`, 'sync');
         }
     },
     
     // ================================================================
-    //  ИНФОРМАЦИЯ О ДАННЫХ
+    //  ИНФОРМАЦИЯ О ДАННЫХ В ОБЛАКЕ
     // ================================================================
     async info() {
         try {
@@ -194,6 +207,11 @@ const CloudSync = {
         try {
             Utils.showToast('🔌 Проверка соединения с calcal.ru...', 'sync');
             
+            if (!CloudSync.STORAGE_URL || CloudSync.STORAGE_URL === 'https://calcal.ru/j/8Ays5qN') {
+                Utils.showToast('❌ Сначала получите URL на calcal.ru', 'error');
+                return false;
+            }
+            
             const response = await fetch(CloudSync.STORAGE_URL);
             
             if (response.ok || response.status === 200) {
@@ -224,3 +242,4 @@ const CloudSync = {
 window.cloudSync = CloudSync;
 console.log('☁️ CloudSync загружен (calcal.ru)');
 console.log('📦 STORAGE_URL:', CloudSync.STORAGE_URL);
+console.log('🔄 UPDATE_URL:', CloudSync.UPDATE_URL);
