@@ -1,28 +1,28 @@
 // ================================================================
-//  cloudSync.js - СИНХРОНИЗАЦИЯ ЧЕРЕЗ PASTEBIN
-//  Работает в России, БЕЗ X-Master-Key!
+//  cloudSync.js - СИНХРОНИЗАЦИЯ ЧЕРЕЗ CALCAL.RU
+//  Бесплатно, работает в России, БЕЗ токенов!
 // ================================================================
 
 const CloudSync = {
     // ================================================================
-    //  ⚠️ ВСТАВЬТЕ ВАШ API КЛЮЧ ИЗ PASTEBIN
-    //  Получить: https://pastebin.com/api
+    //  ⚠️ ВСТАВЬТЕ ВАШ URL ИЗ CALCAL.RU!
+    //  Получить: https://calcal.ru/json-hosting-mock-api-onlajn
     // ================================================================
-    API_KEY: '82iMRQi741PEciDvJC1fHHWHqMwdAjlS',
+    STORAGE_URL: 'https://calcal.ru/api/json-hosting/ВАШ_ID_ЗДЕСЬ',
     
     // ================================================================
     //  СОХРАНИТЬ В ОБЛАКО
     // ================================================================
     async upload() {
         try {
-            Utils.showToast('☁️ Сохранение в Pastebin...', 'sync');
+            Utils.showToast('☁️ Сохранение в облако...', 'sync');
             
-            // Проверяем API ключ
-            if (!CloudSync.API_KEY || CloudSync.API_KEY === 'ваш_ключ_из_pastebin_сюда') {
-                throw new Error('Сначала получите API ключ на pastebin.com/api');
+            // Проверяем URL
+            if (!CloudSync.STORAGE_URL || CloudSync.STORAGE_URL === 'https://calcal.ru/api/json-hosting/ВАШ_ID_ЗДЕСЬ') {
+                throw new Error('Сначала получите URL на calcal.ru и вставьте в cloudSync.js');
             }
             
-            // Собираем данные
+            // Собираем все данные
             const data = {
                 cars: DataManager.cars,
                 persons: DataManager.persons,
@@ -36,63 +36,26 @@ const CloudSync = {
                 lastUser: AuthManager.currentUser?.label || 'Гость'
             };
             
-            const jsonData = JSON.stringify(data, null, 2);
+            // Отправляем на сервер (PUT обновляет данные)
+            const response = await fetch(CloudSync.STORAGE_URL, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
             
-            // Проверяем, есть ли уже сохранённый паст
-            const pasteKey = localStorage.getItem('pastebin_key');
-            
-            let response;
-            
-            if (pasteKey) {
-                // ОБНОВЛЯЕМ существующий паст
-                response = await fetch('https://pastebin.com/api/api_post.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: new URLSearchParams({
-                        api_dev_key: CloudSync.API_KEY,
-                        api_option: 'edit',
-                        api_paste_key: pasteKey,
-                        api_paste_code: jsonData,
-                        api_paste_name: 'bars_fleet_data',
-                        api_paste_format: 'json'
-                    })
-                });
-            } else {
-                // СОЗДАЁМ новый паст
-                response = await fetch('https://pastebin.com/api/api_post.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: new URLSearchParams({
-                        api_dev_key: CloudSync.API_KEY,
-                        api_option: 'paste',
-                        api_paste_code: jsonData,
-                        api_paste_name: 'bars_fleet_data',
-                        api_paste_format: 'json',
-                        api_paste_private: '1'
-                    })
-                });
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(`Ошибка ${response.status}: ${errorText}`);
             }
             
-            const text = await response.text();
+            Utils.showToast('✅ Данные сохранены в облако (calcal.ru)!', 'sync');
             
-            // Проверяем ответ
-            if (text.includes('Bad API request')) {
-                throw new Error('Ошибка API: ' + text);
-            }
-            
-            if (!pasteKey) {
-                localStorage.setItem('pastebin_key', text);
-            }
-            
-            Utils.showToast('✅ Данные сохранены в Pastebin!', 'sync');
-            
+            // Запись в историю
             if (window.historyLog) {
                 window.historyLog.add('sync', 
-                    `📤 Данные загружены в Pastebin (авто: ${DataManager.cars.length}, люди: ${DataManager.persons.length})`
+                    `📤 Данные загружены в облако (авто: ${DataManager.cars.length}, люди: ${DataManager.persons.length})`
                 );
             }
             
@@ -110,37 +73,38 @@ const CloudSync = {
     // ================================================================
     async download() {
         try {
-            Utils.showToast('☁️ Загрузка из Pastebin...', 'sync');
+            Utils.showToast('☁️ Загрузка из облака...', 'sync');
             
-            const pasteKey = localStorage.getItem('pastebin_key');
-            
-            if (!pasteKey) {
-                throw new Error('Нет сохранённых данных.\nНажмите "Сохранить в облако" с устройства, где есть данные.');
+            // Проверяем URL
+            if (!CloudSync.STORAGE_URL || CloudSync.STORAGE_URL === 'https://calcal.ru/api/json-hosting/ВАШ_ID_ЗДЕСЬ') {
+                throw new Error('Сначала получите URL на calcal.ru и вставьте в cloudSync.js');
             }
             
-            const response = await fetch(`https://pastebin.com/raw/${pasteKey}`);
+            // Загружаем данные
+            const response = await fetch(CloudSync.STORAGE_URL);
             
             if (!response.ok) {
                 if (response.status === 404) {
-                    throw new Error('Данные в Pastebin не найдены');
+                    throw new Error('Данные в облаке не найдены');
                 }
                 throw new Error('Ошибка загрузки: ' + response.status);
             }
             
-            const jsonData = await response.text();
-            const data = JSON.parse(jsonData);
+            const data = await response.json();
             
             if (!data.cars) {
                 throw new Error('Некорректный формат данных');
             }
             
+            // Применяем данные
             CloudSync.applyData(data);
             
-            Utils.showToast('✅ Данные загружены из Pastebin!', 'sync');
+            Utils.showToast('✅ Данные загружены из облака (calcal.ru)!', 'sync');
             
+            // Запись в историю
             if (window.historyLog) {
                 window.historyLog.add('sync', 
-                    `📥 Данные загружены из Pastebin (авто: ${data.cars.length}, люди: ${data.persons.length})`
+                    `📥 Данные загружены из облака (авто: ${data.cars.length}, люди: ${data.persons.length})`
                 );
             }
             
@@ -154,11 +118,12 @@ const CloudSync = {
     },
     
     // ================================================================
-    //  ПРИМЕНЕНИЕ ДАННЫХ
+    //  ПРИМЕНЕНИЕ ЗАГРУЖЕННЫХ ДАННЫХ
     // ================================================================
     applyData(data) {
         if (!data.cars) return;
         
+        // Обновляем статусы автомобилей
         data.cars = data.cars.map(c => {
             c.remainder = c.plan_to - c.mileage;
             if (c.remainder < 0) {
@@ -181,6 +146,7 @@ const CloudSync = {
             return c;
         });
         
+        // Загружаем данные
         DataManager.cars = data.cars;
         DataManager.persons = data.persons || [];
         DataManager.weapons = data.weapons || [];
@@ -192,40 +158,35 @@ const CloudSync = {
         DataManager.save();
         window.app.updateDashboard();
         
+        // Показываем информацию о последнем обновлении
         if (data.lastUser) {
             Utils.showToast(`👤 Последнее обновление: ${data.lastUser} (${data.timestamp || 'неизвестно'})`, 'sync');
         }
     },
     
     // ================================================================
-    //  ИНФОРМАЦИЯ
+    //  ИНФОРМАЦИЯ О ДАННЫХ В ОБЛАКЕ
     // ================================================================
     async info() {
         try {
-            const pasteKey = localStorage.getItem('pastebin_key');
-            
-            if (!pasteKey) {
-                alert('❌ Нет сохранённых данных в облаке');
-                return;
-            }
-            
-            const response = await fetch(`https://pastebin.com/raw/${pasteKey}`);
+            const response = await fetch(CloudSync.STORAGE_URL);
             
             if (!response.ok) {
                 alert('❌ Данные в облаке не найдены');
                 return;
             }
             
-            const jsonData = await response.text();
-            const data = JSON.parse(jsonData);
+            const data = await response.json();
             
             const message = 
-                `📊 ДАННЫЕ В ОБЛАКЕ (Pastebin)\n` +
+                `📊 ДАННЫЕ В ОБЛАКЕ (calcal.ru)\n` +
                 `─────────────────────\n` +
                 `🚗 Автомобилей: ${data.cars?.length || 0}\n` +
                 `👥 Личного состава: ${data.persons?.length || 0}\n` +
                 `🔫 Вооружения: ${data.weapons?.length || 0}\n` +
                 `📦 ТМЦ: ${data.items?.length || 0}\n` +
+                `📋 Записей ТО: ${data.history?.length || 0}\n` +
+                `🛠 Заявок: ${data.repairs?.length || 0}\n` +
                 `─────────────────────\n` +
                 `🕐 Обновлено: ${data.timestamp || 'неизвестно'}\n` +
                 `👤 Последний пользователь: ${data.lastUser || 'неизвестен'}`;
@@ -242,33 +203,22 @@ const CloudSync = {
     // ================================================================
     async testConnection() {
         try {
-            Utils.showToast('🔌 Проверка соединения с Pastebin...', 'sync');
+            Utils.showToast('🔌 Проверка соединения с calcal.ru...', 'sync');
             
-            if (!CloudSync.API_KEY || CloudSync.API_KEY === 'ваш_ключ_из_pastebin_сюда') {
-                Utils.showToast('❌ Сначала получите API ключ на pastebin.com/api', 'error');
+            if (!CloudSync.STORAGE_URL || CloudSync.STORAGE_URL === 'https://calcal.ru/api/json-hosting/ВАШ_ID_ЗДЕСЬ') {
+                Utils.showToast('❌ Сначала получите URL на calcal.ru', 'error');
                 return false;
             }
             
-            const response = await fetch('https://pastebin.com/api/api_post.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: new URLSearchParams({
-                    api_dev_key: CloudSync.API_KEY,
-                    api_option: 'list'
-                })
-            });
+            const response = await fetch(CloudSync.STORAGE_URL);
             
-            const text = await response.text();
-            
-            if (text.includes('Bad API request')) {
-                Utils.showToast('❌ Неверный API ключ', 'error');
+            if (response.ok || response.status === 200) {
+                Utils.showToast('✅ Соединение с calcal.ru работает!', 'sync');
+                return true;
+            } else {
+                Utils.showToast('❌ Ошибка: ' + response.status, 'error');
                 return false;
             }
-            
-            Utils.showToast('✅ Соединение с Pastebin работает!', 'sync');
-            return true;
             
         } catch (error) {
             Utils.showToast('❌ Ошибка соединения: ' + error.message, 'error');
@@ -281,12 +231,12 @@ const CloudSync = {
     // ================================================================
     clear() {
         if (confirm('Очистить настройки облачной синхронизации?')) {
-            localStorage.removeItem('pastebin_key');
+            localStorage.removeItem('calcal_storage_url');
             Utils.showToast('✅ Настройки очищены');
         }
     }
 };
 
 window.cloudSync = CloudSync;
-console.log('☁️ CloudSync загружен (Pastebin)');
-console.log('🔑 API_KEY:', CloudSync.API_KEY);
+console.log('☁️ CloudSync загружен (calcal.ru)');
+console.log('📦 STORAGE_URL:', CloudSync.STORAGE_URL);
