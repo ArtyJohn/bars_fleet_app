@@ -17,9 +17,9 @@ const CloudSync = {
         try {
             Utils.showToast('☁️ Сохранение в Pastebin...', 'sync');
             
-            // Проверяем, есть ли API ключ
+            // Проверяем API ключ
             if (!CloudSync.API_KEY || CloudSync.API_KEY === 'ваш_ключ_из_pastebin_сюда') {
-                throw new Error('Сначала получите API ключ на pastebin.com/api и вставьте его в cloudSync.js');
+                throw new Error('Сначала получите API ключ на pastebin.com/api');
             }
             
             // Собираем данные
@@ -85,7 +85,6 @@ const CloudSync = {
             }
             
             if (!pasteKey) {
-                // Сохраняем ключ паста для обновления
                 localStorage.setItem('pastebin_key', text);
             }
             
@@ -119,7 +118,6 @@ const CloudSync = {
                 throw new Error('Нет сохранённых данных.\nНажмите "Сохранить в облако" с устройства, где есть данные.');
             }
             
-            // Загружаем сырые данные из Pastebin
             const response = await fetch(`https://pastebin.com/raw/${pasteKey}`);
             
             if (!response.ok) {
@@ -136,7 +134,6 @@ const CloudSync = {
                 throw new Error('Некорректный формат данных');
             }
             
-            // Применяем данные
             CloudSync.applyData(data);
             
             Utils.showToast('✅ Данные загружены из Pastebin!', 'sync');
@@ -157,7 +154,7 @@ const CloudSync = {
     },
     
     // ================================================================
-    //  ПРИМЕНЕНИЕ ЗАГРУЖЕННЫХ ДАННЫХ
+    //  ПРИМЕНЕНИЕ ДАННЫХ
     // ================================================================
     applyData(data) {
         if (!data.cars) return;
@@ -201,7 +198,7 @@ const CloudSync = {
     },
     
     // ================================================================
-    //  ИНФОРМАЦИЯ О ДАННЫХ В ОБЛАКЕ
+    //  ИНФОРМАЦИЯ
     // ================================================================
     async info() {
         try {
@@ -292,3 +289,4 @@ const CloudSync = {
 
 window.cloudSync = CloudSync;
 console.log('☁️ CloudSync загружен (Pastebin)');
+console.log('🔑 API_KEY:', CloudSync.API_KEY);
