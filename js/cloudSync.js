@@ -1,34 +1,35 @@
 // ================================================================
-//  cloudSync.js - СИНХРОНИЗАЦИЯ ЧЕРЕЗ JSONBIN.IO
-//  Поддерживает CORS, работает из браузера!
-//  КЛЮЧ ВСТАВЛЕН!
+//  cloudSync.js - СИНХРОНИЗАЦИЯ ЧЕРЕЗ JSONBIN.IO (через прокси)
+//  Использует бесплатный прокси для обхода блокировки
 // ================================================================
 
 const CloudSync = {
     // ================================================================
-    //  ✅ ВАШ API КЛЮЧ ИЗ JSONBIN.IO (УЖЕ ВСТАВЛЕН!)
+    //  ✅ ВАШ API КЛЮЧ ИЗ JSONBIN.IO
     // ================================================================
     MASTER_KEY: '$2a$10$ZDLsiXwq1PdL1Ld8JVj9Z.Mbru97i8qPQPJezJQC16hSl27/XIR0',
     
     // Базовый URL API JSONBin
     API_URL: 'https://api.jsonbin.io/v3/b',
     
+    // Прокси для обхода блокировки (если JSONBin заблокирован)
+    // Используем corsproxy.io - бесплатный прокси
+    PROXY_URL: 'https://corsproxy.io/?',
+    
     // Название хранилища
     BIN_NAME: 'bars_fleet_data',
     
     // ================================================================
-    //  СОХРАНИТЬ В ОБЛАКО
+    //  СОХРАНИТЬ В ОБЛАКО (через прокси)
     // ================================================================
     async upload() {
         try {
             Utils.showToast('☁️ Сохранение в облако...', 'sync');
             
-            // Проверяем ключ (он уже вставлен, но на всякий случай)
             if (!CloudSync.MASTER_KEY) {
                 throw new Error('API ключ не найден!');
             }
             
-            // Собираем все данные
             const data = {
                 cars: DataManager.cars,
                 persons: DataManager.persons,
@@ -42,14 +43,14 @@ const CloudSync = {
                 lastUser: AuthManager.currentUser?.label || 'Гость'
             };
             
-            // Проверяем, есть ли уже сохранённый ID
             const binId = localStorage.getItem('cloud_bin_id');
             
             let response;
+            let url;
             
             if (binId) {
-                // Обновляем существующее хранилище
-                response = await fetch(`${CloudSync.API_URL}/${binId}`, {
+                url = `${CloudSync.PROXY_URL}${CloudSync.API_URL}/${binId}`;
+                response = await fetch(url, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
@@ -59,8 +60,8 @@ const CloudSync = {
                     body: JSON.stringify(data)
                 });
             } else {
-                // Создаём новое хранилище
-                response = await fetch(CloudSync.API_URL, {
+                url = `${CloudSync.PROXY_URL}${CloudSync.API_URL}`;
+                response = await fetch(url, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -78,7 +79,6 @@ const CloudSync = {
             
             const result = await response.json();
             
-            // Сохраняем ID для будущих загрузок
             if (!binId) {
                 localStorage.setItem('cloud_bin_id', result.id);
             }
@@ -101,7 +101,7 @@ const CloudSync = {
     },
     
     // ================================================================
-    //  ЗАГРУЗИТЬ ИЗ ОБЛАКА
+    //  ЗАГРУЗИТЬ ИЗ ОБЛАКА (через прокси)
     // ================================================================
     async download() {
         try {
@@ -113,7 +113,9 @@ const CloudSync = {
                 throw new Error('Нет сохранённых данных в облаке.\nНажмите сначала "Сохранить в облако" с устройства, где есть данные.');
             }
             
-            const response = await fetch(`${CloudSync.API_URL}/${binId}`, {
+            const url = `${CloudSync.PROXY_URL}${CloudSync.API_URL}/${binId}`;
+            
+            const response = await fetch(url, {
                 headers: {
                     'X-Master-Key': CloudSync.MASTER_KEY
                 }
@@ -121,7 +123,7 @@ const CloudSync = {
             
             if (!response.ok) {
                 if (response.status === 404) {
-                    throw new Error('Данные в облаке не найдены.\nВозможно, они были удалены.');
+                    throw new Error('Данные в облаке не найдены.');
                 }
                 throw new Error(`Ошибка ${response.status}`);
             }
@@ -208,7 +210,9 @@ const CloudSync = {
                 return;
             }
             
-            const response = await fetch(`${CloudSync.API_URL}/${binId}`, {
+            const url = `${CloudSync.PROXY_URL}${CloudSync.API_URL}/${binId}`;
+            
+            const response = await fetch(url, {
                 headers: {
                     'X-Master-Key': CloudSync.MASTER_KEY
                 }
@@ -249,7 +253,9 @@ const CloudSync = {
         try {
             Utils.showToast('🔌 Проверка соединения с JSONBin...', 'sync');
             
-            const response = await fetch(CloudSync.API_URL, {
+            const url = `${CloudSync.PROXY_URL}${CloudSync.API_URL}`;
+            
+            const response = await fetch(url, {
                 headers: {
                     'X-Master-Key': CloudSync.MASTER_KEY
                 }
@@ -281,5 +287,5 @@ const CloudSync = {
 };
 
 window.cloudSync = CloudSync;
-console.log('☁️ CloudSync загружен (JSONBin)');
+console.log('☁️ CloudSync загружен (JSONBin через прокси)');
 console.log('🔑 MASTER_KEY:', CloudSync.MASTER_KEY ? '✅ установлен' : '❌ не установлен');
