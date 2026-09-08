@@ -1269,10 +1269,19 @@
             <p>Учетная система подразделения</p>
         </div>
         <div class="tiles-grid" id="tilesGrid"></div>
+        
+        <!-- КНОПКИ УПРАВЛЕНИЯ -->
         <div style="display:flex;gap:6px;flex-wrap:wrap;">
             <button onclick="window.sync.sync()" style="flex:1;padding:10px;background:#1a2d2d;border:1px solid #3a6a6a;border-radius:8px;color:#e6edf3;font-size:12px;font-weight:600;cursor:pointer;">☁️ Синхронизация</button>
             <button onclick="window.exportData.exportAll()" style="flex:1;padding:10px;background:#1a2d3a;border:1px solid #3a5a6a;border-radius:8px;color:#e6edf3;font-size:12px;font-weight:600;cursor:pointer;">📤 Экспорт</button>
             <button onclick="window.data.resetAll()" style="flex:1;padding:10px;background:#2d1a1a;border:1px solid #6a3a3a;border-radius:8px;color:#f85149;font-size:12px;font-weight:600;cursor:pointer;">🗑️ Сброс</button>
+        </div>
+        
+        <!-- НОВЫЕ КНОПКИ ДЛЯ СИНХРОНИЗАЦИИ С GITHUB GIST -->
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;border-top:1px solid #2d3a2d;padding-top:6px;">
+            <button onclick="window.gistSync.upload()" style="flex:1;padding:10px;background:#1a3a2d;border:1px solid #3a6a4a;border-radius:8px;color:#e6edf3;font-size:12px;font-weight:600;cursor:pointer;">⬆️ Сохранить в облако</button>
+            <button onclick="window.gistSync.download()" style="flex:1;padding:10px;background:#2d2d1a;border:1px solid #6a6a3a;border-radius:8px;color:#e6edf3;font-size:12px;font-weight:600;cursor:pointer;">⬇️ Загрузить из облака</button>
+            <button onclick="window.gistSync.info()" style="flex:1;padding:10px;background:#1a1a3a;border:1px solid #3a3a6a;border-radius:8px;color:#e6edf3;font-size:12px;font-weight:600;cursor:pointer;">📊 Инфо</button>
         </div>
     </div>
 
@@ -1337,7 +1346,7 @@
         </div>
 
         <!-- ================================================================
-        ВКЛАДКА 2 — ЛИЧНЫЙ СОСТАВ (с поиском)
+        ВКЛАДКА 2 — ЛИЧНЫЙ СОСТАВ
         ================================================================ -->
         <div id="tab2" class="tab-content">
             <div class="card">
@@ -1551,6 +1560,8 @@
     <script src="js/sync.js"></script>
     <script src="js/refs.js"></script>
     <script src="js/historyLog.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/gistSync.js"></script>
     <script src="js/cars.js"></script>
     <script src="js/persons.js"></script>
     <script src="js/weapons.js"></script>
