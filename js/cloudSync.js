@@ -1,7 +1,16 @@
-// js/cloudSync.js - Российская облачная синхронизация
+// ================================================================
+//  cloudSync.js - СИНХРОНИЗАЦИЯ ЧЕРЕЗ PASTEBIN
+//  Работает в России, без сложных ключей
+// ================================================================
+
 const CloudSync = {
-    // ⚠️ ВСТАВЬТЕ ВАШ URL ИЗ CALCAL.RU
-    STORAGE_URL: 'https://calcal.ru/j/9yPyEJU',
+    // ================================================================
+    //  ⚠️ ВСТАВЬТЕ ВАШ API КЛЮЧ ИЗ PASTEBIN
+    // ================================================================
+    API_KEY: '82iMRQi741PEciDvJC1fHHWHqMwdAjlS',
+    
+    // Имя файла в Pastebin
+    BIN_NAME: 'bars_fleet_data',
     
     // ================================================================
     //  СОХРАНИТЬ В ОБЛАКО
@@ -10,6 +19,7 @@ const CloudSync = {
         try {
             Utils.showToast('☁️ Сохранение в облако...', 'sync');
             
+            // Собираем данные
             const data = {
                 cars: DataManager.cars,
                 persons: DataManager.persons,
@@ -23,20 +33,63 @@ const CloudSync = {
                 lastUser: AuthManager.currentUser?.label || 'Гость'
             };
             
-            // Обновляем данные через PUT
-            const response = await fetch(CloudSync.STORAGE_URL, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            });
+            // Превращаем в JSON строку
+            const jsonData = JSON.stringify(data, null, 2);
             
-            if (!response.ok) {
-                throw new Error('Ошибка сохранения: ' + response.status);
+            // Сохраняем в localStorage как резервную копию
+            localStorage.setItem('cloud_backup', jsonData);
+            
+            // Проверяем, есть ли уже сохранённый паст
+            const pasteKey = localStorage.getItem('pastebin_key');
+            
+            let response;
+            
+            if (pasteKey) {
+                // Обновляем существующий паст
+                response = await fetch('https://pastebin.com/api/api_post.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: new URLSearchParams({
+                        api_dev_key: CloudSync.API_KEY,
+                        api_option: 'edit',
+                        api_paste_key: pasteKey,
+                        api_paste_code: jsonData,
+                        api_paste_name: CloudSync.BIN_NAME,
+                        api_paste_format: 'json'
+                    })
+                });
+            } else {
+                // Создаём новый паст
+                response = await fetch('https://pastebin.com/api/api_post.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: new URLSearchParams({
+                        api_dev_key: CloudSync.API_KEY,
+                        api_option: 'paste',
+                        api_paste_code: jsonData,
+                        api_paste_name: CloudSync.BIN_NAME,
+                        api_paste_format: 'json',
+                        api_paste_private: '1' // приватный
+                    })
+                });
             }
             
-            Utils.showToast('✅ Данные сохранены в облако!', 'sync');
+            const text = await response.text();
+            
+            if (text.startsWith('Bad API request')) {
+                throw new Error('Ошибка API: ' + text);
+            }
+            
+            if (!pasteKey) {
+                // Сохраняем ключ паста для обновления
+                localStorage.setItem('pastebin_key', text);
+            }
+            
+            Utils.showToast('✅ Данные сохранены в облако (Pastebin)!', 'sync');
             
             if (window.historyLog) {
                 window.historyLog.add('sync', 
@@ -60,7 +113,14 @@ const CloudSync = {
         try {
             Utils.showToast('☁️ Загрузка из облака...', 'sync');
             
-            const response = await fetch(CloudSync.STORAGE_URL);
+            const pasteKey = localStorage.getItem('pastebin_key');
+            
+            if (!pasteKey) {
+                throw new Error('Нет сохранённых данных в облаке.\nНажмите сначала "Сохранить в облако" с устройства, где есть данные.');
+            }
+            
+            // Загружаем паст
+            const response = await fetch(`https://pastebin.com/raw/${pasteKey}`);
             
             if (!response.ok) {
                 if (response.status === 404) {
@@ -69,7 +129,8 @@ const CloudSync = {
                 throw new Error('Ошибка загрузки: ' + response.status);
             }
             
-            const data = await response.json();
+            const jsonData = await response.text();
+            const data = JSON.parse(jsonData);
             
             if (!data.cars) {
                 throw new Error('Некорректный формат данных');
@@ -78,7 +139,7 @@ const CloudSync = {
             // Применяем данные
             CloudSync.applyData(data);
             
-            Utils.showToast('✅ Данные загружены из облака!', 'sync');
+            Utils.showToast('✅ Данные загружены из облака (Pastebin)!', 'sync');
             
             if (window.historyLog) {
                 window.historyLog.add('sync', 
@@ -96,7 +157,7 @@ const CloudSync = {
     },
     
     // ================================================================
-    //  ПРИМЕНЕНИЕ ДАННЫХ
+    //  ПРИМЕНЕНИЕ ЗАГРУЖЕННЫХ ДАННЫХ
     // ================================================================
     applyData(data) {
         if (!data.cars) return;
@@ -140,21 +201,29 @@ const CloudSync = {
     },
     
     // ================================================================
-    //  ИНФОРМАЦИЯ
+    //  ИНФОРМАЦИЯ О ДАННЫХ
     // ================================================================
     async info() {
         try {
-            const response = await fetch(CloudSync.STORAGE_URL);
+            const pasteKey = localStorage.getItem('pastebin_key');
+            
+            if (!pasteKey) {
+                alert('❌ Нет сохранённых данных в облаке');
+                return;
+            }
+            
+            const response = await fetch(`https://pastebin.com/raw/${pasteKey}`);
             
             if (!response.ok) {
                 alert('❌ Данные в облаке не найдены');
                 return;
             }
             
-            const data = await response.json();
+            const jsonData = await response.text();
+            const data = JSON.parse(jsonData);
             
             const message = 
-                `📊 ДАННЫЕ В ОБЛАКЕ\n` +
+                `📊 ДАННЫЕ В ОБЛАКЕ (Pastebin)\n` +
                 `─────────────────────\n` +
                 `🚗 Автомобилей: ${data.cars?.length || 0}\n` +
                 `👥 Личного состава: ${data.persons?.length || 0}\n` +
@@ -178,19 +247,45 @@ const CloudSync = {
         try {
             Utils.showToast('🔌 Проверка соединения...', 'sync');
             
-            const response = await fetch(CloudSync.STORAGE_URL);
+            // Просто проверяем, что API ключ работает
+            const response = await fetch('https://pastebin.com/api/api_post.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams({
+                    api_dev_key: CloudSync.API_KEY,
+                    api_option: 'list'
+                })
+            });
             
-            if (response.ok || response.status === 404) {
+            if (response.ok) {
                 Utils.showToast('✅ Соединение с облаком работает!', 'sync');
                 return true;
             } else {
-                Utils.showToast('❌ Ошибка соединения: ' + response.status, 'error');
+                const text = await response.text();
+                if (text.includes('Bad API request')) {
+                    Utils.showToast('❌ Неверный API ключ', 'error');
+                } else {
+                    Utils.showToast('❌ Ошибка: ' + response.status, 'error');
+                }
                 return false;
             }
             
         } catch (error) {
             Utils.showToast('❌ Ошибка соединения: ' + error.message, 'error');
             return false;
+        }
+    },
+    
+    // ================================================================
+    //  ОЧИСТИТЬ НАСТРОЙКИ
+    // ================================================================
+    clear() {
+        if (confirm('Очистить настройки облачной синхронизации?')) {
+            localStorage.removeItem('pastebin_key');
+            localStorage.removeItem('cloud_backup');
+            Utils.showToast('✅ Настройки очищены');
         }
     }
 };
