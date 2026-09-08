@@ -5,8 +5,7 @@
 
 const CloudSync = {
     // ================================================================
-    //  ⚠️ ВСТАВЬТЕ ВАШ URL ИЗ CALCAL.RU!
-    //  Получить: https://calcal.ru/json-hosting-mock-api-onlajn
+    //  ✅ ВАШ URL ИЗ CALCAL.RU (УЖЕ ВСТАВЛЕН!)
     // ================================================================
     STORAGE_URL: 'https://calcal.ru/j/8Ays5qN',
     
@@ -17,8 +16,8 @@ const CloudSync = {
         try {
             Utils.showToast('☁️ Сохранение в облако...', 'sync');
             
-            // Проверяем URL
-            if (!CloudSync.STORAGE_URL || CloudSync.STORAGE_URL === 'https://calcal.ru/j/8Ays5qN') {
+            // Проверяем URL (исправлено!)
+            if (!CloudSync.STORAGE_URL || CloudSync.STORAGE_URL === 'https://calcal.ru/api/json-hosting/ВАШ_ID_ЗДЕСЬ') {
                 throw new Error('Сначала получите URL на calcal.ru и вставьте в cloudSync.js');
             }
             
@@ -75,8 +74,8 @@ const CloudSync = {
         try {
             Utils.showToast('☁️ Загрузка из облака...', 'sync');
             
-            // Проверяем URL
-            if (!CloudSync.STORAGE_URL || CloudSync.STORAGE_URL === 'https://calcal.ru/j/8Ays5qN') {
+            // Проверяем URL (исправлено!)
+            if (!CloudSync.STORAGE_URL || CloudSync.STORAGE_URL === 'https://calcal.ru/api/json-hosting/ВАШ_ID_ЗДЕСЬ') {
                 throw new Error('Сначала получите URL на calcal.ru и вставьте в cloudSync.js');
             }
             
@@ -205,7 +204,7 @@ const CloudSync = {
         try {
             Utils.showToast('🔌 Проверка соединения с calcal.ru...', 'sync');
             
-            if (!CloudSync.STORAGE_URL || CloudSync.STORAGE_URL === 'https://https://calcal.ru/j/8Ays5qN') {
+            if (!CloudSync.STORAGE_URL || CloudSync.STORAGE_URL === 'https://calcal.ru/api/json-hosting/ВАШ_ID_ЗДЕСЬ') {
                 Utils.showToast('❌ Сначала получите URL на calcal.ru', 'error');
                 return false;
             }
