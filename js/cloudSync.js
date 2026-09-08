@@ -1,41 +1,26 @@
 // ================================================================
 //  cloudSync.js - СИНХРОНИЗАЦИЯ ЧЕРЕЗ CALCAL.RU
-//  Бесплатно, работает в России, БЕЗ токенов!
+//  С обходом CORS через прокси
 // ================================================================
 
 const CloudSync = {
     // ================================================================
-    //  ✅ ВАШ URL ИЗ CALCAL.RU (УЖЕ ВСТАВЛЕН!)
+    //  ✅ ВАШ URL ИЗ CALCAL.RU
     // ================================================================
     STORAGE_URL: 'https://calcal.ru/j/8Ays5qN',
     
     // ================================================================
-    //  СОХРАНИТЬ В ОБЛАКО
+    //  ПРОКСИ ДЛЯ ОБХОДА CORS (используем бесплатный)
+    // ================================================================
+    // Вариант 1: Используем corsproxy.io (бесплатно, работает в РФ)
+    PROXY_URL: 'https://corsproxy.io/?',
+    
+    // ================================================================
+    //  СОХРАНИТЬ В ОБЛАКО (через прокси)
     // ================================================================
     async upload() {
         try {
             Utils.showToast('☁️ Сохранение в облако...', 'sync');
-            
-            // ДИАГНОСТИКА: выводим URL в консоль
-            console.log('📤 STORAGE_URL:', CloudSync.STORAGE_URL);
-            
-            // ПРОВЕРКА: если URL не задан или это шаблон
-            if (!CloudSync.STORAGE_URL) {
-                throw new Error('STORAGE_URL не задан!');
-            }
-            
-            // ПРОВЕРКА: если это шаблон
-            if (CloudSync.STORAGE_URL === 'https://calcal.ru/api/json-hosting/ВАШ_ID_ЗДЕСЬ' || 
-                CloudSync.STORAGE_URL === 'https://calcal.ru/j/8Ays5qN') {
-                // ⚠️ ВАЖНО: ваш URL НЕ должен совпадать с этим условием!
-                // Если вы видите эту ошибку, значит URL всё ещё шаблонный
-                console.warn('⚠️ URL совпадает с шаблоном или вашим текущим URL');
-            }
-            
-            // Проверяем, что URL не шаблонный
-            if (CloudSync.STORAGE_URL.includes('ВАШ_ID_ЗДЕСЬ')) {
-                throw new Error('❌ Вставьте ваш реальный URL из calcal.ru!');
-            }
             
             // Собираем все данные
             const data = {
@@ -51,12 +36,8 @@ const CloudSync = {
                 lastUser: AuthManager.currentUser?.label || 'Гость'
             };
             
-            console.log('📦 Данные для сохранения:', Object.keys(data));
-            
-            // Отправляем на сервер (PUT обновляет данные)
-            console.log('🔄 Отправка PUT запроса на:', CloudSync.STORAGE_URL);
-            
-            const response = await fetch(CloudSync.STORAGE_URL, {
+            // Отправляем через прокси (PUT с обходом CORS)
+            const response = await fetch(`${CloudSync.PROXY_URL}${CloudSync.STORAGE_URL}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -64,20 +45,13 @@ const CloudSync = {
                 body: JSON.stringify(data)
             });
             
-            console.log('📊 Статус ответа:', response.status);
-            
             if (!response.ok) {
                 const errorText = await response.text();
-                console.error('❌ Текст ошибки:', errorText);
                 throw new Error(`Ошибка ${response.status}: ${errorText}`);
             }
             
-            const result = await response.json();
-            console.log('✅ Результат сохранения:', result);
-            
             Utils.showToast('✅ Данные сохранены в облако (calcal.ru)!', 'sync');
             
-            // Запись в историю
             if (window.historyLog) {
                 window.historyLog.add('sync', 
                     `📤 Данные загружены в облако (авто: ${DataManager.cars.length}, люди: ${DataManager.persons.length})`
@@ -88,30 +62,20 @@ const CloudSync = {
             
         } catch (error) {
             console.error('❌ Ошибка сохранения:', error);
-            console.error('❌ Стек ошибки:', error.stack);
             Utils.showToast('❌ ' + error.message, 'error');
             return false;
         }
     },
     
     // ================================================================
-    //  ЗАГРУЗИТЬ ИЗ ОБЛАКА
+    //  ЗАГРУЗИТЬ ИЗ ОБЛАКА (обычный GET, CORS не блокирует)
     // ================================================================
     async download() {
         try {
             Utils.showToast('☁️ Загрузка из облака...', 'sync');
             
-            console.log('📥 STORAGE_URL:', CloudSync.STORAGE_URL);
-            
-            if (!CloudSync.STORAGE_URL || CloudSync.STORAGE_URL.includes('ВАШ_ID_ЗДЕСЬ')) {
-                throw new Error('❌ Вставьте ваш реальный URL из calcal.ru!');
-            }
-            
-            console.log('🔄 Загрузка с:', CloudSync.STORAGE_URL);
-            
+            // GET-запросы обычно работают без CORS
             const response = await fetch(CloudSync.STORAGE_URL);
-            
-            console.log('📊 Статус ответа:', response.status);
             
             if (!response.ok) {
                 if (response.status === 404) {
@@ -121,7 +85,6 @@ const CloudSync = {
             }
             
             const data = await response.json();
-            console.log('✅ Данные загружены, ключи:', Object.keys(data));
             
             if (!data.cars) {
                 throw new Error('Некорректный формат данных');
@@ -191,7 +154,7 @@ const CloudSync = {
     },
     
     // ================================================================
-    //  ИНФОРМАЦИЯ О ДАННЫХ В ОБЛАКЕ
+    //  ИНФОРМАЦИЯ О ДАННЫХ
     // ================================================================
     async info() {
         try {
@@ -231,16 +194,7 @@ const CloudSync = {
         try {
             Utils.showToast('🔌 Проверка соединения с calcal.ru...', 'sync');
             
-            if (!CloudSync.STORAGE_URL || CloudSync.STORAGE_URL.includes('ВАШ_ID_ЗДЕСЬ')) {
-                Utils.showToast('❌ Сначала получите URL на calcal.ru', 'error');
-                return false;
-            }
-            
-            console.log('🔌 Проверка URL:', CloudSync.STORAGE_URL);
-            
             const response = await fetch(CloudSync.STORAGE_URL);
-            
-            console.log('📊 Статус:', response.status);
             
             if (response.ok || response.status === 200) {
                 Utils.showToast('✅ Соединение с calcal.ru работает!', 'sync');
@@ -251,7 +205,6 @@ const CloudSync = {
             }
             
         } catch (error) {
-            console.error('❌ Ошибка:', error);
             Utils.showToast('❌ Ошибка соединения: ' + error.message, 'error');
             return false;
         }
