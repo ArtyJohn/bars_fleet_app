@@ -1,27 +1,31 @@
 // ================================================================
-//  cloudSync.js - СИНХРОНИЗАЦИЯ ЧЕРЕЗ CALCAL.RU
-//  Бесплатно, работает в России, БЕЗ токенов!
-//  Исправлено: правильный URL для PUT-запросов
+//  cloudSync.js - СИНХРОНИЗАЦИЯ ЧЕРЕЗ JSONBIN.IO
+//  Поддерживает CORS, работает из браузера!
+//  КЛЮЧ ВСТАВЛЕН!
 // ================================================================
 
 const CloudSync = {
     // ================================================================
-    //  ВАШИ ДАННЫЕ ИЗ CALCAL.RU
+    //  ✅ ВАШ API КЛЮЧ ИЗ JSONBIN.IO (УЖЕ ВСТАВЛЕН!)
     // ================================================================
-    STORAGE_URL: 'https://calcal.ru/j/8Ays5qN',          // URL для чтения (GET)
-    STORAGE_ID: '8Ays5qN',                                // ID для обновления (PUT)
-    UPDATE_URL: 'https://calcal.ru/api/json-hosting?id=8Ays5qN', // Правильный URL для PUT
+    MASTER_KEY: '$2a$10$ZDLsiXwq1PdL1Ld8JVj9Z.Mbru97i8qPQPJezJQC16hSl27/XIR0',
+    
+    // Базовый URL API JSONBin
+    API_URL: 'https://api.jsonbin.io/v3/b',
+    
+    // Название хранилища
+    BIN_NAME: 'bars_fleet_data',
     
     // ================================================================
-    //  СОХРАНИТЬ В ОБЛАКО (PUT через правильный endpoint)
+    //  СОХРАНИТЬ В ОБЛАКО
     // ================================================================
     async upload() {
         try {
             Utils.showToast('☁️ Сохранение в облако...', 'sync');
             
-            // Проверяем, что ID задан
-            if (!CloudSync.STORAGE_ID || CloudSync.STORAGE_ID === '8Ays5qN') {
-                throw new Error('Сначала получите ID на calcal.ru и вставьте в cloudSync.js');
+            // Проверяем ключ (он уже вставлен, но на всякий случай)
+            if (!CloudSync.MASTER_KEY) {
+                throw new Error('API ключ не найден!');
             }
             
             // Собираем все данные
@@ -38,23 +42,49 @@ const CloudSync = {
                 lastUser: AuthManager.currentUser?.label || 'Гость'
             };
             
-            // Отправляем на правильный endpoint для обновления
-            const response = await fetch(CloudSync.UPDATE_URL, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            });
+            // Проверяем, есть ли уже сохранённый ID
+            const binId = localStorage.getItem('cloud_bin_id');
             
-            if (!response.ok) {
-                const errorText = await response.text();
-                throw new Error(`Ошибка ${response.status}: ${errorText}`);
+            let response;
+            
+            if (binId) {
+                // Обновляем существующее хранилище
+                response = await fetch(`${CloudSync.API_URL}/${binId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Master-Key': CloudSync.MASTER_KEY,
+                        'X-Bin-Name': CloudSync.BIN_NAME
+                    },
+                    body: JSON.stringify(data)
+                });
+            } else {
+                // Создаём новое хранилище
+                response = await fetch(CloudSync.API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Master-Key': CloudSync.MASTER_KEY,
+                        'X-Bin-Name': CloudSync.BIN_NAME
+                    },
+                    body: JSON.stringify(data)
+                });
             }
             
-            Utils.showToast('✅ Данные сохранены в облако (calcal.ru)!', 'sync');
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.message || 'Ошибка сохранения');
+            }
             
-            // Запись в историю
+            const result = await response.json();
+            
+            // Сохраняем ID для будущих загрузок
+            if (!binId) {
+                localStorage.setItem('cloud_bin_id', result.id);
+            }
+            
+            Utils.showToast('✅ Данные сохранены в облако (JSONBin)!', 'sync');
+            
             if (window.historyLog) {
                 window.historyLog.add('sync', 
                     `📤 Данные загружены в облако (авто: ${DataManager.cars.length}, люди: ${DataManager.persons.length})`
@@ -71,39 +101,42 @@ const CloudSync = {
     },
     
     // ================================================================
-    //  ЗАГРУЗИТЬ ИЗ ОБЛАКА (GET через короткий URL)
+    //  ЗАГРУЗИТЬ ИЗ ОБЛАКА
     // ================================================================
     async download() {
         try {
             Utils.showToast('☁️ Загрузка из облака...', 'sync');
             
-            // Проверяем URL
-            if (!CloudSync.STORAGE_URL || CloudSync.STORAGE_URL === 'https://calcal.ru/j/8Ays5qN') {
-                throw new Error('Сначала получите URL на calcal.ru и вставьте в cloudSync.js');
+            const binId = localStorage.getItem('cloud_bin_id');
+            
+            if (!binId) {
+                throw new Error('Нет сохранённых данных в облаке.\nНажмите сначала "Сохранить в облако" с устройства, где есть данные.');
             }
             
-            // Загружаем данные (GET-запрос на короткий URL)
-            const response = await fetch(CloudSync.STORAGE_URL);
+            const response = await fetch(`${CloudSync.API_URL}/${binId}`, {
+                headers: {
+                    'X-Master-Key': CloudSync.MASTER_KEY
+                }
+            });
             
             if (!response.ok) {
                 if (response.status === 404) {
-                    throw new Error('Данные в облаке не найдены');
+                    throw new Error('Данные в облаке не найдены.\nВозможно, они были удалены.');
                 }
-                throw new Error('Ошибка загрузки: ' + response.status);
+                throw new Error(`Ошибка ${response.status}`);
             }
             
-            const data = await response.json();
+            const result = await response.json();
+            const data = result.record;
             
             if (!data.cars) {
                 throw new Error('Некорректный формат данных');
             }
             
-            // Применяем данные
             CloudSync.applyData(data);
             
-            Utils.showToast('✅ Данные загружены из облака (calcal.ru)!', 'sync');
+            Utils.showToast('✅ Данные загружены из облака (JSONBin)!', 'sync');
             
-            // Запись в историю
             if (window.historyLog) {
                 window.historyLog.add('sync', 
                     `📥 Данные загружены из облака (авто: ${data.cars.length}, люди: ${data.persons.length})`
@@ -125,7 +158,6 @@ const CloudSync = {
     applyData(data) {
         if (!data.cars) return;
         
-        // Обновляем статусы автомобилей
         data.cars = data.cars.map(c => {
             c.remainder = c.plan_to - c.mileage;
             if (c.remainder < 0) {
@@ -148,7 +180,6 @@ const CloudSync = {
             return c;
         });
         
-        // Загружаем данные
         DataManager.cars = data.cars;
         DataManager.persons = data.persons || [];
         DataManager.weapons = data.weapons || [];
@@ -160,7 +191,6 @@ const CloudSync = {
         DataManager.save();
         window.app.updateDashboard();
         
-        // Показываем информацию о последнем обновлении
         if (data.lastUser) {
             Utils.showToast(`👤 Последнее обновление: ${data.lastUser} (${data.timestamp || 'неизвестно'})`, 'sync');
         }
@@ -171,17 +201,29 @@ const CloudSync = {
     // ================================================================
     async info() {
         try {
-            const response = await fetch(CloudSync.STORAGE_URL);
+            const binId = localStorage.getItem('cloud_bin_id');
+            
+            if (!binId) {
+                alert('❌ Нет сохранённых данных в облаке.');
+                return;
+            }
+            
+            const response = await fetch(`${CloudSync.API_URL}/${binId}`, {
+                headers: {
+                    'X-Master-Key': CloudSync.MASTER_KEY
+                }
+            });
             
             if (!response.ok) {
                 alert('❌ Данные в облаке не найдены');
                 return;
             }
             
-            const data = await response.json();
+            const result = await response.json();
+            const data = result.record;
             
             const message = 
-                `📊 ДАННЫЕ В ОБЛАКЕ (calcal.ru)\n` +
+                `📊 ДАННЫЕ В ОБЛАКЕ (JSONBin)\n` +
                 `─────────────────────\n` +
                 `🚗 Автомобилей: ${data.cars?.length || 0}\n` +
                 `👥 Личного состава: ${data.persons?.length || 0}\n` +
@@ -205,17 +247,16 @@ const CloudSync = {
     // ================================================================
     async testConnection() {
         try {
-            Utils.showToast('🔌 Проверка соединения с calcal.ru...', 'sync');
+            Utils.showToast('🔌 Проверка соединения с JSONBin...', 'sync');
             
-            if (!CloudSync.STORAGE_URL || CloudSync.STORAGE_URL === 'https://calcal.ru/j/8Ays5qN') {
-                Utils.showToast('❌ Сначала получите URL на calcal.ru', 'error');
-                return false;
-            }
-            
-            const response = await fetch(CloudSync.STORAGE_URL);
+            const response = await fetch(CloudSync.API_URL, {
+                headers: {
+                    'X-Master-Key': CloudSync.MASTER_KEY
+                }
+            });
             
             if (response.ok || response.status === 200) {
-                Utils.showToast('✅ Соединение с calcal.ru работает!', 'sync');
+                Utils.showToast('✅ Соединение с JSONBin работает!', 'sync');
                 return true;
             } else {
                 Utils.showToast('❌ Ошибка: ' + response.status, 'error');
@@ -233,13 +274,12 @@ const CloudSync = {
     // ================================================================
     clear() {
         if (confirm('Очистить настройки облачной синхронизации?')) {
-            localStorage.removeItem('calcal_storage_url');
+            localStorage.removeItem('cloud_bin_id');
             Utils.showToast('✅ Настройки очищены');
         }
     }
 };
 
 window.cloudSync = CloudSync;
-console.log('☁️ CloudSync загружен (calcal.ru)');
-console.log('📦 STORAGE_URL:', CloudSync.STORAGE_URL);
-console.log('🔄 UPDATE_URL:', CloudSync.UPDATE_URL);
+console.log('☁️ CloudSync загружен (JSONBin)');
+console.log('🔑 MASTER_KEY:', CloudSync.MASTER_KEY ? '✅ установлен' : '❌ не установлен');
