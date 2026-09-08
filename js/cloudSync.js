@@ -1,23 +1,15 @@
-// ================================================================
-//  cloudSync.js - ОБЛАЧНАЯ СИНХРОНИЗАЦИЯ (БЕЗ ТОКЕНОВ!)
-//  Использует бесплатный сервис JSONBin.io
-// ================================================================
-
+// js/cloudSync.js - Российская облачная синхронизация
 const CloudSync = {
-    // Базовый URL API JSONBin
-    API_URL: 'https://api.jsonbin.io/v3/b',
-    
-    // Название хранилища (можно изменить)
-    BIN_NAME: 'bars_fleet_data',
+    // ⚠️ ВСТАВЬТЕ ВАШ URL ИЗ CALCAL.RU
+    STORAGE_URL: 'https://calcal.ru/api/json-hosting/9yPyEJU',
     
     // ================================================================
-    //  КНОПКА: СОХРАНИТЬ В ОБЛАКО
+    //  СОХРАНИТЬ В ОБЛАКО
     // ================================================================
     async upload() {
         try {
             Utils.showToast('☁️ Сохранение в облако...', 'sync');
             
-            // Собираем все данные
             const data = {
                 cars: DataManager.cars,
                 persons: DataManager.persons,
@@ -31,49 +23,21 @@ const CloudSync = {
                 lastUser: AuthManager.currentUser?.label || 'Гость'
             };
             
-            // Проверяем, есть ли уже сохранённый ID
-            const binId = localStorage.getItem('cloud_bin_id');
-            
-            let response;
-            
-            if (binId) {
-                // Обновляем существующее хранилище
-                response = await fetch(`${CloudSync.API_URL}/${binId}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-Bin-Name': CloudSync.BIN_NAME
-                    },
-                    body: JSON.stringify(data)
-                });
-            } else {
-                // Создаём новое хранилище
-                response = await fetch(CloudSync.API_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-Bin-Name': CloudSync.BIN_NAME
-                    },
-                    body: JSON.stringify(data)
-                });
-            }
+            // Обновляем данные через PUT
+            const response = await fetch(CloudSync.STORAGE_URL, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
             
             if (!response.ok) {
-                const error = await response.json();
-                throw new Error(error.message || 'Ошибка сохранения');
+                throw new Error('Ошибка сохранения: ' + response.status);
             }
-            
-            const result = await response.json();
-            
-            // Сохраняем ID для будущих загрузок
-            if (!binId) {
-                localStorage.setItem('cloud_bin_id', result.id);
-            }
-            localStorage.setItem('cloud_last_sync', new Date().toISOString());
             
             Utils.showToast('✅ Данные сохранены в облако!', 'sync');
             
-            // Запись в историю
             if (window.historyLog) {
                 window.historyLog.add('sync', 
                     `📤 Данные загружены в облако (авто: ${DataManager.cars.length}, люди: ${DataManager.persons.length})`
@@ -90,29 +54,22 @@ const CloudSync = {
     },
     
     // ================================================================
-    //  КНОПКА: ЗАГРУЗИТЬ ИЗ ОБЛАКА
+    //  ЗАГРУЗИТЬ ИЗ ОБЛАКА
     // ================================================================
     async download() {
         try {
             Utils.showToast('☁️ Загрузка из облака...', 'sync');
             
-            const binId = localStorage.getItem('cloud_bin_id');
-            
-            if (!binId) {
-                throw new Error('Нет сохранённых данных в облаке.\nНажмите сначала "Сохранить в облако" с устройства, где есть данные.');
-            }
-            
-            const response = await fetch(`${CloudSync.API_URL}/${binId}`);
+            const response = await fetch(CloudSync.STORAGE_URL);
             
             if (!response.ok) {
                 if (response.status === 404) {
-                    throw new Error('Данные в облаке не найдены.\nВозможно, они были удалены.');
+                    throw new Error('Данные в облаке не найдены');
                 }
-                throw new Error(`Ошибка ${response.status}`);
+                throw new Error('Ошибка загрузки: ' + response.status);
             }
             
-            const result = await response.json();
-            const data = result.record;
+            const data = await response.json();
             
             if (!data.cars) {
                 throw new Error('Некорректный формат данных');
@@ -123,7 +80,6 @@ const CloudSync = {
             
             Utils.showToast('✅ Данные загружены из облака!', 'sync');
             
-            // Запись в историю
             if (window.historyLog) {
                 window.historyLog.add('sync', 
                     `📥 Данные загружены из облака (авто: ${data.cars.length}, люди: ${data.persons.length})`
@@ -140,12 +96,11 @@ const CloudSync = {
     },
     
     // ================================================================
-    //  ПРИМЕНЕНИЕ ЗАГРУЖЕННЫХ ДАННЫХ
+    //  ПРИМЕНЕНИЕ ДАННЫХ
     // ================================================================
     applyData(data) {
         if (!data.cars) return;
         
-        // Обновляем статусы автомобилей
         data.cars = data.cars.map(c => {
             c.remainder = c.plan_to - c.mileage;
             if (c.remainder < 0) {
@@ -168,7 +123,6 @@ const CloudSync = {
             return c;
         });
         
-        // Загружаем данные
         DataManager.cars = data.cars;
         DataManager.persons = data.persons || [];
         DataManager.weapons = data.weapons || [];
@@ -180,41 +134,24 @@ const CloudSync = {
         DataManager.save();
         window.app.updateDashboard();
         
-        // Показываем информацию о последнем обновлении
         if (data.lastUser) {
             Utils.showToast(`👤 Последнее обновление: ${data.lastUser} (${data.timestamp || 'неизвестно'})`, 'sync');
-        } else {
-            Utils.showToast('✅ Данные обновлены из облака', 'sync');
         }
     },
     
     // ================================================================
-    //  КНОПКА: ИНФОРМАЦИЯ О ДАННЫХ В ОБЛАКЕ
+    //  ИНФОРМАЦИЯ
     // ================================================================
     async info() {
         try {
-            const binId = localStorage.getItem('cloud_bin_id');
-            
-            if (!binId) {
-                alert('❌ Нет сохранённых данных в облаке.\n\n' +
-                      'Нажмите сначала "Сохранить в облако" с устройства, где есть данные.');
-                return;
-            }
-            
-            const response = await fetch(`${CloudSync.API_URL}/${binId}`);
+            const response = await fetch(CloudSync.STORAGE_URL);
             
             if (!response.ok) {
-                if (response.status === 404) {
-                    alert('❌ Данные в облаке не найдены.\n' +
-                          'Возможно, они были удалены. Нажмите "Сохранить в облако" заново.');
-                } else {
-                    alert(`❌ Ошибка ${response.status}`);
-                }
+                alert('❌ Данные в облаке не найдены');
                 return;
             }
             
-            const result = await response.json();
-            const data = result.record;
+            const data = await response.json();
             
             const message = 
                 `📊 ДАННЫЕ В ОБЛАКЕ\n` +
@@ -223,13 +160,9 @@ const CloudSync = {
                 `👥 Личного состава: ${data.persons?.length || 0}\n` +
                 `🔫 Вооружения: ${data.weapons?.length || 0}\n` +
                 `📦 ТМЦ: ${data.items?.length || 0}\n` +
-                `📋 Записей ТО: ${data.history?.length || 0}\n` +
-                `🛠 Заявок: ${data.repairs?.length || 0}\n` +
                 `─────────────────────\n` +
                 `🕐 Обновлено: ${data.timestamp || 'неизвестно'}\n` +
-                `👤 Последний пользователь: ${data.lastUser || 'неизвестен'}\n` +
-                `─────────────────────\n` +
-                `📌 ID хранилища: ${binId.substring(0, 10)}...`;
+                `👤 Последний пользователь: ${data.lastUser || 'неизвестен'}`;
             
             alert(message);
             
@@ -239,31 +172,19 @@ const CloudSync = {
     },
     
     // ================================================================
-    //  КНОПКА: ПРОВЕРИТЬ СОЕДИНЕНИЕ
+    //  ПРОВЕРИТЬ СОЕДИНЕНИЕ
     // ================================================================
     async testConnection() {
         try {
             Utils.showToast('🔌 Проверка соединения...', 'sync');
             
-            const response = await fetch(CloudSync.API_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Bin-Name': 'test_connection'
-                },
-                body: JSON.stringify({ test: 'ok', timestamp: new Date().toISOString() })
-            });
+            const response = await fetch(CloudSync.STORAGE_URL);
             
-            if (response.ok) {
-                const result = await response.json();
-                // Удаляем тестовое хранилище
-                await fetch(`${CloudSync.API_URL}/${result.id}`, {
-                    method: 'DELETE'
-                });
+            if (response.ok || response.status === 404) {
                 Utils.showToast('✅ Соединение с облаком работает!', 'sync');
                 return true;
             } else {
-                Utils.showToast('❌ Нет соединения с облаком', 'error');
+                Utils.showToast('❌ Ошибка соединения: ' + response.status, 'error');
                 return false;
             }
             
@@ -271,20 +192,8 @@ const CloudSync = {
             Utils.showToast('❌ Ошибка соединения: ' + error.message, 'error');
             return false;
         }
-    },
-    
-    // ================================================================
-    //  ОЧИСТИТЬ НАСТРОЙКИ
-    // ================================================================
-    clear() {
-        if (confirm('Очистить настройки облачной синхронизации?')) {
-            localStorage.removeItem('cloud_bin_id');
-            localStorage.removeItem('cloud_last_sync');
-            Utils.showToast('✅ Настройки очищены');
-        }
     }
 };
 
-// Сохраняем в глобальную область
 window.cloudSync = CloudSync;
 console.log('☁️ CloudSync загружен');
